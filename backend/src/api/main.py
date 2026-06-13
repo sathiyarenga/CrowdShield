@@ -78,6 +78,7 @@ app.add_middleware(
         "http://localhost:3000",    # Next.js dev
         "http://localhost:3001",
         "http://127.0.0.1:3000",
+        "https://crowd-shield-iota.vercel.app",
     ],
     allow_credentials=True,
     allow_methods=["*"],
