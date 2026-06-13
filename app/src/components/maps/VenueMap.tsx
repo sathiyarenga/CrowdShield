@@ -288,6 +288,7 @@ export default function VenueMap({
       attributionControl: false,
       pitchWithRotate: true,
       maxPitch: 60,
+      // @ts-ignore
       transformStyle: fixGlyphs,
     });
 

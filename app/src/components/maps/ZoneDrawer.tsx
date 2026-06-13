@@ -103,7 +103,7 @@ export default function ZoneDrawer({
         // Update existing
         await api.venues.updateCustomZone(venueId, editingZone.zone_id, {
           name: formData.name,
-          zone_type: formData.zone_type,
+          zone_type: formData.zone_type as any,
           capacity: formData.capacity,
           color: formData.color,
         });
@@ -118,15 +118,15 @@ export default function ZoneDrawer({
         // Create new
         const result = await api.venues.saveCustomZone(venueId, {
           name: formData.name,
-          zone_type: formData.zone_type,
+          zone_type: formData.zone_type as any,
           capacity: formData.capacity,
           color: formData.color,
           geometry: drawnGeometry,
         });
         const newZone: CustomZone = {
-          zone_id: result.properties.zone_id,
+          zone_id: result.properties.zone_id || "temp-id",
           name: formData.name,
-          zone_type: formData.zone_type,
+          zone_type: formData.zone_type as any,
           capacity: formData.capacity,
           color: formData.color,
           geometry: drawnGeometry,
