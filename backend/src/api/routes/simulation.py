@@ -88,7 +88,7 @@ async def get_transport_hubs(venue_id: str, radius: int = 1200) -> dict:
 
 
 @router.post("/{venue_id}/simulate")
-async def simulate_crowd(venue_id: str, request: SimulationRequest) -> dict:
+def simulate_crowd(venue_id: str, request: SimulationRequest) -> dict:
     """
     Run a route-based crowd flow simulation.
 
