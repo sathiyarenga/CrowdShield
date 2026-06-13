@@ -1,0 +1,157 @@
+.connectionBanner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-lg);
+  background: var(--color-elevated-bg);
+  border: 1px solid rgba(234, 179, 8, 0.2);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--panel-gap);
+  font-size: var(--text-sm);
+  color: var(--color-elevated);
+}
+
+.connectionBanner code {
+  background: var(--color-bg-tertiary);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.statsRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--panel-gap);
+  margin-bottom: var(--panel-gap);
+}
+
+.mainGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--panel-gap);
+  margin-bottom: var(--panel-gap);
+}
+
+.heroPanel {
+  min-height: 400px;
+}
+
+.heroChart {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.chartPlaceholder {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.sparklinePreview {
+  width: 100%;
+  height: 240px;
+}
+
+.chartLabels {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+  font-variant-numeric: tabular-nums;
+  padding: 0 var(--space-sm);
+}
+
+.chartCaption {
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+  line-height: var(--leading-relaxed);
+  margin-top: var(--space-sm);
+}
+
+.alertPanel {
+  max-height: 440px;
+  display: flex;
+  flex-direction: column;
+}
+
+.alertCount {
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+}
+
+.alertList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  overflow-y: auto;
+  flex: 1;
+}
+
+.nationalityPanel {
+  margin-bottom: var(--panel-gap);
+}
+
+.fingerprintRow {
+  padding-top: var(--space-sm);
+}
+
+.fingerprintGrid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: var(--panel-gap);
+}
+
+.fingerprintCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  text-align: center;
+  padding: var(--space-xl) var(--space-lg);
+}
+
+.fingerprintDate {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.fingerprintPeak {
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-bold);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-primary);
+}
+
+.fingerprintType {
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+}
+
+/* Responsive adjustments */
+@media (max-width: 1280px) {
+  .statsRow {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .mainGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .fingerprintGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .statsRow {
+    grid-template-columns: 1fr;
+  }
+
+  .fingerprintGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

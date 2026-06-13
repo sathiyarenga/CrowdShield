@@ -1,0 +1,421 @@
+/* ============================================================
+   Benchmarks Page — CrowdShield
+   ============================================================ */
+
+/* Connection / loading */
+.connectionBanner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-lg);
+  background: var(--color-elevated-bg);
+  border: 1px solid rgba(234, 179, 8, 0.2);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--panel-gap);
+  font-size: var(--text-sm);
+  color: var(--color-elevated);
+}
+
+.connectionBanner code {
+  background: var(--color-bg-tertiary);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+.loadingContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  padding: var(--space-4xl);
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--color-bg-hover);
+  border-top-color: var(--color-accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── Prediction Cards ────────────────────────────────────── */
+.predictionRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--panel-gap);
+  margin-bottom: var(--panel-gap);
+}
+
+.predictionCard {
+  position: relative;
+  background: rgba(17, 24, 39, 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid transparent;
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  overflow: hidden;
+}
+
+/* Gradient border effect */
+.predictionCard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: var(--radius-lg);
+  padding: 1px;
+  background: linear-gradient(
+    135deg,
+    rgba(59, 130, 246, 0.3),
+    rgba(139, 92, 246, 0.2),
+    rgba(6, 182, 212, 0.15)
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.predictionCardLabel {
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-xs);
+}
+
+.predictionCardValue {
+  font-size: var(--text-2xl);
+  font-weight: var(--weight-bold);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-primary);
+  line-height: var(--leading-tight);
+}
+
+.predictionCardRange {
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+  margin-top: var(--space-xs);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Mini range bar inside prediction card */
+.rangeBarContainer {
+  margin-top: var(--space-md);
+  height: 6px;
+  background: var(--color-bg-tertiary);
+  border-radius: 3px;
+  position: relative;
+  overflow: visible;
+}
+
+.rangeBarFill {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  border-radius: 3px;
+  background: linear-gradient(90deg, var(--color-accent), var(--color-data-3));
+  opacity: 0.6;
+}
+
+.rangeBarMean {
+  position: absolute;
+  top: -3px;
+  width: 2px;
+  height: 12px;
+  background: var(--color-text-primary);
+  border-radius: 1px;
+  transform: translateX(-50%);
+}
+
+.rangeBarMinMax {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--space-xs);
+  font-size: 0.625rem;
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Comparison Table ────────────────────────────────────── */
+.tablePanel {
+  margin-bottom: var(--panel-gap);
+  overflow-x: auto;
+}
+
+.comparisonTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.comparisonTable th {
+  text-align: right;
+  padding: var(--space-md);
+  color: var(--color-text-tertiary);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: var(--border-subtle);
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  transition: color var(--transition-fast);
+}
+
+.comparisonTable th:first-child {
+  text-align: left;
+}
+
+.comparisonTable th:hover {
+  color: var(--color-text-primary);
+}
+
+.thActive {
+  color: var(--color-accent) !important;
+}
+
+.sortArrow {
+  display: inline-block;
+  margin-left: 4px;
+  font-size: 0.625rem;
+  opacity: 0.7;
+}
+
+.comparisonTable td {
+  padding: var(--space-md);
+  color: var(--color-text-secondary);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.comparisonTable td:first-child {
+  text-align: left;
+  color: var(--color-text-primary);
+  font-weight: var(--weight-medium);
+}
+
+.comparisonTable tr:hover td {
+  background: var(--color-bg-hover);
+}
+
+.cellHighest {
+  color: var(--color-critical) !important;
+  font-weight: var(--weight-semibold);
+}
+
+.cellLowest {
+  color: var(--color-nominal) !important;
+  font-weight: var(--weight-semibold);
+}
+
+.percentileTag {
+  display: block;
+  font-size: 0.625rem;
+  color: var(--color-text-muted);
+  font-weight: var(--weight-normal);
+  margin-top: 2px;
+}
+
+/* ── Bottom Grid ─────────────────────────────────────────── */
+.bottomGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--panel-gap);
+}
+
+/* ── Heatmap ─────────────────────────────────────────────── */
+.heatmapPanel {
+  min-height: 320px;
+}
+
+.heatmapGrid {
+  display: grid;
+  gap: 2px;
+}
+
+.heatmapCorner {
+  /* Top-left empty cell */
+}
+
+.heatmapColHeader,
+.heatmapRowHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.625rem;
+  color: var(--color-text-tertiary);
+  font-variant-numeric: tabular-nums;
+  padding: var(--space-xs);
+  white-space: nowrap;
+}
+
+.heatmapCell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-primary);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  cursor: default;
+  min-height: 44px;
+}
+
+.heatmapCell:hover {
+  transform: scale(1.08);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.4);
+  z-index: 1;
+}
+
+.heatmapLegend {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-top: var(--space-lg);
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+}
+
+.heatmapLegendBar {
+  height: 8px;
+  width: 120px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #ef4444, #eab308, #22c55e);
+}
+
+/* ── Predictive Ranges ───────────────────────────────────── */
+.rangesPanel {
+  min-height: 320px;
+}
+
+.rangeRow {
+  margin-bottom: var(--space-xl);
+}
+
+.rangeRow:last-child {
+  margin-bottom: 0;
+}
+
+.rangeLabel {
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: var(--space-sm);
+  display: flex;
+  justify-content: space-between;
+}
+
+.rangeLabelValue {
+  color: var(--color-text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.rangeTrack {
+  position: relative;
+  height: 28px;
+  background: var(--color-bg-tertiary);
+  border-radius: var(--radius-sm);
+  overflow: visible;
+}
+
+.rangeSigma2 {
+  position: absolute;
+  top: 4px;
+  height: 20px;
+  background: rgba(59, 130, 246, 0.1);
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(59, 130, 246, 0.15);
+}
+
+.rangeSigma1 {
+  position: absolute;
+  top: 6px;
+  height: 16px;
+  background: rgba(59, 130, 246, 0.25);
+  border-radius: var(--radius-sm);
+}
+
+.rangeMeanLine {
+  position: absolute;
+  top: 2px;
+  width: 2px;
+  height: 24px;
+  background: var(--color-accent);
+  border-radius: 1px;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+.rangeDot {
+  position: absolute;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+  border: 1.5px solid var(--color-bg-primary);
+}
+
+.rangeMinMax {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--space-xs);
+  font-size: 0.625rem;
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ── Section Title ───────────────────────────────────────── */
+.sectionTitle {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.sectionTitleIcon {
+  color: var(--color-accent);
+}
+
+/* ── Responsive ──────────────────────────────────────────── */
+@media (max-width: 1280px) {
+  .predictionRow {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .bottomGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .predictionRow {
+    grid-template-columns: 1fr;
+  }
+}

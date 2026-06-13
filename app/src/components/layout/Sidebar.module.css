@@ -1,0 +1,55 @@
+.navIcon {
+  font-size: 1.1em;
+  width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.sidebarFooter {
+  margin-top: auto;
+  padding-top: var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.eventBadge {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-md);
+  background: var(--color-bg-tertiary);
+  border: var(--border-subtle);
+}
+
+.eventBadgeDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-nominal);
+  box-shadow: 0 0 6px rgba(34, 197, 94, 0.4);
+  flex-shrink: 0;
+}
+
+.eventBadgeDotPilot {
+  background: var(--color-elevated);
+  box-shadow: 0 0 6px rgba(234, 179, 8, 0.4);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.eventName {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-primary);
+}
+
+.eventDetail {
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+}

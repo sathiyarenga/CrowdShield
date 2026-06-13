@@ -1,0 +1,46 @@
+###############################################################################
+# CrowdShield Event Risk Intelligence Platform — Database Stack
+# PostgreSQL 16 + PostGIS 3.4 + TimescaleDB
+###############################################################################
+version: "3.9"
+
+services:
+  crowdshield-db:
+    image: timescale/timescaledb-ha:pg16
+    container_name: crowdshield-db
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: crowdshield
+      POSTGRES_PASSWORD: crowdshield_secret
+      POSTGRES_DB: crowdshield
+      # Ensure PostGIS is loaded at startup
+      TIMESCALEDB_TELEMETRY: "off"
+    volumes:
+      - crowdshield_pgdata:/home/postgres/pgdata/data
+      # Mount migrations and seed scripts for easy access
+      - ./migrations:/docker-entrypoint-initdb.d/migrations:ro
+      - ./seed:/docker-entrypoint-initdb.d/seed:ro
+      # Init script that runs migrations in order
+      - ./init-db.sh:/docker-entrypoint-initdb.d/00_init-db.sh:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U crowdshield -d crowdshield"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    shm_size: 256mb
+    command:
+      - "postgres"
+      - "-c"
+      - "shared_preload_libraries=timescaledb"
+      - "-c"
+      - "max_connections=200"
+      - "-c"
+      - "work_mem=16MB"
+      - "-c"
+      - "maintenance_work_mem=256MB"
+
+volumes:
+  crowdshield_pgdata:
+    driver: local

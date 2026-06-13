@@ -1,0 +1,24 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md) 0;
+}
+
+.svg {
+  width: 100%;
+  max-width: 360px;
+  height: auto;
+}
+
+.levelBadge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  padding: 6px 24px;
+  border: 1.5px solid;
+  border-radius: var(--radius-full);
+  background: rgba(0, 0, 0, 0.4);
+  text-transform: uppercase;
+}

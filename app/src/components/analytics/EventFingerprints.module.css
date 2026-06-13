@@ -1,0 +1,79 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: var(--panel-gap);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.date {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.typeTag {
+  font-size: 0.625rem;
+  font-weight: var(--weight-bold);
+  letter-spacing: 0.08em;
+  padding: 2px 6px;
+  border: 1px solid;
+  border-radius: var(--radius-sm);
+}
+
+.sparkline {
+  width: 100%;
+  height: 48px;
+  border-radius: var(--radius-sm);
+}
+
+.metrics {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.peakRow {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-sm);
+}
+
+.peakValue {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-primary);
+}
+
+.peakLabel {
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+}
+
+.metricRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--text-xs);
+}
+
+.metricLabel {
+  color: var(--color-text-tertiary);
+}
+
+.metricValue {
+  color: var(--color-text-secondary);
+  font-weight: var(--weight-medium);
+  font-variant-numeric: tabular-nums;
+}

@@ -1,0 +1,132 @@
+/* ============================================================
+   HazardCoverage — Category coverage map
+   ============================================================ */
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md);
+}
+
+.card {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+  background: var(--color-bg-tertiary);
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  transition: all var(--transition-fast);
+}
+
+.card:hover {
+  background: var(--color-bg-hover);
+}
+
+.cardCovered {
+  border-color: rgba(34, 197, 94, 0.15);
+}
+
+.cardPartial {
+  border-color: rgba(234, 179, 8, 0.15);
+}
+
+.cardMissing {
+  border-color: rgba(239, 68, 68, 0.2);
+  background: rgba(239, 68, 68, 0.04);
+}
+
+.icon {
+  font-size: var(--text-xl);
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-md);
+  background: var(--color-bg-elevated);
+  flex-shrink: 0;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+  flex: 1;
+}
+
+.name {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.count {
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 6px;
+  border-radius: var(--radius-full);
+  font-size: 0.625rem;
+  font-weight: var(--weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.statusCovered {
+  background: var(--color-nominal-bg);
+  color: var(--color-nominal);
+}
+
+.statusPartial {
+  background: var(--color-elevated-bg);
+  color: var(--color-elevated);
+}
+
+.statusMissing {
+  background: var(--color-critical-bg);
+  color: var(--color-critical);
+}
+
+.coverageBar {
+  width: 100%;
+  height: 3px;
+  background: var(--color-bg-hover);
+  border-radius: 2px;
+  margin-top: var(--space-xs);
+  overflow: hidden;
+}
+
+.coverageFill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width var(--transition-slow);
+}
+
+.coverageFillGreen {
+  background: var(--color-nominal);
+}
+
+.coverageFillYellow {
+  background: var(--color-elevated);
+}
+
+.coverageFillRed {
+  background: var(--color-critical);
+}

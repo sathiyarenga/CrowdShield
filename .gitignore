@@ -1,0 +1,41 @@
+# Project-specific ignored directories and files
+Data/
+background/
+literature/
+presentation_mockups/
+research/
+BRISK-proposal.docx
+
+# macOS
+.DS_Store
+
+# Common Python ignores
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+venv/
+.venv/
+
+# Common Node ignores (just in case they aren't in app/.gitignore)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*

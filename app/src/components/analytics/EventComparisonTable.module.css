@@ -1,0 +1,38 @@
+.wrapper {
+  overflow-x: auto;
+}
+
+.table {
+  min-width: 700px;
+}
+
+.sortableHeader {
+  cursor: pointer;
+  user-select: none;
+  transition: color var(--transition-fast);
+}
+
+.sortableHeader:hover {
+  color: var(--color-text-primary);
+}
+
+.sortIcon {
+  font-size: var(--text-xs);
+  color: var(--color-accent);
+}
+
+.dateCell {
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+}
+
+.peakCell {
+  font-weight: var(--weight-bold);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-primary);
+}
+
+.sigma {
+  font-weight: var(--weight-bold);
+  font-variant-numeric: tabular-nums;
+}

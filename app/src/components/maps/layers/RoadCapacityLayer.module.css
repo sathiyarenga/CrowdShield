@@ -1,0 +1,306 @@
+/* ── Road Capacity Layer Panel ────────────────────────────────────────── */
+
+.panel {
+  position: absolute;
+  top: 80px;
+  left: 12px;
+  width: 240px;
+  max-height: calc(100% - 100px);
+  overflow-y: auto;
+  background: rgba(10, 14, 26, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 12px;
+  z-index: 5;
+  color: #e2e8f0;
+  font-size: 12px;
+  animation: fadeIn 0.3s ease;
+}
+
+.panel::-webkit-scrollbar {
+  width: 4px;
+}
+.panel::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  font-size: 13px;
+  margin-bottom: 10px;
+  color: #f1f5f9;
+}
+
+.headerIcon { font-size: 16px; }
+
+.spinner {
+  margin-left: auto;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* ── Section ─────────────────────────────────────────────────────────── */
+
+.section { margin-bottom: 10px; }
+
+.sectionTitle {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #64748b;
+  margin-bottom: 6px;
+  font-weight: 600;
+}
+
+/* ── Inputs ──────────────────────────────────────────────────────────── */
+
+.inputRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 0;
+  font-size: 12px;
+}
+
+.inputRow span {
+  color: #94a3b8;
+}
+
+.numberInput {
+  width: 80px;
+  padding: 4px 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  color: #e2e8f0;
+  font-size: 12px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.numberInput:focus {
+  outline: none;
+  border-color: rgba(99, 102, 241, 0.5);
+}
+
+.inputWithUnit {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.unit {
+  color: #64748b;
+  font-size: 11px;
+}
+
+/* ── Toggle ──────────────────────────────────────────────────────────── */
+
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 0;
+  cursor: pointer;
+  font-size: 11px;
+  color: #94a3b8;
+  margin-bottom: 8px;
+}
+
+.toggle input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  accent-color: #6366f1;
+  cursor: pointer;
+}
+
+/* ── Stats Grid ──────────────────────────────────────────────────────── */
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+  margin-bottom: 8px;
+}
+
+.statCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 6px 4px;
+  border-radius: 8px;
+  border: 1px solid;
+}
+
+.statCard.critical {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+.statCard.warning {
+  background: rgba(249, 115, 22, 0.1);
+  border-color: rgba(249, 115, 22, 0.3);
+}
+
+.statCard.adequate {
+  background: rgba(34, 197, 94, 0.1);
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
+.statValue {
+  font-size: 18px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.2;
+}
+
+.critical .statValue { color: #ef4444; }
+.warning .statValue { color: #f97316; }
+.adequate .statValue { color: #22c55e; }
+
+.statLabel {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #94a3b8;
+}
+
+.statRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 3px 0;
+  font-size: 11px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.statRow span:first-child { color: #94a3b8; }
+.statRow span:last-child { color: #e2e8f0; font-weight: 500; }
+
+.narrowest {
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Legend ───────────────────────────────────────────────────────────── */
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 0;
+  font-size: 10px;
+  color: #94a3b8;
+}
+
+.legendLine {
+  width: 24px;
+  height: 4px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+/* ── Info ─────────────────────────────────────────────────────────────── */
+
+.info {
+  font-size: 9px;
+  color: #475569;
+  line-height: 1.4;
+  padding: 4px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  margin-top: 4px;
+}
+
+/* ── Popup ────────────────────────────────────────────────────────────── */
+
+.popup {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 280px;
+  background: rgba(10, 14, 26, 0.95);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 14px;
+  z-index: 10;
+  color: #e2e8f0;
+  animation: slideUp 0.25s ease;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+.popupClose {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  background: none;
+  border: none;
+  color: #64748b;
+  font-size: 18px;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.popupClose:hover {
+  color: #e2e8f0;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.popupTitle {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 3px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.severityDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.severityDot.critical { background: #ef4444; }
+.severityDot.warning { background: #f97316; }
+.severityDot.adequate { background: #22c55e; }
+
+.popupType {
+  font-size: 10px;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+}
+
+.popupRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 3px 0;
+  font-size: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+.popupRow span:first-child { color: #94a3b8; }
+.popupRow span:last-child { color: #e2e8f0; font-weight: 500; }

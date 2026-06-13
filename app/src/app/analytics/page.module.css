@@ -1,0 +1,218 @@
+/* Analytics page — Fredrikstad Area Intelligence */
+
+.connectionBanner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-lg);
+  background: var(--color-elevated-bg);
+  border: 1px solid rgba(234, 179, 8, 0.2);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--panel-gap);
+  font-size: var(--text-sm);
+  color: var(--color-elevated);
+}
+
+.connectionBanner code {
+  background: var(--color-bg-tertiary);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+}
+
+/* Stat cards row */
+.statsRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--panel-gap);
+  margin-bottom: var(--panel-gap);
+}
+
+/* Section heading */
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-lg);
+}
+
+.sectionTitle {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+  letter-spacing: -0.01em;
+}
+
+.sectionSubtitle {
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Heatmap panel full width */
+.heatmapSection {
+  margin-bottom: var(--panel-gap);
+}
+
+/* Main content split: table + detail */
+.contentGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--panel-gap);
+  margin-bottom: var(--panel-gap);
+}
+
+.contentGrid.withDetail {
+  grid-template-columns: 3fr 2fr;
+}
+
+/* Table panel */
+.tablePanel {
+  overflow: hidden;
+}
+
+/* Area detail panel */
+.detailPanel {
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.detailEmpty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  flex: 1;
+  color: var(--color-text-tertiary);
+  font-size: var(--text-sm);
+  text-align: center;
+}
+
+.detailEmptyIcon {
+  font-size: var(--text-3xl);
+  opacity: 0.3;
+}
+
+.detailHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: var(--space-xl);
+}
+
+.detailTitle {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  color: var(--color-text-primary);
+  margin-bottom: 2px;
+}
+
+.detailRegion {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+}
+
+.detailClose {
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  font-size: var(--text-lg);
+  cursor: pointer;
+  padding: var(--space-xs);
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+}
+
+.detailClose:hover {
+  background: var(--color-bg-hover);
+  color: var(--color-text-primary);
+}
+
+/* Detail stats grid */
+.detailStats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md);
+  margin-bottom: var(--space-xl);
+}
+
+.detailStatCard {
+  padding: var(--space-md);
+  background: var(--color-bg-tertiary);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.detailStatLabel {
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
+
+.detailStatValue {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-primary);
+}
+
+/* Metric comparison bar inside detail */
+.detailBarSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.detailBarLabel {
+  font-size: var(--text-xs);
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 4px;
+}
+
+.detailBar {
+  height: 8px;
+  border-radius: 4px;
+  background: var(--color-bg-hover);
+  overflow: hidden;
+}
+
+.detailBarFill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width var(--transition-slow);
+}
+
+.detailBarValues {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--text-xs);
+  color: var(--color-text-muted);
+  font-variant-numeric: tabular-nums;
+  margin-top: 2px;
+}
+
+/* Responsive */
+@media (max-width: 1280px) {
+  .statsRow {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .contentGrid.withDetail {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .statsRow {
+    grid-template-columns: 1fr;
+  }
+}
