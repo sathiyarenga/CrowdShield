@@ -1,0 +1,2117 @@
+[
+  {
+    "lat": 53.2734444,
+    "lon": -9.0467617,
+    "name": "Galway Ceannt",
+    "hub_type": "train_station",
+    "crowd_share": 0.03,
+    "arrival_offset_min": 60,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2730633,
+    "lon": -9.0720647,
+    "name": "Maunsells Road",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2731324,
+    "lon": -9.0705028,
+    "name": "O'Connaire Road",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2743657,
+    "lon": -9.06431,
+    "name": "Costello Rd (HSE Clinic)",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2743156,
+    "lon": -9.0654767,
+    "name": "Costello Rd (Opp HSE Clinic)",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2801247,
+    "lon": -9.0651204,
+    "name": "Snipe Lawn",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2800541,
+    "lon": -9.0648047,
+    "name": "Snipe Lawn",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2792938,
+    "lon": -9.0581449,
+    "name": "Orbsen Building",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2821896,
+    "lon": -9.0623417,
+    "name": "Arts & Science Building",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2822198,
+    "lon": -9.0621442,
+    "name": "Arts & Science Building",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.272984,
+    "lon": -9.059494,
+    "name": "bus_stop_1224415360",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.270356,
+    "lon": -9.0545644,
+    "name": "Spanish Arch",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2705268,
+    "lon": -9.0540025,
+    "name": "Jury's Hotel",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2675536,
+    "lon": -9.0621566,
+    "name": "Fr Griffin Avenue",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.27479,
+    "lon": -9.0580894,
+    "name": "bus_stop_1439472313",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2678993,
+    "lon": -9.0630016,
+    "name": "Fr Griffin Avenue",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2760561,
+    "lon": -9.0636099,
+    "name": "Newcastle Rd (UHG Main Gate)",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2763606,
+    "lon": -9.0634753,
+    "name": "UCH Galway",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2767383,
+    "lon": -9.0621012,
+    "name": "NUIG Main Gate",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2750308,
+    "lon": -9.0582593,
+    "name": "bus_stop_1755883448",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2785705,
+    "lon": -9.0630718,
+    "name": "Newcastle PO",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2764515,
+    "lon": -9.0614627,
+    "name": "NUIG Main Gate",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2785154,
+    "lon": -9.0700225,
+    "name": "Seamus Quirke Rd",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2724427,
+    "lon": -9.0729151,
+    "name": "Maunsells Road",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2701796,
+    "lon": -9.0716773,
+    "name": "Maunsells Road",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2687451,
+    "lon": -9.0724906,
+    "name": "St Anne's",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2688865,
+    "lon": -9.0720567,
+    "name": "St Anne's",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2703888,
+    "lon": -9.0717938,
+    "name": "Maunsells Park",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2754588,
+    "lon": -9.0708068,
+    "name": "Colmcille Road",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2749537,
+    "lon": -9.0672207,
+    "name": "McDara Road",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2747969,
+    "lon": -9.0489828,
+    "name": "Eyre Square",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.274717,
+    "lon": -9.0488737,
+    "name": "Eyre Square",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2745485,
+    "lon": -9.0486373,
+    "name": "Eyre Square",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2736384,
+    "lon": -9.0487529,
+    "name": "Eyre Square",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2788963,
+    "lon": -9.0633555,
+    "name": "Newcastle PO",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2735638,
+    "lon": -9.0706874,
+    "name": "Scoil Bride",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2758107,
+    "lon": -9.0582352,
+    "name": "Galway Cathedral",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2750556,
+    "lon": -9.0532818,
+    "name": "Franciscan Friary",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2752865,
+    "lon": -9.0537921,
+    "name": "Francis Street",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2754554,
+    "lon": -9.057111,
+    "name": "Galway Cathedral",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2751133,
+    "lon": -9.06804,
+    "name": "McDara Road",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2767821,
+    "lon": -9.0471738,
+    "name": "St Bridget's Place",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2731259,
+    "lon": -9.0488319,
+    "name": "Merchants Road",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2637529,
+    "lon": -9.0725132,
+    "name": "Salthill Road Lower",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2652042,
+    "lon": -9.0723787,
+    "name": "Devon Park",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.273081,
+    "lon": -9.0481827,
+    "name": "Aran Island Ferry Shuttle Bus - Galway City",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2670997,
+    "lon": -9.0686971,
+    "name": "St Mary's Avenue",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2668703,
+    "lon": -9.0689894,
+    "name": "Salthill Road Lower",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2682741,
+    "lon": -9.066171,
+    "name": "Lios Ealtan",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.268217,
+    "lon": -9.0659964,
+    "name": "Lios Ealtan",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2753972,
+    "lon": -9.0584175,
+    "name": "Cathedral",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2776891,
+    "lon": -9.0721421,
+    "name": "Newcastle Resource C",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2747044,
+    "lon": -9.0504265,
+    "name": "bus_stop_8895535102",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.274805,
+    "lon": -9.0502364,
+    "name": "Eyre Square North (Stop 4)",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2748835,
+    "lon": -9.0500478,
+    "name": "Eyre Square North (Stop 3)",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2749654,
+    "lon": -9.049868,
+    "name": "Eyre Square",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.275064,
+    "lon": -9.0496348,
+    "name": "Eyre Square",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2744825,
+    "lon": -9.0485438,
+    "name": "Eyre Square",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2764677,
+    "lon": -9.0734703,
+    "name": "Westside Retail",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2766187,
+    "lon": -9.0525418,
+    "name": "Headford Road",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2804558,
+    "lon": -9.0492816,
+    "name": "Headford Road (Galway Retail Park)",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2809187,
+    "lon": -9.0486529,
+    "name": "Galway Centre",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2766511,
+    "lon": -9.0522169,
+    "name": "Woodquay Court",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2762768,
+    "lon": -9.0466844,
+    "name": "Forster Court",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2766238,
+    "lon": -9.0414509,
+    "name": "College Road",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2792011,
+    "lon": -9.0378007,
+    "name": "Connacht Rugby",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2787047,
+    "lon": -9.0382318,
+    "name": "Connacht Rugby",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2764271,
+    "lon": -9.0414584,
+    "name": "Yeats College",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.274897,
+    "lon": -9.0465631,
+    "name": "Forster Street",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2774578,
+    "lon": -9.046788,
+    "name": "Prospect Hill",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2785495,
+    "lon": -9.0453127,
+    "name": "bus_stop_8998441833",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2803981,
+    "lon": -9.0425865,
+    "name": "St Anthony's Tce",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2808688,
+    "lon": -9.0415165,
+    "name": "bus_stop_8998441844",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.27891,
+    "lon": -9.0444749,
+    "name": "bus_stop_8998441845",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2685738,
+    "lon": -9.0581751,
+    "name": "Fr Griffin Road",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.268275,
+    "lon": -9.0582812,
+    "name": "Fr Griffin Roa",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2649972,
+    "lon": -9.0722426,
+    "name": "Devon Park",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2752269,
+    "lon": -9.0583452,
+    "name": "bus_stop_9456145011",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2817196,
+    "lon": -9.0653402,
+    "name": "Snipe Avenue 524401",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2833297,
+    "lon": -9.0474525,
+    "name": "bus_stop_9563729205",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2754685,
+    "lon": -9.070907,
+    "name": "Davis Road",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2771352,
+    "lon": -9.0642223,
+    "name": "bus_stop_9900173883",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2735816,
+    "lon": -9.0464516,
+    "name": "bus_stop_13714038505",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2736039,
+    "lon": -9.0465039,
+    "name": "bus_stop_13714038506",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2736341,
+    "lon": -9.0465852,
+    "name": "bus_stop_13714038507",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2736648,
+    "lon": -9.0466739,
+    "name": "bus_stop_13714038508",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2737761,
+    "lon": -9.0469627,
+    "name": "Galway Bus Station",
+    "hub_type": "bus_stop",
+    "crowd_share": 0.003,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2749377,
+    "lon": -9.045542,
+    "name": "Galway Coach Station",
+    "hub_type": "bus_station",
+    "crowd_share": 0.017,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2738315,
+    "lon": -9.0469262,
+    "name": "Galway Bus Station",
+    "hub_type": "bus_station",
+    "crowd_share": 0.017,
+    "arrival_offset_min": 45,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2734544,
+    "lon": -9.0726347,
+    "name": "parking_1970290745",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2693938,
+    "lon": -9.0607063,
+    "name": "parking_6655882253",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2704291,
+    "lon": -9.0480827,
+    "name": "Harbour Hotel Car Park",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2744138,
+    "lon": -9.0577089,
+    "name": "Free Parking",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2817957,
+    "lon": -9.0614127,
+    "name": "parking_25753722",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2806073,
+    "lon": -9.0626521,
+    "name": "parking_25753827",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2794215,
+    "lon": -9.0575398,
+    "name": "parking_25753841",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2809699,
+    "lon": -9.0619042,
+    "name": "parking_25753911",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2778249,
+    "lon": -9.0605293,
+    "name": "parking_25754408",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2773303,
+    "lon": -9.0736417,
+    "name": "parking_25756546",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2742664,
+    "lon": -9.0570966,
+    "name": "Cathedral",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2667027,
+    "lon": -9.0599893,
+    "name": "parking_28440694",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2760397,
+    "lon": -9.0707985,
+    "name": "parking_28440718",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2803952,
+    "lon": -9.0500241,
+    "name": "parking_28547385",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.271337,
+    "lon": -9.0581699,
+    "name": "parking_35590921",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2706785,
+    "lon": -9.0489049,
+    "name": "Docks Car Park",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2698205,
+    "lon": -9.0475169,
+    "name": "parking_47087884",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2826635,
+    "lon": -9.0649518,
+    "name": "parking_58957664",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2802268,
+    "lon": -9.0613915,
+    "name": "parking_78348800",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2791379,
+    "lon": -9.0515363,
+    "name": "Dyke Road Car Park",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2802964,
+    "lon": -9.0474826,
+    "name": "parking_78474063",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2695286,
+    "lon": -9.0571277,
+    "name": "parking_116714341",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2762092,
+    "lon": -9.0501953,
+    "name": "Corrib Centre Car Park",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2734505,
+    "lon": -9.0540942,
+    "name": "Market Street Car Park",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2740308,
+    "lon": -9.0542384,
+    "name": "parking_133492085",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2766526,
+    "lon": -9.0492951,
+    "name": "parking_150786713",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2770888,
+    "lon": -9.050103,
+    "name": "parking_150786719",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2793937,
+    "lon": -9.0377506,
+    "name": "parking_159896586",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2800845,
+    "lon": -9.0406791,
+    "name": "parking_159896591",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2732296,
+    "lon": -9.0320192,
+    "name": "parking_159919904",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2688815,
+    "lon": -9.0408336,
+    "name": "parking_160033418",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2695851,
+    "lon": -9.0436676,
+    "name": "parking_160033419",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2765771,
+    "lon": -9.0728052,
+    "name": "parking_165328557",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.271766,
+    "lon": -9.0670392,
+    "name": "parking_185517276",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2707705,
+    "lon": -9.0680454,
+    "name": "parking_185517279",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2710618,
+    "lon": -9.0641968,
+    "name": "parking_185517281",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2709686,
+    "lon": -9.0663352,
+    "name": "parking_185517283",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2761938,
+    "lon": -9.0698273,
+    "name": "parking_195923404",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2784894,
+    "lon": -9.050038,
+    "name": "parking_200207608",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2790629,
+    "lon": -9.0493375,
+    "name": "parking_200207609",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2820304,
+    "lon": -9.0642479,
+    "name": "parking_205233228",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2768411,
+    "lon": -9.0739468,
+    "name": "parking_207249805",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2830951,
+    "lon": -9.0639767,
+    "name": "parking_211690764",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2671787,
+    "lon": -9.0541963,
+    "name": "parking_211748462",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2671409,
+    "lon": -9.0535953,
+    "name": "parking_211748463",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2669715,
+    "lon": -9.0542223,
+    "name": "parking_211748464",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2682251,
+    "lon": -9.0559159,
+    "name": "Claddagh Church",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2782768,
+    "lon": -9.0688757,
+    "name": "Car Park 3",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2786271,
+    "lon": -9.052888,
+    "name": "parking_290091883",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2767128,
+    "lon": -9.0643306,
+    "name": "Car Park 1",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2778771,
+    "lon": -9.0654327,
+    "name": "Car Park 2",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2842243,
+    "lon": -9.05545,
+    "name": "parking_424272141",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2783672,
+    "lon": -9.0535006,
+    "name": "parking_496643288",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2760107,
+    "lon": -9.0527807,
+    "name": "parking_496703674",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2700172,
+    "lon": -9.0604468,
+    "name": "parking_708081231",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2755719,
+    "lon": -9.068164,
+    "name": "parking_793558310",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2755236,
+    "lon": -9.0666869,
+    "name": "parking_793558312",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2750722,
+    "lon": -9.0671943,
+    "name": "parking_793558314",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2775244,
+    "lon": -9.0662081,
+    "name": "parking_793558321",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.277579,
+    "lon": -9.0658449,
+    "name": "parking_793558322",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2769029,
+    "lon": -9.068237,
+    "name": "parking_793558324",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.266583,
+    "lon": -9.0676812,
+    "name": "parking_794921690",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2680979,
+    "lon": -9.065157,
+    "name": "parking_794921738",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2784279,
+    "lon": -9.0601028,
+    "name": "parking_795401795",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2755279,
+    "lon": -9.0543393,
+    "name": "parking_796374979",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2731025,
+    "lon": -9.0468499,
+    "name": "parking_857794965",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2708912,
+    "lon": -9.0549157,
+    "name": "Spanish Arch Car Park",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2725807,
+    "lon": -9.0501248,
+    "name": "Eyre Square Centre Car Park",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2761478,
+    "lon": -9.0441379,
+    "name": "parking_866037394",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2759595,
+    "lon": -9.0473144,
+    "name": "parking_866042198",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2814731,
+    "lon": -9.063556,
+    "name": "parking_953994683",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2814156,
+    "lon": -9.0457169,
+    "name": "parking_954322919",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2801603,
+    "lon": -9.0679178,
+    "name": "parking_957873908",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2696142,
+    "lon": -9.0633288,
+    "name": "parking_958887130",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2682104,
+    "lon": -9.074183,
+    "name": "parking_970755526",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2786754,
+    "lon": -9.0505828,
+    "name": "parking_973137847",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2798073,
+    "lon": -9.0500398,
+    "name": "parking_973139300",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2774427,
+    "lon": -9.0614221,
+    "name": "parking_976462831",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2780467,
+    "lon": -9.0604465,
+    "name": "parking_976462833",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2812126,
+    "lon": -9.0638175,
+    "name": "parking_976473158",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2752265,
+    "lon": -9.074637,
+    "name": "parking_976642573",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.275627,
+    "lon": -9.0748232,
+    "name": "parking_976642575",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2755356,
+    "lon": -9.0745105,
+    "name": "parking_976642576",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2752324,
+    "lon": -9.0758719,
+    "name": "parking_976642578",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2752608,
+    "lon": -9.0752141,
+    "name": "parking_976642585",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2803697,
+    "lon": -9.0590645,
+    "name": "parking_976683853",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2676623,
+    "lon": -9.0594248,
+    "name": "parking_976696669",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2675351,
+    "lon": -9.0598211,
+    "name": "parking_976696670",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2675068,
+    "lon": -9.0591316,
+    "name": "parking_976696673",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2674828,
+    "lon": -9.0595883,
+    "name": "parking_976696674",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2671,
+    "lon": -9.0603197,
+    "name": "parking_976699144",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.267451,
+    "lon": -9.0584327,
+    "name": "parking_976716367",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2739848,
+    "lon": -9.0622536,
+    "name": "parking_976891409",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2771302,
+    "lon": -9.0689103,
+    "name": "parking_986708379",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2760351,
+    "lon": -9.0639951,
+    "name": "Car Park 4",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.27492,
+    "lon": -9.0637277,
+    "name": "parking_986754658",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2745847,
+    "lon": -9.0650289,
+    "name": "parking_986754659",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2776109,
+    "lon": -9.0715041,
+    "name": "parking_992305408",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2789804,
+    "lon": -9.0667678,
+    "name": "parking_1013604515",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.269677,
+    "lon": -9.0613381,
+    "name": "parking_1017141830",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2755678,
+    "lon": -9.0628631,
+    "name": "parking_1020119665",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2737279,
+    "lon": -9.0621188,
+    "name": "parking_1020143469",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2731684,
+    "lon": -9.0714052,
+    "name": "parking_1021218585",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2732625,
+    "lon": -9.0722096,
+    "name": "parking_1021218586",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2728558,
+    "lon": -9.0727122,
+    "name": "parking_1021222316",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2770124,
+    "lon": -9.0482014,
+    "name": "parking_1021397646",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.269387,
+    "lon": -9.0665058,
+    "name": "parking_1021503241",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2672989,
+    "lon": -9.0547123,
+    "name": "parking_1021684871",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2728801,
+    "lon": -9.0648979,
+    "name": "parking_1023577150",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2713528,
+    "lon": -9.0507795,
+    "name": "Hynes Yard Car Park",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2745906,
+    "lon": -9.0542554,
+    "name": "Mercy College Car Park",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2682344,
+    "lon": -9.0647255,
+    "name": "parking_1038069891",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2683656,
+    "lon": -9.065126,
+    "name": "parking_1038069892",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2795612,
+    "lon": -9.0577398,
+    "name": "parking_1038377264",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2655139,
+    "lon": -9.0727883,
+    "name": "parking_1040590373",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2755842,
+    "lon": -9.0640608,
+    "name": "parking_1085208195",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2721983,
+    "lon": -9.0470417,
+    "name": "parking_1111861634",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2766789,
+    "lon": -9.0433598,
+    "name": "parking_1151207388",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2762112,
+    "lon": -9.042494,
+    "name": "parking_1151207389",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2752337,
+    "lon": -9.0463225,
+    "name": "parking_1157200875",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2693173,
+    "lon": -9.050786,
+    "name": "parking_1158924805",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2690863,
+    "lon": -9.0475644,
+    "name": "parking_1158924816",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2707643,
+    "lon": -9.0509463,
+    "name": "parking_1158936610",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2761724,
+    "lon": -9.0674926,
+    "name": "parking_1164721230",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2761315,
+    "lon": -9.0645626,
+    "name": "parking_1164722139",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2766626,
+    "lon": -9.0647721,
+    "name": "parking_1164723356",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2788306,
+    "lon": -9.06848,
+    "name": "parking_1164893059",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2791752,
+    "lon": -9.0675719,
+    "name": "parking_1164893060",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2788177,
+    "lon": -9.0673485,
+    "name": "parking_1164893061",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2793336,
+    "lon": -9.0665008,
+    "name": "parking_1164907246",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.279616,
+    "lon": -9.0661932,
+    "name": "parking_1164907247",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2780632,
+    "lon": -9.0679873,
+    "name": "parking_1164914677",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2781332,
+    "lon": -9.0680349,
+    "name": "parking_1164914678",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2780821,
+    "lon": -9.0675534,
+    "name": "parking_1164914679",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2763982,
+    "lon": -9.0684196,
+    "name": "parking_1164959667",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.276471,
+    "lon": -9.0680714,
+    "name": "parking_1164959668",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2731791,
+    "lon": -9.0593687,
+    "name": "parking_1230639755",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2732184,
+    "lon": -9.0619918,
+    "name": "parking_1298609947",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2707884,
+    "lon": -9.0636834,
+    "name": "parking_1298615545",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2700552,
+    "lon": -9.0643296,
+    "name": "parking_1298619145",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2701984,
+    "lon": -9.0626128,
+    "name": "parking_1298619146",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2685849,
+    "lon": -9.0761148,
+    "name": "parking_1393099057",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2768609,
+    "lon": -9.0539243,
+    "name": "parking_1491079093",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2764672,
+    "lon": -9.0533779,
+    "name": "parking_1491079096",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2766383,
+    "lon": -9.053615,
+    "name": "parking_1491079102",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  },
+  {
+    "lat": 53.2759782,
+    "lon": -9.0580799,
+    "name": "parking_1521446051",
+    "hub_type": "parking",
+    "crowd_share": 0.004,
+    "arrival_offset_min": 30,
+    "arrival_spread_min": 30.0
+  }
+]
