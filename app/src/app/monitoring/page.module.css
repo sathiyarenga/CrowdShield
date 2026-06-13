@@ -31,7 +31,7 @@
   min-height: 400px;
 }
 
-/* ── Layer Controls — floating glassmorphism panel ────────────────── */
+/* -- Layer Controls — floating glassmorphism panel ------------------ */
 .layerControls {
   position: absolute;
   top: var(--space-lg);
@@ -130,7 +130,7 @@
   color: var(--color-accent-hover);
 }
 
-/* ── Planning Banner ─────────────────────────────────────────────────── */
+/* -- Planning Banner --------------------------------------------------- */
 .planningBanner {
   display: flex;
   align-items: center;
@@ -170,7 +170,7 @@
   color: var(--color-text-tertiary);
 }
 
-/* ── No data placeholder ─────────────────────────────────────────────── */
+/* -- No data placeholder ----------------------------------------------- */
 .noDataPlaceholder {
   display: flex;
   align-items: center;
@@ -181,7 +181,7 @@
   font-style: italic;
 }
 
-/* ── Side panel ──────────────────────────────────────────────────────── */
+/* -- Side panel -------------------------------------------------------- */
 .sidePanel {
   display: flex;
   flex-direction: column;
@@ -367,7 +367,7 @@
   font-size: var(--text-sm);
 }
 
-/* ── Responsive ──────────────────────────────────────────────────────── */
+/* -- Responsive -------------------------------------------------------- */
 @media (max-width: 1200px) {
   .mainContent {
     grid-template-columns: 1fr 280px;

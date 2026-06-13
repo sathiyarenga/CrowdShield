@@ -5,7 +5,7 @@ import Sidebar from "@/components/layout/Sidebar";
 import Header from "@/components/layout/Header";
 import styles from "./page.module.css";
 
-// ── Types ──────────────────────────────────────────────────────────────────
+// -- Types ------------------------------------------------------------------
 
 interface ComparisonRow {
   event_date: string;
@@ -55,7 +55,7 @@ interface BenchmarkData {
   };
 }
 
-// ── Demo Data ──────────────────────────────────────────────────────────────
+// -- Demo Data --------------------------------------------------------------
 
 const DEMO_DATA: BenchmarkData = {
   comparison_table: [
@@ -93,7 +93,7 @@ const DEMO_DATA: BenchmarkData = {
   },
 };
 
-// ── Helpers ────────────────────────────────────────────────────────────────
+// -- Helpers ----------------------------------------------------------------
 
 function formatDate(dateStr: string): string {
   const d = new Date(dateStr + "T00:00:00");
@@ -129,7 +129,7 @@ const DATA_COLORS = [
   "var(--color-data-5)",
 ];
 
-// ── Sort Key Types ─────────────────────────────────────────────────────────
+// -- Sort Key Types ---------------------------------------------------------
 
 type SortKey =
   | "event_date"
@@ -143,7 +143,7 @@ type SortKey =
 
 type SortDir = "asc" | "desc";
 
-// ── Column Config ──────────────────────────────────────────────────────────
+// -- Column Config ----------------------------------------------------------
 
 interface TableColumn {
   key: SortKey;
@@ -213,7 +213,7 @@ const TABLE_COLUMNS: TableColumn[] = [
   },
 ];
 
-// ── Page Component ─────────────────────────────────────────────────────────
+// -- Page Component ---------------------------------------------------------
 
 export default function BenchmarksPage() {
   const [data, setData] = useState<BenchmarkData | null>(null);
@@ -244,7 +244,7 @@ export default function BenchmarksPage() {
     loadData();
   }, []);
 
-  // ── Sort handler ───────────────────────────────────────────────────────
+  // -- Sort handler -------------------------------------------------------
 
   const handleSort = useCallback(
     (key: SortKey) => {
@@ -258,7 +258,7 @@ export default function BenchmarksPage() {
     [sortKey]
   );
 
-  // ── Sorted rows ────────────────────────────────────────────────────────
+  // -- Sorted rows --------------------------------------------------------
 
   const sortedRows = useMemo(() => {
     if (!data) return [];
@@ -272,7 +272,7 @@ export default function BenchmarksPage() {
     return rows;
   }, [data, sortKey, sortDir]);
 
-  // ── Min/max per column ─────────────────────────────────────────────────
+  // -- Min/max per column -------------------------------------------------
 
   const columnExtremes = useMemo(() => {
     if (!data) return {} as Record<SortKey, { min: number; max: number }>;
@@ -285,7 +285,7 @@ export default function BenchmarksPage() {
     return result as Record<SortKey, { min: number; max: number }>;
   }, [data]);
 
-  // ── Percentile lookup ──────────────────────────────────────────────────
+  // -- Percentile lookup --------------------------------------------------
 
   const pctMap = useMemo(() => {
     if (!data) return new Map<string, PercentileRow>();
@@ -296,11 +296,11 @@ export default function BenchmarksPage() {
     return m;
   }, [data]);
 
-  // ── Predictive ranges ──────────────────────────────────────────────────
+  // -- Predictive ranges --------------------------------------------------
 
   const ranges = data?.predictive_ranges;
 
-  // ── Render ─────────────────────────────────────────────────────────────
+  // -- Render -------------------------------------------------------------
 
   if (loading) {
     return (
@@ -345,7 +345,7 @@ export default function BenchmarksPage() {
           </div>
         )}
 
-        {/* ── Prediction Cards ───────────────────────────────────── */}
+        {/* -- Prediction Cards ------------------------------------- */}
         <div className={styles.predictionRow}>
           {ranges &&
             RANGE_METRICS.map((metric) => {
@@ -392,7 +392,7 @@ export default function BenchmarksPage() {
           </div>
         )}
 
-        {/* ── Comparison Table ───────────────────────────────────── */}
+        {/* -- Comparison Table ------------------------------------- */}
         <div className={`panel ${styles.tablePanel}`}>
           <div className="panel__header">
             <h2 className="panel__title">Event Comparison — All Dates Side by Side</h2>
@@ -451,9 +451,9 @@ export default function BenchmarksPage() {
           </table>
         </div>
 
-        {/* ── Bottom Grid ────────────────────────────────────────── */}
+        {/* -- Bottom Grid ------------------------------------------ */}
         <div className={styles.bottomGrid}>
-          {/* ── Heatmap ──────────────────────────────────────────── */}
+          {/* -- Heatmap -------------------------------------------- */}
           <div className={`panel ${styles.heatmapPanel}`}>
             <div className="panel__header">
               <h2 className="panel__title">Pattern Similarity — Cosine Distance</h2>
@@ -502,7 +502,7 @@ export default function BenchmarksPage() {
             </div>
           </div>
 
-          {/* ── Predictive Range Bars ────────────────────────────── */}
+          {/* -- Predictive Range Bars ------------------------------ */}
           <div className={`panel ${styles.rangesPanel}`}>
             <div className="panel__header">
               <h2 className="panel__title">Predictive Ranges — σ Bands</h2>

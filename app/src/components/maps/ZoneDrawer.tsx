@@ -5,7 +5,7 @@ import { api } from "@/lib/api/client";
 import type { CustomZone } from "./VenueMap";
 import styles from "./ZoneDrawer.module.css";
 
-/* ── Zone type metadata ──────────────────────────────────────────────── */
+/* -- Zone type metadata ------------------------------------------------ */
 const ZONE_TYPES = [
   { value: "gate", label: "Gate / Entrance", icon: "🚪", color: "#3b82f6" },
   { value: "stage", label: "Stage / Performance", icon: "🎤", color: "#a855f7" },

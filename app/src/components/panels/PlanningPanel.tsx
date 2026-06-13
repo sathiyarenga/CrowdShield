@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import type { CustomZone } from "../maps/VenueMap";
 import styles from "./PlanningPanel.module.css";
 
-/* ── Zone type metadata ──────────────────────────────────────────────── */
+/* -- Zone type metadata ------------------------------------------------ */
 const ZONE_TYPE_ICONS: Record<string, string> = {
   gate: "🚪",
   stage: "🎤",
@@ -16,7 +16,7 @@ const ZONE_TYPE_ICONS: Record<string, string> = {
   custom: "📍",
 };
 
-/* ── Risk category data ──────────────────────────────────────────────── */
+/* -- Risk category data ------------------------------------------------ */
 interface RiskSummary {
   category: string;
   count: number;
@@ -54,7 +54,7 @@ export default function PlanningPanel({
   onStartDrawing,
   expectedCrowd = 0,
 }: PlanningPanelProps) {
-  /* ── Capacity analysis ─────────────────────────────────────────────── */
+  /* -- Capacity analysis ----------------------------------------------- */
   const totalCapacity = useMemo(
     () => customZones.reduce((sum, z) => sum + z.capacity, 0),
     [customZones]
@@ -72,7 +72,7 @@ export default function PlanningPanel({
     capacityStatus === "warning" ? "#f97316" :
     capacityStatus === "moderate" ? "#eab308" : "#22c55e";
 
-  /* ── Readiness score ───────────────────────────────────────────────── */
+  /* -- Readiness score ------------------------------------------------- */
   const readinessItems = [
     { label: "Event zones defined", done: customZones.length >= 3 },
     { label: "Medical zone present", done: customZones.some(z => z.zone_type === "medical") },

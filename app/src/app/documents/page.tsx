@@ -14,7 +14,7 @@ import {
 } from "@/lib/api/client";
 import styles from "./page.module.css";
 
-// ── Fallback data (used when backend is offline) ─────────────────────────
+// -- Fallback data (used when backend is offline) -------------------------
 
 const FALLBACK_SUMMARY: DocumentSummary = {
   document_name: "Galway International Arts Festival — Event Safety Plan",
@@ -74,7 +74,7 @@ const FALLBACK_RISKS: ExtractedRisk[] = [
   { id: "r24", hazard_category: "Fire Safety", title: "Blocked emergency vehicle access routes", description: "Improperly parked vehicles may obstruct emergency access lanes.", likelihood: "Possible", consequence: "Major", controls: ["Clear signage", "Tow-away enforcement", "Access route inspections"], spatial_reference: "Emergency lanes", source_page: 25, source_text: "Emergency access routes must maintain 3.7m clear width at all times.", confidence: 0.89 },
 ];
 
-// ── Helpers ──────────────────────────────────────────────────────────────
+// -- Helpers --------------------------------------------------------------
 
 function levelToNum(level: string): number {
   const map: Record<string, number> = {
@@ -103,7 +103,7 @@ function gapBadgeClass(status: string): string {
   }
 }
 
-// ── Page Component ──────────────────────────────────────────────────────
+// -- Page Component ------------------------------------------------------
 
 export default function DocumentIntelligence() {
   const [summary, setSummary] = useState<DocumentSummary | null>(null);

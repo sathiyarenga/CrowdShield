@@ -2,7 +2,7 @@
    ZoneDrawer — Drawing toolbar + zone properties panel
    ============================================================ */
 
-/* ── Toolbar ─────────────────────────────────────────────────────────── */
+/* -- Toolbar ----------------------------------------------------------- */
 .toolbar {
   display: flex;
   align-items: center;
@@ -48,7 +48,7 @@
   border-radius: var(--radius-sm);
 }
 
-/* ── Zone list ───────────────────────────────────────────────────────── */
+/* -- Zone list --------------------------------------------------------- */
 .zoneList {
   display: flex;
   flex-direction: column;
@@ -146,7 +146,7 @@
   color: #ef4444;
 }
 
-/* ── Properties panel ────────────────────────────────────────────────── */
+/* -- Properties panel -------------------------------------------------- */
 .propertiesPanel {
   position: fixed;
   top: 50%;
@@ -228,7 +228,7 @@
   border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-/* ── Form fields ─────────────────────────────────────────────────────── */
+/* -- Form fields ------------------------------------------------------- */
 .fieldLabel {
   display: flex;
   flex-direction: column;
@@ -262,7 +262,7 @@
   color: var(--color-text-muted);
 }
 
-/* ── Zone type grid ──────────────────────────────────────────────────── */
+/* -- Zone type grid ---------------------------------------------------- */
 .typeGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -295,7 +295,7 @@
   color: var(--color-text-primary);
 }
 
-/* ── Color picker ────────────────────────────────────────────────────── */
+/* -- Color picker ------------------------------------------------------ */
 .colorRow {
   display: flex;
   align-items: center;
@@ -327,7 +327,7 @@
   font-family: var(--font-mono, monospace);
 }
 
-/* ── Buttons ─────────────────────────────────────────────────────────── */
+/* -- Buttons ----------------------------------------------------------- */
 .cancelBtn {
   flex: 1;
   padding: var(--space-sm) var(--space-md);

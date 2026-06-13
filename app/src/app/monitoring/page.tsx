@@ -21,7 +21,7 @@ import {
 } from "recharts";
 import styles from "./page.module.css";
 
-/* ── Constants ────────────────────────────────────────────────────────── */
+/* -- Constants ---------------------------------------------------------- */
 const AVAILABLE_DATES = [
   "2025-09-03",
   "2025-09-04",
@@ -33,13 +33,13 @@ const AVAILABLE_DATES = [
 const DEFAULT_DATE = "2025-09-09";
 const PLAYBACK_INTERVAL_MS = 300;
 
-/* ── Venue options ────────────────────────────────────────────────────── */
+/* -- Venue options ------------------------------------------------------ */
 const VENUE_OPTIONS = [
   { id: "ullevaal", label: "Ullevaal Stadion", city: "Oslo", hasTelemetry: true },
   { id: "galway", label: "Galway Event Zone", city: "Galway", hasTelemetry: false },
 ];
 
-/* ── Risk logic ───────────────────────────────────────────────────────── */
+/* -- Risk logic --------------------------------------------------------- */
 type RiskLevel = "nominal" | "elevated" | "high" | "critical";
 
 const RISK_COLORS: Record<RiskLevel, string> = {
@@ -70,7 +70,7 @@ function getSeverityColor(severity?: string): string {
   }
 }
 
-/* ── Page Component ───────────────────────────────────────────────────── */
+/* -- Page Component ----------------------------------------------------- */
 export default function LiveMonitoring() {
   /* State — venue */
   const [venueId, setVenueId] = useState("ullevaal");
@@ -115,11 +115,11 @@ export default function LiveMonitoring() {
     dataLengthRef.current = summaryData.length;
   }, [summaryData.length]);
 
-  /* ── Derived: current venue config ─────────────────────────────────── */
+  /* -- Derived: current venue config ----------------------------------- */
   const currentVenue = VENUE_OPTIONS.find(v => v.id === venueId) ?? VENUE_OPTIONS[0];
   const hasTelemetry = currentVenue.hasTelemetry;
 
-  /* ── Handle venue change ───────────────────────────────────────────── */
+  /* -- Handle venue change --------------------------------------------- */
   const handleVenueChange = useCallback((newVenueId: string) => {
     setVenueId(newVenueId);
     const venue = VENUE_OPTIONS.find(v => v.id === newVenueId);
@@ -134,7 +134,7 @@ export default function LiveMonitoring() {
     }
   }, []);
 
-  /* ── Fetch risk marker stats for planning mode ─────────────────────── */
+  /* -- Fetch risk marker stats for planning mode ----------------------- */
   useEffect(() => {
     if (hasTelemetry) return;
 
@@ -164,7 +164,7 @@ export default function LiveMonitoring() {
     fetchRiskStats();
   }, [venueId, hasTelemetry]);
 
-  /* ── Fetch data when date changes (only for telemetry venues) ────── */
+  /* -- Fetch data when date changes (only for telemetry venues) ------ */
   useEffect(() => {
     if (!hasTelemetry) {
       setSummaryData([]);
@@ -212,7 +212,7 @@ export default function LiveMonitoring() {
     };
   }, [selectedDate, hasTelemetry]);
 
-  /* ── Playback engine ────────────────────────────────────────────── */
+  /* -- Playback engine ---------------------------------------------- */
   const startPlayback = useCallback(() => {
     if (intervalRef.current) clearInterval(intervalRef.current);
 
@@ -263,20 +263,20 @@ export default function LiveMonitoring() {
     return () => stopPlayback();
   }, [stopPlayback]);
 
-  /* ── Current data point ─────────────────────────────────────────── */
+  /* -- Current data point ------------------------------------------- */
   const currentPoint = summaryData[currentIndex];
   const currentPeople = currentPoint?.people ?? 0;
   const riskLevel = getRiskLevel(currentPeople);
   const riskColor = RISK_COLORS[riskLevel];
 
-  /* ── Match anomaly record to current timestamp ─────────────────── */
+  /* -- Match anomaly record to current timestamp ------------------- */
   const currentAnomaly = useMemo(() => {
     if (!currentPoint || anomalyData.length === 0) return null;
     const currentTs = currentPoint.timestamp;
     return anomalyData.find((a) => a.timestamp === currentTs) ?? null;
   }, [currentPoint, anomalyData]);
 
-  /* ── Sparkline data ────────────────────────────────────────────── */
+  /* -- Sparkline data ---------------------------------------------- */
   const sparklineData = useMemo(() => {
     return summaryData.map((d, i) => ({
       people: d.people,
@@ -284,7 +284,7 @@ export default function LiveMonitoring() {
     }));
   }, [summaryData, currentIndex]);
 
-  /* ── Format helpers ─────────────────────────────────────────────── */
+  /* -- Format helpers ----------------------------------------------- */
   function formatTime(ts?: string): string {
     if (!ts) return "--:--";
     try {
@@ -298,13 +298,13 @@ export default function LiveMonitoring() {
     }
   }
 
-  /* ── Playback time series for controls ──────────────────────────── */
+  /* -- Playback time series for controls ---------------------------- */
   const playbackTimeSeries = useMemo(
     () => summaryData.map((d) => ({ timestamp: d.timestamp, people: d.people })),
     [summaryData]
   );
 
-  /* ── Header subtitle ───────────────────────────────────────────── */
+  /* -- Header subtitle --------------------------------------------- */
   const headerSubtitle = hasTelemetry
     ? `${currentVenue.label} — Real-time Venue Intelligence`
     : `${currentVenue.label} — Pre-Event Planning Mode`;
@@ -336,7 +336,7 @@ export default function LiveMonitoring() {
         )}
 
         <div className={styles.monitoringLayout}>
-          {/* ── Main content: Map + Side Panel ─────────────────────── */}
+          {/* -- Main content: Map + Side Panel ----------------------- */}
           <div className={styles.mainContent}>
             {/* Map with layer controls overlay */}
             <div className={styles.mapPanel}>
@@ -439,7 +439,7 @@ export default function LiveMonitoring() {
             {/* Side Panel */}
             <div className={styles.sidePanel}>
               {!hasTelemetry ? (
-                /* ── Pre-Event Planning Mode ──────────── */
+                /* -- Pre-Event Planning Mode ------------ */
                 <PlanningPanel
                   venueId={venueId}
                   venueName={currentVenue.label}
@@ -450,7 +450,7 @@ export default function LiveMonitoring() {
                   expectedCrowd={15000}
                 />
               ) : (
-                /* ── Telemetry Mode ───────────────────── */
+                /* -- Telemetry Mode --------------------- */
                 <>
                   {/* Crowd Count */}
                   <div className={styles.metricCard}>
@@ -551,7 +551,7 @@ export default function LiveMonitoring() {
             </div>
           </div>
 
-          {/* ── Playback Controls ──────────────────────────────────── */}
+          {/* -- Playback Controls ------------------------------------ */}
           <div className={styles.playbackBar} data-disabled={!hasTelemetry}>
             <PlaybackControls
               dates={AVAILABLE_DATES}

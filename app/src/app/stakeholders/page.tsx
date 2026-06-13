@@ -17,7 +17,7 @@ import {
 } from "@/lib/api/client";
 import styles from "./page.module.css";
 
-// ── Helpers ────────────────────────────────────────────────────────────────
+// -- Helpers ----------------------------------------------------------------
 
 /** Compute green-channel opacity based on risk count (more risks = more opaque) */
 function coveredCellOpacity(riskCount: number): number {
@@ -77,7 +77,7 @@ function isSingleSource(
   return coveredCount === 1;
 }
 
-// ── Component ──────────────────────────────────────────────────────────────
+// -- Component --------------------------------------------------------------
 
 export default function StakeholderIntelligence() {
   const [matrixData, setMatrixData] =
@@ -135,15 +135,15 @@ export default function StakeholderIntelligence() {
           </div>
         ) : (
           <>
-            {/* ── Coverage Summary Cards ── */}
+            {/* -- Coverage Summary Cards -- */}
             {summaryData && <SummaryCards data={summaryData} />}
 
-            {/* ── Stakeholder Pipeline ── */}
+            {/* -- Stakeholder Pipeline -- */}
             {matrixData && (
               <StakeholderPipeline stakeholders={matrixData.stakeholders} />
             )}
 
-            {/* ── Main Content: Matrix + Insights ── */}
+            {/* -- Main Content: Matrix + Insights -- */}
             <div className={styles.contentGrid}>
               {matrixData && <RiskMatrix data={matrixData} />}
               {actionsData && matrixData && (
@@ -154,7 +154,7 @@ export default function StakeholderIntelligence() {
               )}
             </div>
 
-            {/* ── Bottom Bar ── */}
+            {/* -- Bottom Bar -- */}
             <BottomBar />
           </>
         )}
@@ -163,7 +163,7 @@ export default function StakeholderIntelligence() {
   );
 }
 
-// ── Sub-Components ─────────────────────────────────────────────────────────
+// -- Sub-Components ---------------------------------------------------------
 
 function SummaryCards({ data }: { data: CoverageSummaryResponse }) {
   const coveragePct = Math.round(

@@ -3,7 +3,7 @@
 import { useEffect, useRef, useCallback } from "react";
 import styles from "./PlaybackControls.module.css";
 
-/* ── Types ────────────────────────────────────────────────────────────── */
+/* -- Types -------------------------------------------------------------- */
 export interface TimeSeriesPoint {
   timestamp: string;
   people: number;
@@ -52,7 +52,7 @@ export default function PlaybackControls({
   const totalFrames = timeSeriesData.length;
   const currentPoint = timeSeriesData[currentIndex];
 
-  /* ── Format timestamp for display ───────────────────────────────── */
+  /* -- Format timestamp for display --------------------------------- */
   const formatTime = useCallback((ts?: string) => {
     if (!ts) return "--:--";
     try {
@@ -67,7 +67,7 @@ export default function PlaybackControls({
     }
   }, []);
 
-  /* ── Keyboard shortcuts ─────────────────────────────────────────── */
+  /* -- Keyboard shortcuts ------------------------------------------- */
   useEffect(() => {
     function handleKey(e: KeyboardEvent) {
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLSelectElement) return;

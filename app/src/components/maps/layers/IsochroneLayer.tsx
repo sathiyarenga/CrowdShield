@@ -12,7 +12,7 @@ import type maplibregl from "maplibre-gl";
 import { api } from "@/lib/api/client";
 import styles from "./IsochroneLayer.module.css";
 
-/* ── Types ───────────────────────────────────────────────────────────── */
+/* -- Types ------------------------------------------------------------- */
 
 interface IsochroneFeature {
   type: "Feature";
@@ -39,7 +39,7 @@ interface Props {
   visible: boolean;
 }
 
-/* ── Color palette for isochrone rings ───────────────────────────────── */
+/* -- Color palette for isochrone rings --------------------------------- */
 
 const RING_COLORS: Record<number, { fill: string; stroke: string; label: string }> = {
   5:  { fill: "rgba(34, 197, 94, 0.25)",  stroke: "rgba(34, 197, 94, 0.8)",  label: "5 min" },
@@ -49,7 +49,7 @@ const RING_COLORS: Record<number, { fill: string; stroke: string; label: string 
   30: { fill: "rgba(220, 38, 38, 0.12)",  stroke: "rgba(220, 38, 38, 0.5)",  label: "30 min" },
 };
 
-/* ── Component ───────────────────────────────────────────────────────── */
+/* -- Component --------------------------------------------------------- */
 
 export default function IsochroneLayer({ venueId, map, mapLoaded, visible }: Props) {
   const [source, setSource] = useState<IsochroneSource>("venue");
@@ -60,7 +60,7 @@ export default function IsochroneLayer({ venueId, map, mapLoaded, visible }: Pro
   const addedLayersRef = useRef<string[]>([]);
   const addedSourcesRef = useRef<string[]>([]);
 
-  /* ── Fetch isochrone data ───────────────────────────────────────── */
+  /* -- Fetch isochrone data ----------------------------------------- */
   const fetchIsochrones = useCallback(async () => {
     if (!visible) return;
     setLoading(true);
@@ -82,7 +82,7 @@ export default function IsochroneLayer({ venueId, map, mapLoaded, visible }: Pro
     fetchIsochrones();
   }, [fetchIsochrones]);
 
-  /* ── Render isochrones on map using MapLibre fill layers ─────── */
+  /* -- Render isochrones on map using MapLibre fill layers ------- */
   useEffect(() => {
     if (!map || !mapLoaded) return;
 
@@ -182,7 +182,7 @@ export default function IsochroneLayer({ venueId, map, mapLoaded, visible }: Pro
     // We'll skip native popups and keep it simple for now
   }, [map, mapLoaded, visible, data]);
 
-  /* ── Cleanup on unmount ─────────────────────────────────────────── */
+  /* -- Cleanup on unmount ------------------------------------------- */
   useEffect(() => {
     return () => {
       if (!map) return;

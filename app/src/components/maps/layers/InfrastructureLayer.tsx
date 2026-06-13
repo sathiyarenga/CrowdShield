@@ -13,7 +13,7 @@ import type maplibregl from "maplibre-gl";
 import { api } from "@/lib/api/client";
 import styles from "./InfrastructureLayer.module.css";
 
-/* ── Facility icon config ───────────────────────────────────────────── */
+/* -- Facility icon config --------------------------------------------- */
 
 const FACILITY_CONFIGS: Record<
   string,
@@ -35,7 +35,7 @@ const TRANSIT_CONFIGS: Record<
   train_station: { emoji: "🚆", label: "Train Stations", color: [99, 102, 241] },
 };
 
-/* ── Types ───────────────────────────────────────────────────────────── */
+/* -- Types ------------------------------------------------------------- */
 
 interface FacilityFeature {
   type: "Feature";
@@ -67,7 +67,7 @@ interface Props {
   visible: boolean;
 }
 
-/* ── Component ───────────────────────────────────────────────────────── */
+/* -- Component --------------------------------------------------------- */
 
 export default function InfrastructureLayer({ venueId, map, mapLoaded, visible }: Props) {
   const [facilities, setFacilities] = useState<FacilityFeature[]>([]);
@@ -82,7 +82,7 @@ export default function InfrastructureLayer({ venueId, map, mapLoaded, visible }
   const [selectedFacility, setSelectedFacility] = useState<FacilityFeature | null>(null);
   const overlayRef = useRef<MapboxOverlay | null>(null);
 
-  /* ── Fetch data ─────────────────────────────────────────────────── */
+  /* -- Fetch data --------------------------------------------------- */
   useEffect(() => {
     if (!visible) return;
 
@@ -102,7 +102,7 @@ export default function InfrastructureLayer({ venueId, map, mapLoaded, visible }
     return () => { cancelled = true; };
   }, [venueId, visible]);
 
-  /* ── Build deck.gl layers ───────────────────────────────────────── */
+  /* -- Build deck.gl layers ----------------------------------------- */
   const buildLayers = useCallback(() => {
     if (!visible) return [];
 
@@ -154,7 +154,7 @@ export default function InfrastructureLayer({ venueId, map, mapLoaded, visible }
     return [iconLayer, textLayer];
   }, [visible, facilities, transit, enabledTypes]);
 
-  /* ── Manage deck.gl overlay on MapLibre ─────────────────────────── */
+  /* -- Manage deck.gl overlay on MapLibre --------------------------- */
   useEffect(() => {
     if (!map || !mapLoaded) return;
 
@@ -173,7 +173,7 @@ export default function InfrastructureLayer({ venueId, map, mapLoaded, visible }
     overlayRef.current.setProps({ layers });
   }, [map, mapLoaded, buildLayers]);
 
-  /* ── Cleanup ────────────────────────────────────────────────────── */
+  /* -- Cleanup ------------------------------------------------------ */
   useEffect(() => {
     return () => {
       if (overlayRef.current && map) {
@@ -185,7 +185,7 @@ export default function InfrastructureLayer({ venueId, map, mapLoaded, visible }
     };
   }, [map]);
 
-  /* ── Toggle handler ─────────────────────────────────────────────── */
+  /* -- Toggle handler ----------------------------------------------- */
   const toggleType = (type: string) => {
     setEnabledTypes((prev) => ({ ...prev, [type]: !prev[type] }));
   };

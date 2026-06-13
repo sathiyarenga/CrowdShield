@@ -24,7 +24,7 @@
   border-radius: 2px;
 }
 
-/* ── Header ──────────────────────────────────────────────────────────── */
+/* -- Header ------------------------------------------------------------ */
 .header {
   display: flex;
   align-items: center;
@@ -49,7 +49,7 @@
   color: var(--color-text-muted);
 }
 
-/* ── Cards ────────────────────────────────────────────────────────────── */
+/* -- Cards -------------------------------------------------------------- */
 .card,
 .readinessCard,
 .actionsCard {
@@ -81,7 +81,7 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* ── Readiness ───────────────────────────────────────────────────────── */
+/* -- Readiness --------------------------------------------------------- */
 .readinessHeader {
   display: flex;
   justify-content: space-between;
@@ -139,7 +139,7 @@
   color: #22c55e;
 }
 
-/* ── Zone breakdown ──────────────────────────────────────────────────── */
+/* -- Zone breakdown ---------------------------------------------------- */
 .zoneBreakdown {
   display: flex;
   flex-direction: column;
@@ -190,7 +190,7 @@
   border-color: rgba(6, 182, 212, 0.5);
 }
 
-/* ── Capacity bar ────────────────────────────────────────────────────── */
+/* -- Capacity bar ------------------------------------------------------ */
 .capacityBar {
   height: 6px;
   background: rgba(255, 255, 255, 0.06);
@@ -212,7 +212,7 @@
   color: var(--color-text-muted);
 }
 
-/* ── Risk breakdown ──────────────────────────────────────────────────── */
+/* -- Risk breakdown ---------------------------------------------------- */
 .riskBreakdown {
   display: flex;
   flex-direction: column;
@@ -264,7 +264,7 @@
   font-style: italic;
 }
 
-/* ── Actions ─────────────────────────────────────────────────────────── */
+/* -- Actions ----------------------------------------------------------- */
 .actionsCard {
   display: flex;
   flex-direction: column;

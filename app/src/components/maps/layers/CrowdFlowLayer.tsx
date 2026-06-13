@@ -15,7 +15,7 @@ import { ScatterplotLayer } from "@deck.gl/layers";
 import { api } from "@/lib/api/client";
 import styles from "./CrowdFlowLayer.module.css";
 
-/* ── Types ───────────────────────────────────────────────────────────── */
+/* -- Types ------------------------------------------------------------- */
 
 interface Trip {
   path: [number, number, number][]; // [lon, lat, timestamp]
@@ -58,7 +58,7 @@ interface Props {
   visible: boolean;
 }
 
-/* ── Speed color scale (pre-computed for perf) ───────────────────────── */
+/* -- Speed color scale (pre-computed for perf) ------------------------- */
 
 function speedToColor(speed: number): [number, number, number, number] {
   const t = Math.min(speed / 2.0, 1.0);
@@ -70,7 +70,7 @@ function speedToColor(speed: number): [number, number, number, number] {
   ];
 }
 
-/* ── Component ───────────────────────────────────────────────────────── */
+/* -- Component --------------------------------------------------------- */
 
 export default function CrowdFlowLayer({ venueId, map, mapLoaded, visible }: Props) {
   const [scenario, setScenario] = useState<Scenario>("ingress");
@@ -113,7 +113,7 @@ export default function CrowdFlowLayer({ venueId, map, mapLoaded, visible }: Pro
   const maxTimeRef = useRef(maxTime);
   maxTimeRef.current = maxTime;
 
-  /* ── Run simulation ────────────────────────────────────────────── */
+  /* -- Run simulation ---------------------------------------------- */
   const runSimulation = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -173,7 +173,7 @@ export default function CrowdFlowLayer({ venueId, map, mapLoaded, visible }: Pro
     }
   }, [venueId, numAgents, scenario, totalTime]);
 
-  /* ── Create overlay ONCE when map is ready ─────────────────────── */
+  /* -- Create overlay ONCE when map is ready ----------------------- */
   useEffect(() => {
     if (!map || !mapLoaded) return;
 
@@ -195,7 +195,7 @@ export default function CrowdFlowLayer({ venueId, map, mapLoaded, visible }: Pro
     };
   }, [map, mapLoaded]);
 
-  /* ── Update layers when trips or trailLength change ────────────── */
+  /* -- Update layers when trips or trailLength change -------------- */
   const updateLayers = useCallback((time: number) => {
     const overlay = overlayRef.current;
     if (!overlay) return;
@@ -223,7 +223,7 @@ export default function CrowdFlowLayer({ venueId, map, mapLoaded, visible }: Pro
       }),
     ];
 
-    // ── Accumulation circle at venue center ──────────────────────
+    // -- Accumulation circle at venue center ----------------------
     const arrivals = arrivalTimesRef.current;
     if (arrivals.length > 0) {
       let arrived = 0;
@@ -260,7 +260,7 @@ export default function CrowdFlowLayer({ venueId, map, mapLoaded, visible }: Pro
     overlay.setProps({ layers });
   }, []);
 
-  /* ── Clear layers when hidden or trips empty ───────────────────── */
+  /* -- Clear layers when hidden or trips empty --------------------- */
   useEffect(() => {
     if (!visible || trips.length === 0) {
       overlayRef.current?.setProps({ layers: [] });
@@ -270,14 +270,14 @@ export default function CrowdFlowLayer({ venueId, map, mapLoaded, visible }: Pro
     }
   }, [visible, trips, updateLayers]);
 
-  /* ── Update layers when trail length changes ───────────────────── */
+  /* -- Update layers when trail length changes --------------------- */
   useEffect(() => {
     if (visible && trips.length > 0) {
       updateLayers(currentTimeRef.current);
     }
   }, [trailLength, visible, trips, updateLayers]);
 
-  /* ── Animation loop — runs outside React state cycle ───────────── */
+  /* -- Animation loop — runs outside React state cycle ------------- */
   useEffect(() => {
     if (!playing || tripsRef.current.length === 0) {
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
@@ -322,14 +322,14 @@ export default function CrowdFlowLayer({ venueId, map, mapLoaded, visible }: Pro
     };
   }, [playing, playbackSpeed, updateLayers]);
 
-  /* ── Cleanup on unmount ─────────────────────────────────────────── */
+  /* -- Cleanup on unmount ------------------------------------------- */
   useEffect(() => {
     return () => {
       if (animFrameRef.current) cancelAnimationFrame(animFrameRef.current);
     };
   }, []);
 
-  /* ── Origin dots + venue accumulation on map ────────────────────── */
+  /* -- Origin dots + venue accumulation on map ---------------------- */
   useEffect(() => {
     if (!map || !mapLoaded) return;
 
@@ -357,7 +357,7 @@ export default function CrowdFlowLayer({ venueId, map, mapLoaded, visible }: Pro
       parking: "#22d3ee", walking: "#4ade80", custom: "#f472b6",
     };
 
-    // ── Origin dots (small, non-intrusive) ──────────────────────
+    // -- Origin dots (small, non-intrusive) ----------------------
     const originGeo: GeoJSON.FeatureCollection = {
       type: "FeatureCollection",
       features: originsUsed.map((o) => ({
@@ -421,7 +421,7 @@ export default function CrowdFlowLayer({ venueId, map, mapLoaded, visible }: Pro
       },
     });
 
-    // ── Popup on hover ──────────────────────────────────────────
+    // -- Popup on hover ------------------------------------------
     const popup = new maplibregl.Popup({
       closeButton: false, closeOnClick: false,
       className: "sim-origin-popup",
@@ -453,7 +453,7 @@ export default function CrowdFlowLayer({ venueId, map, mapLoaded, visible }: Pro
     };
     map.on("mousemove", onHover);
 
-    // ── Venue accumulation circle ───────────────────────────────
+    // -- Venue accumulation circle -------------------------------
     // Show a pulsing circle at the event venue center
     const venueCenters: Record<string, [number, number]> = {
       galway: [-9.0545, 53.2707],

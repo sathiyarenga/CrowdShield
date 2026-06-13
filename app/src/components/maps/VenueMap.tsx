@@ -10,7 +10,7 @@ import RoadCapacityLayer from "./layers/RoadCapacityLayer";
 import CrowdFlowLayer from "./layers/CrowdFlowLayer";
 import styles from "./VenueMap.module.css";
 
-/* ── Risk-level color scheme (crowd count thresholds) ────────────────── */
+/* -- Risk-level color scheme (crowd count thresholds) ------------------ */
 const RISK_COLORS = {
   nominal: "#22c55e",
   elevated: "#eab308",
@@ -43,7 +43,7 @@ function formatPeople(n: number): string {
   return String(Math.round(n));
 }
 
-/* ── Zone type styling ───────────────────────────────────────────────── */
+/* -- Zone type styling ------------------------------------------------- */
 const ZONE_TYPE_ICONS: Record<string, string> = {
   gate: "🚪",
   stage: "🎤",
@@ -66,7 +66,7 @@ const ZONE_TYPE_COLORS: Record<string, string> = {
   custom: "#06b6d4",
 };
 
-/* ── Risk overlay category colors ────────────────────────────────────── */
+/* -- Risk overlay category colors -------------------------------------- */
 const HAZARD_COLORS: Record<string, string> = {
   medical: "#22c55e",
   security: "#6366f1",
@@ -78,13 +78,13 @@ const HAZARD_COLORS: Record<string, string> = {
   environmental: "#06b6d4",
 };
 
-/* ── Default venue configs (fallback when API is unavailable) ─────── */
+/* -- Default venue configs (fallback when API is unavailable) ------- */
 const VENUE_DEFAULTS: Record<string, { center: [number, number]; zoom: number; pitch: number; bearing: number }> = {
   ullevaal: { center: [10.734, 59.948], zoom: 14, pitch: 0, bearing: 0 },
   galway: { center: [-9.0545, 53.2707], zoom: 17, pitch: 0, bearing: 0 },
 };
 
-/* ── Basemaps — OpenFreeMap (free vector tiles, no API key, 3D buildings) ── */
+/* -- Basemaps — OpenFreeMap (free vector tiles, no API key, 3D buildings) -- */
 type BasemapStyle = "dark" | "light" | "satellite" | "bright";
 const BASEMAPS: Record<BasemapStyle, string> = {
   dark: "https://tiles.openfreemap.org/styles/dark",
@@ -109,7 +109,7 @@ const RISK_SOURCE = "risk-markers";
 const RISK_LAYER = "risk-circles";
 const RISK_PULSE_LAYER = "risk-pulse";
 
-/* ── Component Props ──────────────────────────────────────────────────── */
+/* -- Component Props ---------------------------------------------------- */
 export interface CustomZone {
   zone_id: string;
   name: string;
@@ -138,7 +138,7 @@ interface VenueMapProps {
   mapRef?: React.MutableRefObject<maplibregl.Map | null>;
 }
 
-/* ── Legend items ─────────────────────────────────────────────────────── */
+/* -- Legend items ------------------------------------------------------- */
 const RISK_LEGEND = [
   { label: "< 5K — Nominal", color: RISK_COLORS.nominal },
   { label: "5K–10K — Elevated", color: RISK_COLORS.elevated },
@@ -176,7 +176,7 @@ export default function VenueMap({
   const zoneVenueRef = useRef(venueId);
   const animFrameRef = useRef<number | null>(null);
 
-  /* ── Fetch venue detail + risk markers + density points ─────────── */
+  /* -- Fetch venue detail + risk markers + density points ----------- */
   useEffect(() => {
     let cancelled = false;
 
@@ -217,10 +217,10 @@ export default function VenueMap({
     return () => { cancelled = true; };
   }, [venueId]);
 
-  /* ── Resolved zones data ───────────────────────────────────────────── */
+  /* -- Resolved zones data --------------------------------------------- */
   const zonesGeoJSON = venueDetail?.zones ?? fallbackZones;
 
-  /* ── Compute enriched zone features (memoized) ─────────────────────── */
+  /* -- Compute enriched zone features (memoized) ----------------------- */
   const enrichedZoneData = useMemo(() => {
     if (!zonesGeoJSON) return null;
     // Skip if zone data doesn't belong to current venue
@@ -264,7 +264,7 @@ export default function VenueMap({
     };
   }, [zonesGeoJSON, currentPeople]);
 
-  /* ── Initialize MapLibre (once) ──────────────────────────────────────── */
+  /* -- Initialize MapLibre (once) ---------------------------------------- */
   const initialVenueRef = useRef(venueId);
   useEffect(() => {
     if (!mapContainerRef.current) return;
@@ -314,7 +314,7 @@ export default function VenueMap({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  /* ── Switch basemap style ──────────────────────────────────────────── */
+  /* -- Switch basemap style -------------------------------------------- */
   const basemapRef = useRef(basemap);
   useEffect(() => {
     const map = mapRef.current;
@@ -333,7 +333,7 @@ export default function VenueMap({
     });
   }, [basemap, mapLoaded]);
 
-  /* ── Fly to venue when venueId changes ───────────────────────────────── */
+  /* -- Fly to venue when venueId changes --------------------------------- */
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !mapLoaded) return;
@@ -358,7 +358,7 @@ export default function VenueMap({
     });
   }, [venueId, mapLoaded, show3D]);
 
-  /* ── Phase 1: SMOOTH TRANSITIONS ───────────────────────────────────── */
+  /* -- Phase 1: SMOOTH TRANSITIONS ------------------------------------- */
   /* Layer 1 INIT: Create zone source/layers once when zonesGeoJSON loads */
   useEffect(() => {
     const map = mapRef.current;
@@ -532,7 +532,7 @@ export default function VenueMap({
     }
   }, [enrichedZoneData, mapLoaded, showHeatmap]);
 
-  /* ── Phase 2: ANIMATED CRITICAL BORDER ─────────────────────────────── */
+  /* -- Phase 2: ANIMATED CRITICAL BORDER ------------------------------- */
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !mapLoaded || !enrichedZoneData) return;
@@ -560,7 +560,7 @@ export default function VenueMap({
     }
   }, [enrichedZoneData?.isCritical, mapLoaded]);
 
-  /* ── Custom zones layer ────────────────────────────────────────────── */
+  /* -- Custom zones layer ---------------------------------------------- */
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !mapLoaded) return;
@@ -664,7 +664,7 @@ export default function VenueMap({
     });
   }, [mapLoaded, customZones]);
 
-  /* ── Draw mode: click-to-draw polygon ──────────────────────────────── */
+  /* -- Draw mode: click-to-draw polygon -------------------------------- */
   const drawPointsRef = useRef<[number, number][]>([]);
   const drawSourceId = "draw-temp-source";
   const drawFillId = "draw-temp-fill";
@@ -823,7 +823,7 @@ export default function VenueMap({
     };
   }, [drawMode, mapLoaded, onZoneDrawn]);
 
-  /* ── Heatmap layer ─────────────────────────────────────────────────── */
+  /* -- Heatmap layer --------------------------------------------------- */
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !mapLoaded) return;
@@ -871,7 +871,7 @@ export default function VenueMap({
     });
   }, [mapLoaded, showHeatmap, densityData]);
 
-  /* ── 3D Extrusion + Buildings ─────────────────────────────────────── */
+  /* -- 3D Extrusion + Buildings --------------------------------------- */
   const BUILDINGS_3D = "crowdshield-buildings-3d";
   useEffect(() => {
     const map = mapRef.current;
@@ -945,7 +945,7 @@ export default function VenueMap({
     }
   }, [mapLoaded, show3D, zonesGeoJSON, venueId, basemap]);
 
-  /* ── Risk Overlay ──────────────────────────────────────────────────── */
+  /* -- Risk Overlay ---------------------------------------------------- */
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !mapLoaded) return;
@@ -1056,7 +1056,7 @@ export default function VenueMap({
     });
   }, [mapLoaded, showRiskOverlay, riskData]);
 
-  /* ── Build legend items ────────────────────────────────────────────── */
+  /* -- Build legend items ---------------------------------------------- */
   const legendSections = [];
 
   legendSections.push({

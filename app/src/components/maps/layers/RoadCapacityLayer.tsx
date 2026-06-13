@@ -12,7 +12,7 @@ import type maplibregl from "maplibre-gl";
 import { api } from "@/lib/api/client";
 import styles from "./RoadCapacityLayer.module.css";
 
-/* ── Types ───────────────────────────────────────────────────────────── */
+/* -- Types ------------------------------------------------------------- */
 
 interface BottleneckFeature {
   type: "Feature";
@@ -56,7 +56,7 @@ interface Props {
   visible: boolean;
 }
 
-/* ── Component ───────────────────────────────────────────────────────── */
+/* -- Component --------------------------------------------------------- */
 
 export default function RoadCapacityLayer({ venueId, map, mapLoaded, visible }: Props) {
   const [crowdSize, setCrowdSize] = useState(10000);
@@ -70,7 +70,7 @@ export default function RoadCapacityLayer({ venueId, map, mapLoaded, visible }: 
   const addedLayersRef = useRef<string[]>([]);
   const addedSourcesRef = useRef<string[]>([]);
 
-  /* ── Fetch bottleneck data ──────────────────────────────────────── */
+  /* -- Fetch bottleneck data ---------------------------------------- */
   const fetchBottlenecks = useCallback(async () => {
     if (!visible) return;
     setLoading(true);
@@ -94,7 +94,7 @@ export default function RoadCapacityLayer({ venueId, map, mapLoaded, visible }: 
     fetchBottlenecks();
   }, [fetchBottlenecks]);
 
-  /* ── Render road segments on map ────────────────────────────────── */
+  /* -- Render road segments on map ---------------------------------- */
   useEffect(() => {
     if (!map || !mapLoaded) return;
 
@@ -205,7 +205,7 @@ export default function RoadCapacityLayer({ venueId, map, mapLoaded, visible }: 
     }
   }, [map, mapLoaded, visible, data, showOnlyBottlenecks]);
 
-  /* ── Cleanup on unmount ─────────────────────────────────────────── */
+  /* -- Cleanup on unmount ------------------------------------------- */
   useEffect(() => {
     return () => {
       if (!map) return;
