@@ -1,5 +1,6 @@
 "use client";
 
+import { Shield } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import styles from "./Sidebar.module.css";
@@ -42,7 +43,7 @@ export default function Sidebar() {
   return (
     <aside className="app-sidebar">
       <div className="logo">
-        <div className="logo__icon">C</div>
+        <div className="logo__icon"><Shield size={20} /></div>
         <div>
           <div className="logo__text">CROWDSHIELD</div>
           <div className="logo__sub">Event Risk Intelligence</div>
