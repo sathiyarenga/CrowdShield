@@ -99,9 +99,25 @@ CATEGORY_LABELS: dict[str, str] = {
 # ═════════════════════════════════════════════════════════════════════════════
 
 
+import json
+from pathlib import Path
+
+CACHE_FILE = Path(__file__).resolve().parents[3] / "data" / "doc_cache.json"
+
 def _ensure_extraction() -> None:
     """Run the full extraction pipeline if not already cached."""
     if store.doc_risks is not None:
+        return
+
+    if CACHE_FILE.exists():
+        logger.info("📄 Loading document extraction from cache…")
+        with open(CACHE_FILE) as f:
+            data = json.load(f)
+            store.doc_pages = data.get("doc_pages")
+            store.doc_risks = data.get("doc_risks")
+            store.doc_gaps = data.get("doc_gaps")
+            store.doc_entities = data.get("doc_entities")
+            store.doc_processing_time = data.get("doc_processing_time", 0.0)
         return
 
     logger.info("📄 Running document extraction pipeline for stakeholder matrix…")
@@ -133,6 +149,16 @@ def _ensure_extraction() -> None:
         elapsed,
         len(risks),
     )
+    
+    with open(CACHE_FILE, "w") as f:
+        json.dump({
+            "doc_pages": store.doc_pages,
+            "doc_risks": store.doc_risks,
+            "doc_gaps": store.doc_gaps,
+            "doc_entities": store.doc_entities,
+            "doc_processing_time": store.doc_processing_time,
+        }, f)
+
 
 
 def _risks_by_category() -> dict[str, list[dict]]:
