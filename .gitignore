@@ -1,5 +1,4 @@
 # Project-specific ignored directories and files
-Data/
 background/
 literature/
 presentation_mockups/
@@ -22,8 +21,7 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
-lib64/
+
 parts/
 sdist/
 var/
