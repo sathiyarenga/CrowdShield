@@ -14,8 +14,8 @@
   align-items: center;
   gap: var(--space-xs);
   padding: var(--space-xs) var(--space-md);
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--color-bg-tertiary);
+  border: var(--border-subtle);
   border-radius: var(--radius-md);
   color: var(--color-text-secondary);
   font-size: var(--text-xs);
@@ -25,8 +25,8 @@
 }
 
 .toolBtn:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.15);
+  background: var(--color-bg-hover);
+  border-color: var(--border-strong);
   color: var(--color-text-primary);
 }
 
@@ -44,7 +44,7 @@
   font-size: var(--text-xs);
   color: var(--color-text-muted);
   padding: var(--space-xs) var(--space-sm);
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--color-bg-tertiary);
   border-radius: var(--radius-sm);
 }
 
@@ -71,15 +71,15 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--space-xs) var(--space-sm);
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--color-bg-tertiary);
+  border: var(--border-subtle);
   border-radius: var(--radius-sm);
   transition: all 0.15s ease;
 }
 
 .zoneItem:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.1);
+  background: var(--color-bg-hover);
+  border-color: var(--border-strong);
 }
 
 .zoneItemInfo {
@@ -137,7 +137,7 @@
 }
 
 .zoneActionBtn:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--color-bg-hover);
   color: var(--color-text-primary);
 }
 
@@ -157,9 +157,9 @@
   background: var(--color-glass);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: var(--border-subtle);
   border-radius: var(--radius-lg);
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+  box-shadow: var(--shadow-lg);
   z-index: 100;
   display: flex;
   flex-direction: column;
@@ -183,7 +183,7 @@
   align-items: center;
   justify-content: space-between;
   padding: var(--space-md) var(--space-lg);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: var(--border-subtle);
 }
 
 .panelHeader h3 {
@@ -209,7 +209,7 @@
 }
 
 .panelClose:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--color-bg-hover);
   color: var(--color-text-primary);
 }
 
@@ -225,7 +225,7 @@
   display: flex;
   gap: var(--space-sm);
   padding: var(--space-md) var(--space-lg);
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: var(--border-subtle);
 }
 
 /* -- Form fields ------------------------------------------------------- */
@@ -242,8 +242,8 @@
 
 .fieldInput {
   padding: var(--space-sm) var(--space-md);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--color-bg-tertiary);
+  border: var(--border-subtle);
   border-radius: var(--radius-md);
   color: var(--color-text-primary);
   font-size: var(--text-sm);
@@ -254,7 +254,7 @@
 
 .fieldInput:focus {
   border-color: rgba(6, 182, 212, 0.5);
-  background: rgba(255, 255, 255, 0.07);
+  background: var(--color-bg-primary);
   box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
 }
 
@@ -274,8 +274,8 @@
   align-items: center;
   gap: var(--space-xs);
   padding: var(--space-xs) var(--space-sm);
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--color-bg-tertiary);
+  border: var(--border-subtle);
   border-radius: var(--radius-sm);
   color: var(--color-text-tertiary);
   font-size: var(--text-xs);
@@ -285,8 +285,8 @@
 }
 
 .typeOption:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.12);
+  background: var(--color-bg-hover);
+  border-color: var(--border-strong);
 }
 
 .typeOption.selected {
@@ -305,7 +305,7 @@
 .colorPicker {
   width: 36px;
   height: 36px;
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  border: var(--border-subtle);
   border-radius: var(--radius-sm);
   cursor: pointer;
   padding: 0;
@@ -331,8 +331,8 @@
 .cancelBtn {
   flex: 1;
   padding: var(--space-sm) var(--space-md);
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--color-bg-tertiary);
+  border: var(--border-subtle);
   border-radius: var(--radius-md);
   color: var(--color-text-secondary);
   font-size: var(--text-sm);
@@ -342,7 +342,7 @@
 }
 
 .cancelBtn:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--color-bg-hover);
 }
 
 .saveBtn {

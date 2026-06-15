@@ -1165,37 +1165,40 @@ export default function VenueMap({
       {/* Map container */}
       <div ref={mapContainerRef} className={styles.mapContainer} />
 
-      {/* deck.gl Infrastructure Layer */}
-      <InfrastructureLayer
-        venueId={venueId}
-        map={mapRef.current}
-        mapLoaded={mapLoaded}
-        visible={showInfrastructure}
-      />
+      {/* Container for the panels to stack naturally */}
+      <div className={styles.layerPanelsContainer}>
+        {/* deck.gl Infrastructure Layer */}
+        <InfrastructureLayer
+          venueId={venueId}
+          map={mapRef.current}
+          mapLoaded={mapLoaded}
+          visible={showInfrastructure}
+        />
 
-      {/* Isochrone Layer */}
-      <IsochroneLayer
-        venueId={venueId}
-        map={mapRef.current}
-        mapLoaded={mapLoaded}
-        visible={showIsochrones}
-      />
+        {/* Isochrone Layer */}
+        <IsochroneLayer
+          venueId={venueId}
+          map={mapRef.current}
+          mapLoaded={mapLoaded}
+          visible={showIsochrones}
+        />
 
-      {/* Road Capacity / Bottleneck Layer */}
-      <RoadCapacityLayer
-        venueId={venueId}
-        map={mapRef.current}
-        mapLoaded={mapLoaded}
-        visible={showRoadCapacity}
-      />
+        {/* Road Capacity / Bottleneck Layer */}
+        <RoadCapacityLayer
+          venueId={venueId}
+          map={mapRef.current}
+          mapLoaded={mapLoaded}
+          visible={showRoadCapacity}
+        />
 
-      {/* Crowd Flow Simulation Layer */}
-      <CrowdFlowLayer
-        venueId={venueId}
-        map={mapRef.current}
-        mapLoaded={mapLoaded}
-        visible={showSimulation}
-      />
+        {/* Crowd Flow Simulation Layer */}
+        <CrowdFlowLayer
+          venueId={venueId}
+          map={mapRef.current}
+          mapLoaded={mapLoaded}
+          visible={showSimulation}
+        />
+      </div>
 
       {/* Legend */}
       {mapLoaded && (
