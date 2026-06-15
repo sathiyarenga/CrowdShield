@@ -8,6 +8,7 @@ import HazardCoverage from "@/components/documents/HazardCoverage";
 import RiskMatrix from "@/components/documents/RiskMatrix";
 import {
   api,
+  API_BASE,
   type DocumentSummary,
   type ExtractedRisk,
   type GapAnalysisItem,
@@ -20,7 +21,7 @@ const FALLBACK_SUMMARY: DocumentSummary = {
   document_name: "Galway International Arts Festival — Event Safety Plan",
   total_pages: 47,
   total_risks: 24,
-  extraction_mode: "LLM-assisted",
+  extraction_mode: "rule_based",
   hazard_distribution: {
     "Crowd Management": 6,
     "Fire Safety": 4,
@@ -119,7 +120,7 @@ export default function DocumentIntelligence() {
 
   const fetchDocuments = async () => {
     try {
-      const res = await fetch("http://localhost:8000/api/documents/");
+      const res = await fetch(`${API_BASE}/api/documents/`);
       if (res.ok) {
         const data = await res.json();
         setDocuments(data.documents);
@@ -139,9 +140,9 @@ export default function DocumentIntelligence() {
       try {
         // Fetch all three endpoints — they return nested structures from the backend
         const [summaryRaw, risksRaw, gapsRaw] = await Promise.all([
-          fetch(`http://localhost:8000/api/documents/${selectedDocId}/summary`).then((r) => r.ok ? r.json() : null),
-          fetch(`http://localhost:8000/api/documents/${selectedDocId}/risks`).then((r) => r.ok ? r.json() : null),
-          fetch(`http://localhost:8000/api/documents/${selectedDocId}/gaps`).then((r) => r.ok ? r.json() : null),
+          fetch(`${API_BASE}/api/documents/${selectedDocId}/summary`).then((r) => r.ok ? r.json() : null),
+          fetch(`${API_BASE}/api/documents/${selectedDocId}/risks`).then((r) => r.ok ? r.json() : null),
+          fetch(`${API_BASE}/api/documents/${selectedDocId}/gaps`).then((r) => r.ok ? r.json() : null),
         ]);
 
         if (!summaryRaw || !risksRaw || !gapsRaw) throw new Error("Backend returned null");
@@ -206,7 +207,7 @@ export default function DocumentIntelligence() {
     formData.append("file", file);
 
     try {
-      const res = await fetch("http://localhost:8000/api/documents/upload", {
+      const res = await fetch(`${API_BASE}/api/documents/upload`, {
         method: "POST",
         body: formData,
       });
