@@ -19,7 +19,7 @@
 .dateSelect {
   appearance: none;
   background: var(--color-bg-tertiary);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: var(--border-subtle);
   border-radius: var(--radius-md);
   color: var(--color-text-primary);
   font-family: var(--font-sans);
@@ -138,7 +138,7 @@
   background: var(--color-bg-tertiary);
   border-radius: var(--radius-md);
   padding: 2px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: var(--border-subtle);
 }
 
 .speedBtn {
@@ -156,7 +156,7 @@
 
 .speedBtn:hover {
   color: var(--color-text-secondary);
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--color-bg-hover);
 }
 
 .speedBtnActive {
@@ -173,7 +173,7 @@
   padding: var(--space-xs) var(--space-md);
   background: var(--color-bg-tertiary);
   border-radius: var(--radius-md);
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: var(--border-subtle);
 }
 
 .peopleIcon {
@@ -191,7 +191,7 @@
 .divider {
   width: 1px;
   height: 24px;
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--color-glass-border);
   flex-shrink: 0;
 }
 

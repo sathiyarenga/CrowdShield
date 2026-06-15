@@ -114,10 +114,10 @@
   right: 52px;
   display: flex;
   gap: 1px;
-  background: rgba(17, 24, 39, 0.7);
+  background: var(--color-glass);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: var(--border-subtle);
   border-radius: var(--radius-md);
   overflow: hidden;
   z-index: 4;
@@ -134,7 +134,7 @@
 }
 
 .basemapBtn:hover {
-  background: rgba(255, 255, 255, 0.06);
+  background: var(--color-bg-hover);
   color: var(--color-text-primary);
 }
 
@@ -152,10 +152,10 @@
   flex-direction: column;
   gap: var(--space-sm);
   padding: var(--space-md);
-  background: rgba(17, 24, 39, 0.85);
+  background: var(--color-glass);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: var(--border-subtle);
   border-radius: var(--radius-md);
   z-index: 4;
   max-height: 360px;
@@ -171,7 +171,7 @@
 
 .legendSection + .legendSection {
   padding-top: var(--space-sm);
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-top: var(--border-subtle);
 }
 
 .legendTitle {
@@ -196,7 +196,7 @@
   width: 12px;
   height: 12px;
   border-radius: 3px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: var(--border-subtle);
   flex-shrink: 0;
 }
 
@@ -218,7 +218,7 @@
     #ef4444 80%,
     #dc2626 100%
   );
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: var(--border-subtle);
 }
 
 .gradientLabels {
@@ -230,10 +230,10 @@
 
 /* -- MapLibre popup overrides ------------------------------------------ */
 .mapWrap :global(.maplibregl-popup-content) {
-  background: rgba(17, 24, 39, 0.92);
+  background: var(--color-glass);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: var(--border-subtle);
   border-radius: var(--radius-md);
   padding: var(--space-md) var(--space-lg);
   color: var(--color-text-primary);
@@ -243,7 +243,7 @@
 }
 
 .mapWrap :global(.maplibregl-popup-tip) {
-  border-top-color: rgba(17, 24, 39, 0.92);
+  border-top-color: var(--color-bg-primary);
 }
 
 .mapWrap :global(.maplibregl-popup-close-button) {
