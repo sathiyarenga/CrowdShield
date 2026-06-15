@@ -106,6 +106,10 @@ function gapBadgeClass(status: string): string {
 // -- Page Component ------------------------------------------------------
 
 export default function DocumentIntelligence() {
+  const [documents, setDocuments] = useState<{ id: string; title: string; filename: string }[]>([]);
+  const [selectedDocId, setSelectedDocId] = useState<string>("galway");
+  const [uploading, setUploading] = useState(false);
+
   const [summary, setSummary] = useState<DocumentSummary | null>(null);
   const [risks, setRisks] = useState<ExtractedRisk[]>([]);
   const [gaps, setGaps] = useState<GapAnalysisItem[]>([]);
@@ -113,15 +117,31 @@ export default function DocumentIntelligence() {
   const [loading, setLoading] = useState(true);
   const [backendOnline, setBackendOnline] = useState(true);
 
+  const fetchDocuments = async () => {
+    try {
+      const res = await fetch("http://localhost:8000/api/documents/");
+      if (res.ok) {
+        const data = await res.json();
+        setDocuments(data.documents);
+      }
+    } catch {
+      // Ignore
+    }
+  };
+
+  useEffect(() => {
+    fetchDocuments();
+  }, []);
+
   useEffect(() => {
     async function loadData() {
       setLoading(true);
       try {
         // Fetch all three endpoints — they return nested structures from the backend
         const [summaryRaw, risksRaw, gapsRaw] = await Promise.all([
-          fetch("http://localhost:8000/api/documents/galway/summary").then((r) => r.ok ? r.json() : null),
-          fetch("http://localhost:8000/api/documents/galway/risks").then((r) => r.ok ? r.json() : null),
-          fetch("http://localhost:8000/api/documents/galway/gaps").then((r) => r.ok ? r.json() : null),
+          fetch(`http://localhost:8000/api/documents/${selectedDocId}/summary`).then((r) => r.ok ? r.json() : null),
+          fetch(`http://localhost:8000/api/documents/${selectedDocId}/risks`).then((r) => r.ok ? r.json() : null),
+          fetch(`http://localhost:8000/api/documents/${selectedDocId}/gaps`).then((r) => r.ok ? r.json() : null),
         ]);
 
         if (!summaryRaw || !risksRaw || !gapsRaw) throw new Error("Backend returned null");
@@ -175,7 +195,38 @@ export default function DocumentIntelligence() {
       }
     }
     loadData();
-  }, []);
+  }, [selectedDocId]);
+
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await fetch("http://localhost:8000/api/documents/upload", {
+        method: "POST",
+        body: formData,
+      });
+      if (res.ok) {
+        const data = await res.json();
+        await fetchDocuments();
+        setSelectedDocId(data.document_id);
+      } else {
+        alert("Upload failed. Make sure the backend is running.");
+      }
+    } catch (error) {
+      console.error("Upload failed", error);
+      alert("Upload failed. Make sure the backend is running.");
+    } finally {
+      setUploading(false);
+      if (e.target) {
+        e.target.value = "";
+      }
+    }
+  };
 
   // Computed stats
   const highCriticalCount = risks.filter((r) => {
@@ -293,10 +344,43 @@ export default function DocumentIntelligence() {
               {summary.total_pages} pages analyzed · {risks.length} risks identified
             </span>
           </div>
-          <span className={styles.aiBadge}>
-            <span className={styles.aiBadgePulse} />
-            Document Intelligence Engine
-          </span>
+          <div className={styles.docControls}>
+            {documents.length > 0 && (
+              <select
+                className={styles.docSelect}
+                value={selectedDocId}
+                onChange={(e) => setSelectedDocId(e.target.value)}
+              >
+                {documents.map((doc) => (
+                  <option key={doc.id} value={doc.id}>
+                    {doc.title}
+                  </option>
+                ))}
+              </select>
+            )}
+            <label className={styles.uploadButton}>
+              {uploading ? (
+                <>
+                  <div className={styles.uploadingSpinner} />
+                  Uploading...
+                </>
+              ) : (
+                <>
+                  <span>Upload PDF</span>
+                  <input
+                    type="file"
+                    accept=".pdf"
+                    onChange={handleFileUpload}
+                    disabled={uploading || !backendOnline}
+                  />
+                </>
+              )}
+            </label>
+            <span className={styles.aiBadge}>
+              <span className={styles.aiBadgePulse} />
+              Document Intelligence Engine
+            </span>
+          </div>
         </div>
 
         {/* Summary stat cards */}

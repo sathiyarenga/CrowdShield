@@ -7,6 +7,21 @@ can serve data without a running database.
 from __future__ import annotations
 
 import pandas as pd
+from dataclasses import dataclass
+from typing import Any
+
+@dataclass
+class ParsedDocument:
+    id: str
+    title: str
+    filename: str
+    file_path: str
+    pages: list[dict] | None = None
+    risks: list[dict] | None = None
+    gaps: dict | None = None
+    entities: dict | None = None
+    processing_time: float = 0.0
+
 
 
 class DataStore:
@@ -41,11 +56,7 @@ class DataStore:
         self.fredrikstad_baselines: pd.DataFrame = pd.DataFrame()
 
         # ── Document Intelligence (AI module) ──────────────────────────
-        self.doc_pages: list[dict] | None = None
-        self.doc_risks: list[dict] | None = None
-        self.doc_gaps: dict | None = None
-        self.doc_entities: dict | None = None
-        self.doc_processing_time: float = 0.0
+        self.documents: dict[str, ParsedDocument] = {}
 
         # ── Risk & Benchmarking (Phase 2 Week 4) ──────────────────────
         self.composite_risk_cache: dict[str, dict] = {}  # date → result

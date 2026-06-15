@@ -2,34 +2,57 @@
 
 Endpoints
 ─────────
-GET /api/documents/galway/extract     → Extract text from the Galway PDF (cached)
-GET /api/documents/galway/risks       → Extracted risk register
-GET /api/documents/galway/gaps        → Gap analysis results
-GET /api/documents/galway/entities    → Entity resolution (clusters + conflicts)
-GET /api/documents/galway/summary     → Full document summary with stats
+GET /api/documents/                   → List all uploaded documents
+POST /api/documents/upload            → Upload and parse a new document
+GET /api/documents/{doc_id}/extract   → Extract text from the PDF
+GET /api/documents/{doc_id}/risks     → Extracted risk register
+GET /api/documents/{doc_id}/gaps      → Gap analysis results
+GET /api/documents/{doc_id}/entities  → Entity resolution (clusters + conflicts)
+GET /api/documents/{doc_id}/summary   → Full document summary with stats
 """
 
 from __future__ import annotations
 
 import logging
+import os
+import shutil
 import time
+import uuid
+from pathlib import Path
 from typing import Annotated
 
-from fastapi import APIRouter, HTTPException, Query
+from fastapi import APIRouter, File, HTTPException, Query, UploadFile
 
-from src.etl.data_store import store
+from src.etl.data_store import ParsedDocument, store
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/api/documents", tags=["documents"])
 
+UPLOAD_DIR = Path("data/uploads")
+UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 
-def _ensure_extraction() -> None:
+
+def _ensure_extraction(doc_id: str) -> ParsedDocument:
     """Run the full extraction pipeline if not already cached in the store."""
-    if store.doc_risks is not None:
-        return  # already cached
+    if doc_id in store.documents and store.documents[doc_id].risks is not None:
+        return store.documents[doc_id]  # already cached
 
-    logger.info("📄 First request — running document extraction pipeline…")
+    # Pre-seed Galway if requested and missing
+    if doc_id == "galway" and "galway" not in store.documents:
+        from src.ai.pdf_extractor import GALWAY_PDF
+        store.documents["galway"] = ParsedDocument(
+            id="galway",
+            title="GIAF THE WHALE STREET SPECTACLE 2026",
+            filename="GIAF THE WHALE STREET SPECTACLE 2026 copy.pdf",
+            file_path=str(GALWAY_PDF)
+        )
+
+    if doc_id not in store.documents:
+        raise HTTPException(status_code=404, detail=f"Document {doc_id} not found")
+
+    doc = store.documents[doc_id]
+    logger.info("📄 Running document extraction pipeline for %s…", doc_id)
     t0 = time.time()
 
     from src.ai.pdf_extractor import extract_pages, pages_to_dict
@@ -38,24 +61,26 @@ def _ensure_extraction() -> None:
     from src.ai.entity_resolver import resolve_entities
 
     # 1) PDF extraction
-    pages = extract_pages()
-    store.doc_pages = pages_to_dict(pages)
+    pages = extract_pages(doc.file_path)
+    doc.pages = pages_to_dict(pages)
 
     # 2) Risk extraction
     risks = extract_risks(pages)
-    store.doc_risks = risks_to_dicts(risks)
+    doc.risks = risks_to_dicts(risks)
 
     # 3) Gap analysis
     gap_result = analyze_gaps(risks)
-    store.doc_gaps = gap_result.to_dict()
+    doc.gaps = gap_result.to_dict()
 
     # 4) Entity resolution
     entity_result = resolve_entities(risks)
-    store.doc_entities = entity_result.to_dict()
+    doc.entities = entity_result.to_dict()
 
     elapsed = time.time() - t0
-    store.doc_processing_time = round(elapsed, 2)
-    logger.info("✅ Document pipeline complete in %.1fs — %d risks extracted", elapsed, len(risks))
+    doc.processing_time = round(elapsed, 2)
+    logger.info("✅ Document pipeline complete for %s in %.1fs — %d risks extracted", doc_id, elapsed, len(risks))
+    
+    return doc
 
 
 # ═════════════════════════════════════════════════════════════════════════════
@@ -63,17 +88,61 @@ def _ensure_extraction() -> None:
 # ═════════════════════════════════════════════════════════════════════════════
 
 
-@router.get("/galway/extract")
-async def galway_extract(
+@router.get("/")
+async def list_documents() -> dict:
+    """List all parsed documents."""
+    # Ensure Galway is populated
+    _ensure_extraction("galway")
+    
+    docs = []
+    for doc in store.documents.values():
+        docs.append({
+            "id": doc.id,
+            "title": doc.title,
+            "filename": doc.filename,
+            "total_risks": len(doc.risks) if doc.risks else 0,
+            "processing_time_s": doc.processing_time,
+        })
+    return {"documents": docs}
+
+
+@router.post("/upload")
+async def upload_document(file: UploadFile = File(...)) -> dict:
+    """Upload a new PDF for safety plan analysis."""
+    if not file.filename.lower().endswith(".pdf"):
+        raise HTTPException(status_code=400, detail="Only PDF files are supported")
+        
+    doc_id = str(uuid.uuid4())[:8]
+    file_path = UPLOAD_DIR / f"{doc_id}_{file.filename}"
+    
+    # Save file
+    with open(file_path, "wb") as buffer:
+        shutil.copyfileobj(file.file, buffer)
+        
+    # Initialise document record
+    title = file.filename.replace(".pdf", "").replace("_", " ").replace("-", " ")
+    store.documents[doc_id] = ParsedDocument(
+        id=doc_id,
+        title=title.title(),
+        filename=file.filename,
+        file_path=str(file_path)
+    )
+    
+    # Run parsing
+    _ensure_extraction(doc_id)
+    
+    return {"status": "success", "document_id": doc_id}
+
+
+@router.get("/{doc_id}/extract")
+async def document_extract(
+    doc_id: str,
     page: Annotated[int | None, Query(ge=1, description="Filter to a specific page")] = None,
 ) -> dict:
-    """Extract text from the Galway event plan PDF.
+    """Extract text from the PDF."""
+    doc = _ensure_extraction(doc_id)
 
-    Results are cached after the first extraction.
-    """
-    _ensure_extraction()
-
-    pages = store.doc_pages
+    pages = doc.pages
     if pages is None:
         raise HTTPException(status_code=503, detail="Document extraction not available")
 
@@ -83,26 +152,27 @@ async def galway_extract(
             raise HTTPException(status_code=404, detail=f"Page {page} not found")
 
     return {
-        "document": "GIAF THE WHALE STREET SPECTACLE 2026",
-        "total_pages": len(store.doc_pages) if store.doc_pages else 0,
+        "document": doc.title,
+        "total_pages": len(doc.pages) if doc.pages else 0,
         "returned_pages": len(pages),
-        "processing_time_s": store.doc_processing_time,
+        "processing_time_s": doc.processing_time,
         "pages": pages,
     }
 
 
-@router.get("/galway/risks")
-async def galway_risks(
+@router.get("/{doc_id}/risks")
+async def document_risks(
+    doc_id: str,
     category: Annotated[str | None, Query(description="Filter by hazard category")] = None,
     min_score: Annotated[int | None, Query(ge=1, le=25, description="Minimum risk score")] = None,
     page: Annotated[int | None, Query(ge=1, description="Filter by source page")] = None,
     mode: Annotated[str | None, Query(description="Filter by extraction mode")] = None,
     limit: Annotated[int, Query(ge=1, le=500)] = 200,
 ) -> dict:
-    """Get the extracted risk register from the Galway event plan."""
-    _ensure_extraction()
+    """Get the extracted risk register from the plan."""
+    doc = _ensure_extraction(doc_id)
 
-    risks = store.doc_risks
+    risks = doc.risks
     if risks is None:
         raise HTTPException(status_code=503, detail="Risk extraction not available")
 
@@ -129,7 +199,7 @@ async def galway_risks(
     avg_score = sum(r["risk_score"] for r in scored) / len(scored) if scored else 0
 
     return {
-        "document": "GIAF THE WHALE STREET SPECTACLE 2026",
+        "document": doc.title,
         "total_risks": len(all_risks),
         "filtered_count": total,
         "returned": len(filtered),
@@ -143,29 +213,30 @@ async def galway_risks(
     }
 
 
-@router.get("/galway/gaps")
-async def galway_gaps() -> dict:
-    """Get gap analysis results for the Galway event plan."""
-    _ensure_extraction()
+@router.get("/{doc_id}/gaps")
+async def document_gaps(doc_id: str) -> dict:
+    """Get gap analysis results for the event plan."""
+    doc = _ensure_extraction(doc_id)
 
-    gaps = store.doc_gaps
+    gaps = doc.gaps
     if gaps is None:
         raise HTTPException(status_code=503, detail="Gap analysis not available")
 
     return {
-        "document": "GIAF THE WHALE STREET SPECTACLE 2026",
+        "document": doc.title,
         "gap_analysis": gaps,
     }
 
 
-@router.get("/galway/entities")
-async def galway_entities(
+@router.get("/{doc_id}/entities")
+async def document_entities(
+    doc_id: str,
     theme: Annotated[str | None, Query(description="Filter clusters by theme")] = None,
 ) -> dict:
     """Get entity resolution results: risk clusters and conflicts."""
-    _ensure_extraction()
+    doc = _ensure_extraction(doc_id)
 
-    entities = store.doc_entities
+    entities = doc.entities
     if entities is None:
         raise HTTPException(status_code=503, detail="Entity resolution not available")
 
@@ -176,20 +247,20 @@ async def galway_entities(
         ]
 
     return {
-        "document": "GIAF THE WHALE STREET SPECTACLE 2026",
+        "document": doc.title,
         "entity_resolution": result,
     }
 
 
-@router.get("/galway/summary")
-async def galway_summary() -> dict:
+@router.get("/{doc_id}/summary")
+async def document_summary(doc_id: str) -> dict:
     """Full document intelligence summary with all stats."""
-    _ensure_extraction()
+    doc = _ensure_extraction(doc_id)
 
-    pages = store.doc_pages or []
-    risks = store.doc_risks or []
-    gaps = store.doc_gaps or {}
-    entities = store.doc_entities or {}
+    pages = doc.pages or []
+    risks = doc.risks or []
+    gaps = doc.gaps or {}
+    entities = doc.entities or {}
 
     # Page statistics
     total_words = sum(p.get("word_count", 0) for p in pages)
@@ -206,12 +277,12 @@ async def galway_summary() -> dict:
 
     return {
         "document": {
-            "title": "GIAF THE WHALE STREET SPECTACLE 2026",
-            "filename": "GIAF THE WHALE STREET SPECTACLE 2026 copy.pdf",
+            "title": doc.title,
+            "filename": doc.filename,
             "total_pages": len(pages),
             "total_words": total_words,
             "pages_with_tables": pages_with_tables,
-            "processing_time_s": store.doc_processing_time,
+            "processing_time_s": doc.processing_time,
         },
         "risk_register": {
             "total_risks": len(risks),

@@ -73,6 +73,65 @@
   color: var(--color-text-tertiary);
 }
 
+/* Document Controls */
+.docControls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.docSelect {
+  padding: var(--space-xs) var(--space-sm);
+  background: var(--color-bg-tertiary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-primary);
+  font-size: var(--text-sm);
+  outline: none;
+  cursor: pointer;
+}
+
+.docSelect:focus {
+  border-color: var(--color-accent);
+}
+
+.uploadButton {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-sm);
+  background: var(--color-accent);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: var(--text-sm);
+  font-weight: var(--weight-medium);
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.uploadButton:hover {
+  opacity: 0.9;
+}
+
+.uploadButton input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.uploadingSpinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+
 /* Summary stat cards */
 .statsRow {
   display: grid;
