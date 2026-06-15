@@ -1,4 +1,5 @@
 import styles from "./Header.module.css";
+import { ThemeToggle } from "../ThemeToggle";
 
 interface HeaderProps {
   title: string;
@@ -13,6 +14,7 @@ export default function Header({ title, subtitle }: HeaderProps) {
         {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
       </div>
       <div className={styles.headerRight}>
+        <ThemeToggle />
         <div className={styles.liveIndicator}>
           <span className={styles.liveDot} />
           <span className={styles.liveText}>Historical Mode</span>
