@@ -238,6 +238,80 @@ def _osm_element_to_feature(
 
 
 # ═════════════════════════════════════════════════════════════════════════════
+# Fallback data — used when Overpass API is unavailable
+# ═════════════════════════════════════════════════════════════════════════════
+
+# Core emergency facilities with real coordinates for known venues.
+# Sourced from OpenStreetMap; kept as a static fallback for cold starts.
+_FALLBACK_FACILITIES: dict[str, list[dict]] = {
+    "galway": [
+        {"name": "University Hospital Galway", "type": "hospital", "lat": 53.2783, "lon": -9.0622},
+        {"name": "Mill Street Garda Station", "type": "police", "lat": 53.2728, "lon": -9.0507},
+        {"name": "Galway Fire Station", "type": "fire_station", "lat": 53.2757, "lon": -9.0571},
+        {"name": "Galway Clinic", "type": "hospital", "lat": 53.2870, "lon": -9.0083},
+        {"name": "Renmore Garda Station", "type": "police", "lat": 53.2700, "lon": -9.0210},
+        {"name": "Allcare Pharmacy Eyre Square", "type": "pharmacy", "lat": 53.2740, "lon": -9.0490},
+    ],
+    "ullevaal": [
+        {"name": "Ullevål Universitetssykehus", "type": "hospital", "lat": 59.9484, "lon": 10.7340},
+        {"name": "Stovner politistasjon", "type": "police", "lat": 59.9532, "lon": 10.7421},
+        {"name": "Sagene brannstasjon", "type": "fire_station", "lat": 59.9440, "lon": 10.7511},
+        {"name": "Diakonhjemmet Sykehus", "type": "hospital", "lat": 59.9360, "lon": 10.6960},
+        {"name": "Majorstuen politistasjon", "type": "police", "lat": 59.9302, "lon": 10.7153},
+    ],
+}
+
+
+def _facilities_fallback(venue_id: str, venue_lat: float, venue_lon: float) -> dict | None:
+    """Return hardcoded fallback facilities for a known venue."""
+    entries = _FALLBACK_FACILITIES.get(venue_id)
+    if not entries:
+        return None
+
+    features: list[dict] = []
+    for entry in entries:
+        config = FACILITY_TYPES.get(entry["type"]) or TRANSIT_TYPES.get(entry["type"])
+        if not config:
+            continue
+        distance_km = _haversine_km(venue_lat, venue_lon, entry["lat"], entry["lon"])
+        features.append({
+            "type": "Feature",
+            "properties": {
+                "osm_id": hash(entry["name"]) % 10**9,
+                "name": entry["name"],
+                "facility_type": entry["type"],
+                "icon": config["icon"],
+                "color": config["color"],
+                "label": config["label"],
+                "distance_km": round(distance_km, 2),
+                "walking_minutes": _walking_minutes(distance_km),
+                "address": "",
+                "phone": "",
+                "website": "",
+                "opening_hours": "",
+                "emergency": "",
+                "operator": "",
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [entry["lon"], entry["lat"]],
+            },
+        })
+
+    features.sort(key=lambda f: f["properties"]["distance_km"])
+    return {
+        "type": "FeatureCollection",
+        "features": features,
+        "metadata": {
+            "venue_id": venue_id,
+            "center": [venue_lon, venue_lat],
+            "total": len(features),
+            "source": "CrowdShield static fallback (Overpass unavailable)",
+        },
+    }
+
+
+# ═════════════════════════════════════════════════════════════════════════════
 # Endpoints
 # ═════════════════════════════════════════════════════════════════════════════
 
@@ -292,7 +366,15 @@ async def venue_facilities(
 out center;"""
 
     logger.info(f"🌍 Spatial: querying Overpass for facilities near {venue_id} (r={radius}m)")
-    raw = await _query_overpass(query)
+
+    try:
+        raw = await _query_overpass(query)
+    except HTTPException:
+        logger.warning(f"⚠️ Overpass API unavailable — returning fallback data for {venue_id}")
+        fallback = _facilities_fallback(venue_id, lat, lon)
+        if fallback:
+            return fallback
+        return {"type": "FeatureCollection", "features": [], "metadata": {}}
 
     # Convert to GeoJSON features
     features: list[dict] = []

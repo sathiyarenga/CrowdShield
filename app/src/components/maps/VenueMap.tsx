@@ -8,6 +8,7 @@ import InfrastructureLayer from "./layers/InfrastructureLayer";
 import IsochroneLayer from "./layers/IsochroneLayer";
 import RoadCapacityLayer from "./layers/RoadCapacityLayer";
 import CrowdFlowLayer from "./layers/CrowdFlowLayer";
+import RiskIntelPanel from "./layers/RiskIntelPanel";
 import styles from "./VenueMap.module.css";
 
 /* -- Risk-level color scheme (crowd count thresholds) ------------------ */
@@ -1167,6 +1168,12 @@ export default function VenueMap({
 
       {/* Container for the panels to stack naturally */}
       <div className={styles.layerPanelsContainer}>
+        {/* Risk Intelligence Panel (document-extracted risks) */}
+        <RiskIntelPanel
+          venueId={venueId}
+          visible={showRiskOverlay}
+        />
+
         {/* deck.gl Infrastructure Layer */}
         <InfrastructureLayer
           venueId={venueId}
