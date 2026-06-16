@@ -24,6 +24,7 @@ export interface EventConfig {
   icon: string;
   venueId: string | null;
   color: string;
+  dataMode: string;          // e.g. "Historical Replay", "Pre-Event Planning"
   features: EventFeatures;
 }
 
@@ -38,6 +39,7 @@ export const EVENT_REGISTRY: EventConfig[] = [
     icon: "🏟️",
     venueId: "ullevaal",
     color: "#3b82f6",
+    dataMode: "Historical Replay",
     features: {
       commandCenter: true,
       analytics: false,
@@ -58,6 +60,7 @@ export const EVENT_REGISTRY: EventConfig[] = [
     icon: "🎭",
     venueId: "galway",
     color: "#8b5cf6",
+    dataMode: "Pre-Event Planning",
     features: {
       commandCenter: true,
       analytics: false,
@@ -78,6 +81,7 @@ export const EVENT_REGISTRY: EventConfig[] = [
     icon: "📡",
     venueId: null,
     color: "#06b6d4",
+    dataMode: "Historical Data",
     features: {
       commandCenter: false,
       analytics: true,
@@ -103,7 +107,7 @@ export interface NavItem {
 export const ALL_NAV_ITEMS: NavItem[] = [
   { href: "/", label: "Command Center", icon: "◉", featureKey: "commandCenter" },
   { href: "/analytics", label: "Event Analytics", icon: "◈", featureKey: "analytics" },
-  { href: "/monitoring", label: "Live Monitoring", icon: "◎", featureKey: "liveMonitoring" },
+  { href: "/monitoring", label: "Venue Map", icon: "◎", featureKey: "liveMonitoring" },
   { href: "/documents", label: "Document Intelligence", icon: "◇", featureKey: "documents", badge: "AI" },
   { href: "/risk", label: "Risk Intelligence", icon: "🛡️", featureKey: "riskIntelligence" },
   { href: "/historical", label: "Historical Intelligence", icon: "★", featureKey: "historical" },

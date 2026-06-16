@@ -110,8 +110,7 @@ function UllevaalView() {
     <>
       {!backendOnline && (
         <div className={styles.connectionBanner}>
-          <span>⚠ Backend offline —</span>
-          <code>cd backend &amp;&amp; python3 -m uvicorn src.api.main:app --port 8000</code>
+          <span>⚠ Backend API not reachable — showing cached data only</span>
         </div>
       )}
 
@@ -275,7 +274,7 @@ function GalwayView() {
 
       {error && (
         <div className={styles.connectionBanner}>
-          ⚠ Backend offline — start with <code>cd backend && python3 -m uvicorn src.api.main:app --port 8000</code>
+          ⚠ Backend API not reachable — risk data requires the backend server
         </div>
       )}
 

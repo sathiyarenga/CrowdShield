@@ -25,8 +25,15 @@ export default function Header({ title, subtitle }: HeaderProps) {
       <div className={styles.headerRight}>
         <ThemeToggle />
         <div className={styles.liveIndicator}>
-          <span className={styles.liveDot} />
-          <span className={styles.liveText}>Historical Mode</span>
+          <span
+            className={styles.liveDot}
+            style={{
+              background: activeEvent.dataMode === "Pre-Event Planning"
+                ? "var(--color-elevated)"
+                : "var(--color-data-3)",
+            }}
+          />
+          <span className={styles.liveText}>{activeEvent.dataMode}</span>
         </div>
       </div>
     </header>

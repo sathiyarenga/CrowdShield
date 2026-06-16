@@ -192,7 +192,13 @@ export default function LiveMonitoring() {
         setAnomalyData(anomalySorted);
       } catch (err) {
         if (!cancelled) {
-          setError(err instanceof Error ? err.message : "Failed to load data");
+          const msg = err instanceof Error ? err.message : "Unknown error";
+          // Make network errors user-friendly
+          if (msg.includes("Failed to fetch") || msg.includes("NetworkError") || msg.includes("ECONNREFUSED")) {
+            setError("Backend API is not reachable — crowd data requires the backend server");
+          } else {
+            setError(msg);
+          }
         }
       } finally {
         if (!cancelled) setLoading(false);
@@ -296,23 +302,23 @@ export default function LiveMonitoring() {
     [summaryData]
   );
 
-  /* -- Header subtitle --------------------------------------------- */
+  /* -- Header ---------------------------------------------------------*/
+  const headerTitle = hasTelemetry ? "Venue Monitoring" : "Venue Planning";
   const headerSubtitle = hasTelemetry
-    ? `${activeEvent.name} — Real-time Venue Intelligence`
+    ? `${activeEvent.name} — Historical Crowd Replay`
     : `${activeEvent.name} — Pre-Event Planning Mode`;
 
   return (
     <div className="app-shell">
       <Sidebar />
       <Header
-        title="Live Monitoring"
+        title={headerTitle}
         subtitle={headerSubtitle}
       />
       <main className="app-main" style={{ padding: "var(--space-lg)", overflow: "hidden" }}>
-        {error && (
+        {error && hasTelemetry && (
           <div className={styles.connectionBanner}>
-            <span>⚠ {error} —</span>
-            <code>Ensure backend is running on port 8000</code>
+            <span>⚠ {error}</span>
           </div>
         )}
 
