@@ -120,7 +120,7 @@
 
   /* --- Layout --- */
   --sidebar-width: 260px;
-  --header-height: 56px;
+  --header-height: auto;
   --panel-gap: var(--space-lg);
 }
 
@@ -248,12 +248,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 var(--space-xl);
+  padding: var(--space-lg) var(--space-xl);
   background: var(--color-glass);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: var(--border-subtle);
   z-index: 10;
+  min-height: 64px;
 }
 
 .app-main {

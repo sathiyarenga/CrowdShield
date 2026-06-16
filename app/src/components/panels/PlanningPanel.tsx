@@ -1,6 +1,7 @@
 "use client";
 
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { API_BASE } from "@/lib/api/client";
 import type { CustomZone } from "../maps/VenueMap";
 import styles from "./PlanningPanel.module.css";
 
@@ -17,13 +18,6 @@ const ZONE_TYPE_ICONS: Record<string, string> = {
 };
 
 /* -- Risk category data ------------------------------------------------ */
-interface RiskSummary {
-  category: string;
-  count: number;
-  highRisk: number;
-  color: string;
-}
-
 const RISK_CATEGORY_COLORS: Record<string, string> = {
   crowd_crush: "#ef4444",
   medical: "#22c55e",
@@ -54,6 +48,31 @@ export default function PlanningPanel({
   onStartDrawing,
   expectedCrowd = 0,
 }: PlanningPanelProps) {
+  /* -- Fetch document risk count directly (fallback for GIS markers) --- */
+  const [docRiskCount, setDocRiskCount] = useState(0);
+  const [docLoaded, setDocLoaded] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    async function fetchDocRisks() {
+      try {
+        const res = await fetch(`${API_BASE}/api/documents/galway/risks`);
+        if (!res.ok) return;
+        const data = await res.json();
+        if (!cancelled && data?.risks) {
+          setDocRiskCount(data.risks.length);
+        }
+      } catch { /* backend may be down — not an error */ }
+      if (!cancelled) setDocLoaded(true);
+    }
+    fetchDocRisks();
+    return () => { cancelled = true; };
+  }, [venueId]);
+
+  /* The effective risk count: use GIS markers if available, else documents */
+  const effectiveRiskCount = riskMarkerCount > 0 ? riskMarkerCount : docRiskCount;
+  const hasRiskAssessment = effectiveRiskCount > 0;
+
   /* -- Capacity analysis ----------------------------------------------- */
   const totalCapacity = useMemo(
     () => customZones.reduce((sum, z) => sum + z.capacity, 0),
@@ -77,7 +96,7 @@ export default function PlanningPanel({
     { label: "Event zones defined", done: customZones.length >= 3 },
     { label: "Medical zone present", done: customZones.some(z => z.zone_type === "medical") },
     { label: "Gates identified", done: customZones.some(z => z.zone_type === "gate") },
-    { label: "Risk assessment uploaded", done: riskMarkerCount > 0 },
+    { label: "Risk assessment uploaded", done: hasRiskAssessment },
     { label: "Capacity limits set", done: totalCapacity > 0 },
     { label: "Crowd corridors mapped", done: customZones.some(z => z.zone_type === "crowd_corridor") },
   ];
@@ -180,7 +199,7 @@ export default function PlanningPanel({
       <div className={styles.card}>
         <div className={styles.cardHeader}>
           <span className={styles.cardLabel}>Risk Markers</span>
-          <span className={styles.cardValue}>{riskMarkerCount}</span>
+          <span className={styles.cardValue}>{effectiveRiskCount}</span>
         </div>
         {riskCategories.length > 0 ? (
           <div className={styles.riskBreakdown}>
@@ -202,9 +221,13 @@ export default function PlanningPanel({
               );
             })}
           </div>
+        ) : docRiskCount > 0 ? (
+          <div className={styles.emptyState} style={{ color: "var(--color-nominal, #22c55e)" }}>
+            ✓ {docRiskCount} risks extracted from uploaded documents
+          </div>
         ) : (
           <div className={styles.emptyState}>
-            No risk assessment uploaded yet
+            {docLoaded ? "No risk assessment uploaded yet" : "Checking documents…"}
           </div>
         )}
       </div>
