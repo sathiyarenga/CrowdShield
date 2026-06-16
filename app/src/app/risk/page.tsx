@@ -3,11 +3,13 @@
 import { useEffect, useState } from "react";
 import Sidebar from "@/components/layout/Sidebar";
 import Header from "@/components/layout/Header";
+import { useEvent } from "@/context/EventContext";
 import CompositeRiskGauge from "@/components/risk/CompositeRiskGauge";
 import RiskTimeline from "@/components/risk/RiskTimeline";
 import RiskBreakdown from "@/components/risk/RiskBreakdown";
 import {
   api,
+  API_BASE,
   type CompositeRiskResponse,
   type RiskComponent,
   type RiskTimelinePoint,
@@ -99,6 +101,7 @@ function getLevelBg(level: string): string {
 }
 
 export default function RiskPage() {
+  const { activeEvent } = useEvent();
   const [data, setData] = useState<CompositeRiskResponse | null>(null);
   const [isDemo, setIsDemo] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -108,10 +111,10 @@ export default function RiskPage() {
       try {
         // Fetch composite + timeline in parallel
         const [compRaw, tlRaw] = await Promise.all([
-          fetch("http://localhost:8000/api/risk/composite?date=2025-09-09").then(
+          fetch(`${API_BASE}/api/risk/composite?date=2025-09-09`).then(
             (r) => (r.ok ? r.json() : null)
           ),
-          fetch("http://localhost:8000/api/risk/timeline?date=2025-09-09").then(
+          fetch(`${API_BASE}/api/risk/timeline?date=2025-09-09`).then(
             (r) => (r.ok ? r.json() : null)
           ),
         ]);
@@ -165,7 +168,7 @@ export default function RiskPage() {
         let catCounts: Record<string, number> = {};
         try {
           const summaryRes = await fetch(
-            "http://localhost:8000/api/documents/galway/summary"
+            `${API_BASE}/api/documents/galway/summary`
           ).then((r) => (r.ok ? r.json() : null));
           catCounts = summaryRes?.risk_register?.by_category || {};
         } catch { /* ignore */ }
@@ -254,15 +257,7 @@ export default function RiskPage() {
       <Sidebar />
       <Header
         title="Risk Intelligence"
-        subtitle={`Composite Risk Assessment — ${
-          riskData.date
-            ? new Date(riskData.date).toLocaleDateString("en-US", {
-                month: "long",
-                day: "numeric",
-                year: "numeric",
-              })
-            : "Event Day"
-        }`}
+        subtitle={`Composite Risk Assessment — ${activeEvent.name}`}
       />
       <main className="app-main">
         {isDemo && (

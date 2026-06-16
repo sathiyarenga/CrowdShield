@@ -3,6 +3,7 @@
 import { useEffect, useState, useMemo, useCallback } from "react";
 import Sidebar from "@/components/layout/Sidebar";
 import Header from "@/components/layout/Header";
+import { useEvent } from "@/context/EventContext";
 import AreaHeatmap from "@/components/charts/AreaHeatmap";
 import AreaRanking from "@/components/charts/AreaRanking";
 import {
@@ -13,6 +14,7 @@ import {
 import styles from "./page.module.css";
 
 export default function AnalyticsPage() {
+  const { activeEvent } = useEvent();
   const [areas, setAreas] = useState<FredrikstadArea[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -105,7 +107,7 @@ export default function AnalyticsPage() {
       <Sidebar />
       <Header
         title="Event Analytics"
-        subtitle="Fredrikstad Area Activity Intelligence — Telia Crowd Insights"
+        subtitle={`Area Activity Intelligence — ${activeEvent.name}`}
       />
       <main className="app-main">
         {/* Error banner */}

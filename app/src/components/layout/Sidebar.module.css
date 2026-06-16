@@ -5,51 +5,155 @@
   flex-shrink: 0;
 }
 
-.sidebarFooter {
-  margin-top: auto;
-  padding-top: var(--space-xl);
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-sm);
+/* ── Event Selector ─────────────────────────────────────────────────────── */
+.eventSelector {
+  position: relative;
+  margin: var(--space-md) var(--space-md) var(--space-sm);
 }
 
-.eventBadge {
+.eventSelectorButton {
   display: flex;
   align-items: center;
-  gap: var(--space-md);
-  padding: var(--space-md) var(--space-lg);
-  border-radius: var(--radius-md);
+  gap: var(--space-sm);
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
   background: var(--color-bg-tertiary);
-  border: var(--border-subtle);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  text-align: left;
 }
 
-.eventBadgeDot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: var(--color-nominal);
-  box-shadow: 0 0 6px rgba(34, 197, 94, 0.4);
+.eventSelectorButton:hover {
+  border-color: var(--color-accent);
+  background: var(--color-bg-hover);
+}
+
+.eventSelectorIcon {
+  font-size: 1.25rem;
   flex-shrink: 0;
 }
 
-.eventBadgeDotPilot {
-  background: var(--color-elevated);
-  box-shadow: 0 0 6px rgba(234, 179, 8, 0.4);
-  animation: pulse 2s ease-in-out infinite;
+.eventSelectorInfo {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
 }
 
-@keyframes pulse {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
+.eventSelectorName {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.eventName {
+.eventSelectorLocation {
+  font-size: 0.65rem;
+  color: var(--color-text-tertiary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.eventSelectorChevron {
+  flex-shrink: 0;
+  color: var(--color-text-tertiary);
+  transition: transform 0.2s;
+}
+
+.eventSelectorChevronOpen {
+  transform: rotate(180deg);
+}
+
+/* ── Event Dropdown ─────────────────────────────────────────────────────── */
+.eventDropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  padding: var(--space-xs) 0;
+  animation: dropdownFadeIn 0.15s ease-out;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.eventDropdownLabel {
+  font-size: 0.6rem;
+  font-weight: var(--weight-bold);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: var(--space-xs) var(--space-md) var(--space-xs);
+}
+
+.eventDropdownItem {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s;
+}
+
+.eventDropdownItem:hover {
+  background: var(--color-bg-hover);
+}
+
+.eventDropdownItemActive {
+  background: var(--color-bg-tertiary);
+}
+
+.eventDropdownIcon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.eventDropdownInfo {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.eventDropdownName {
   font-size: var(--text-sm);
   font-weight: var(--weight-medium);
   color: var(--color-text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.eventDetail {
-  font-size: var(--text-xs);
+.eventDropdownMeta {
+  font-size: 0.6rem;
   color: var(--color-text-tertiary);
+}
+
+.eventDropdownCheck {
+  font-size: var(--text-sm);
+  color: var(--color-accent);
+  font-weight: var(--weight-bold);
+  flex-shrink: 0;
 }

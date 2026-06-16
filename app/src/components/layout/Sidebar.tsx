@@ -1,44 +1,33 @@
 "use client";
 
-import { Shield } from "lucide-react";
+import { Shield, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useState, useRef, useEffect } from "react";
+import { useEvent } from "@/context/EventContext";
 import styles from "./Sidebar.module.css";
-
-interface NavItem {
-  href: string;
-  label: string;
-  icon: string;
-  badge?: string;
-}
-
-const mainNav: NavItem[] = [
-  { href: "/", label: "Command Center", icon: "◉" },
-  { href: "/analytics", label: "Event Analytics", icon: "◈" },
-  { href: "/monitoring", label: "Live Monitoring", icon: "◎" },
-  { href: "/documents", label: "Document Intelligence", icon: "◇", badge: "AI" },
-  { href: "/risk", label: "Risk Intelligence", icon: "🛡️" },
-];
-
-const insightsNav: NavItem[] = [
-  {
-    href: "/galway",
-    label: "Galway Pilot",
-    icon: "☘",
-    badge: "NEW",
-  },
-  {
-    href: "/historical",
-    label: "Historical Intelligence",
-    icon: "★",
-    badge: "USP",
-  },
-  { href: "/benchmarks", label: "Benchmarks", icon: "◆" },
-  { href: "/stakeholders", label: "Stakeholder Matrix", icon: "◫" },
-];
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const { activeEvent, setActiveEvent, events, navItems } = useEvent();
+  const [selectorOpen, setSelectorOpen] = useState(false);
+  const selectorRef = useRef<HTMLDivElement>(null);
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    function handleClick(e: MouseEvent) {
+      if (selectorRef.current && !selectorRef.current.contains(e.target as Node)) {
+        setSelectorOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClick);
+    return () => document.removeEventListener("mousedown", handleClick);
+  }, []);
+
+  const handleEventChange = (eventId: string) => {
+    setActiveEvent(eventId);
+    setSelectorOpen(false);
+  };
 
   return (
     <aside className="app-sidebar">
@@ -50,48 +39,62 @@ export default function Sidebar() {
         </div>
       </div>
 
-      <div className="section-label">Operations</div>
-      {mainNav.map((item) => (
-        <Link
-          key={item.href}
-          href={item.href}
-          className={`nav-item ${pathname === item.href ? "nav-item--active" : ""}`}
+      {/* Event Selector */}
+      <div className={styles.eventSelector} ref={selectorRef}>
+        <button
+          className={styles.eventSelectorButton}
+          onClick={() => setSelectorOpen(!selectorOpen)}
+          aria-expanded={selectorOpen}
         >
-          <span className={styles.navIcon}>{item.icon}</span>
-          <span>{item.label}</span>
-          {item.badge && <span className="usp-badge">{item.badge}</span>}
-        </Link>
-      ))}
-
-      <div className="section-label">Intelligence</div>
-      {insightsNav.map((item) => (
-        <Link
-          key={item.href}
-          href={item.href}
-          className={`nav-item ${pathname === item.href ? "nav-item--active" : ""}`}
-        >
-          <span className={styles.navIcon}>{item.icon}</span>
-          <span>{item.label}</span>
-          {item.badge && <span className="usp-badge">{item.badge}</span>}
-        </Link>
-      ))}
-
-      <div className={styles.sidebarFooter}>
-        <div className={styles.eventBadge}>
-          <div className={styles.eventBadgeDot} />
-          <div>
-            <div className={styles.eventName}>Ullevaal Stadion</div>
-            <div className={styles.eventDetail}>5 match days · Sep–Oct 2025</div>
+          <span className={styles.eventSelectorIcon}>{activeEvent.icon}</span>
+          <div className={styles.eventSelectorInfo}>
+            <span className={styles.eventSelectorName}>{activeEvent.shortName}</span>
+            <span className={styles.eventSelectorLocation}>{activeEvent.location}</span>
           </div>
-        </div>
-        <div className={styles.eventBadge}>
-          <div className={`${styles.eventBadgeDot} ${styles.eventBadgeDotPilot}`} />
-          <div>
-            <div className={styles.eventName}>The Whale Street</div>
-            <div className={styles.eventDetail}>GIAF Galway · Jul 17-18, 2026</div>
+          <ChevronDown
+            size={14}
+            className={`${styles.eventSelectorChevron} ${selectorOpen ? styles.eventSelectorChevronOpen : ""}`}
+          />
+        </button>
+
+        {selectorOpen && (
+          <div className={styles.eventDropdown}>
+            <div className={styles.eventDropdownLabel}>Switch Event</div>
+            {events.map((event) => (
+              <button
+                key={event.id}
+                className={`${styles.eventDropdownItem} ${event.id === activeEvent.id ? styles.eventDropdownItemActive : ""}`}
+                onClick={() => handleEventChange(event.id)}
+              >
+                <span className={styles.eventDropdownIcon}>{event.icon}</span>
+                <div className={styles.eventDropdownInfo}>
+                  <span className={styles.eventDropdownName}>{event.name}</span>
+                  <span className={styles.eventDropdownMeta}>
+                    {event.location} · {event.dates}
+                  </span>
+                </div>
+                {event.id === activeEvent.id && (
+                  <span className={styles.eventDropdownCheck}>✓</span>
+                )}
+              </button>
+            ))}
           </div>
-        </div>
+        )}
       </div>
+
+      {/* Dynamic Navigation */}
+      <div className="section-label">Navigation</div>
+      {navItems.map((item) => (
+        <Link
+          key={item.href}
+          href={item.href}
+          className={`nav-item ${pathname === item.href ? "nav-item--active" : ""}`}
+        >
+          <span className={styles.navIcon}>{item.icon}</span>
+          <span>{item.label}</span>
+          {item.badge && <span className="usp-badge">{item.badge}</span>}
+        </Link>
+      ))}
     </aside>
   );
 }

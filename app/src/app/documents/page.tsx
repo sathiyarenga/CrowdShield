@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Sidebar from "@/components/layout/Sidebar";
 import Header from "@/components/layout/Header";
+import { useEvent } from "@/context/EventContext";
 import RiskRegister from "@/components/documents/RiskRegister";
 import HazardCoverage from "@/components/documents/HazardCoverage";
 import RiskMatrix from "@/components/documents/RiskMatrix";
@@ -107,6 +108,7 @@ function gapBadgeClass(status: string): string {
 // -- Page Component ------------------------------------------------------
 
 export default function DocumentIntelligence() {
+  const { activeEvent } = useEvent();
   const [documents, setDocuments] = useState<{ id: string; title: string; filename: string }[]>([]);
   const [selectedDocId, setSelectedDocId] = useState<string>("galway");
   const [uploading, setUploading] = useState(false);
@@ -250,7 +252,7 @@ export default function DocumentIntelligence() {
         <Sidebar />
         <Header
           title="Document Intelligence"
-          subtitle="AI-Powered Risk Document Analysis"
+          subtitle={`AI-Powered Risk Document Analysis — ${activeEvent.name}`}
         />
         <main className="app-main">
           <div className={styles.loadingContainer}>
@@ -270,7 +272,7 @@ export default function DocumentIntelligence() {
         <Sidebar />
         <Header
           title="Document Intelligence"
-          subtitle="AI-Powered Risk Document Analysis"
+          subtitle={`AI-Powered Risk Document Analysis — ${activeEvent.name}`}
         />
         <main className="app-main">
           <div className={styles.fallback}>
@@ -326,7 +328,7 @@ export default function DocumentIntelligence() {
       <Sidebar />
       <Header
         title="Document Intelligence"
-        subtitle="AI-Powered Risk Document Analysis"
+        subtitle={`AI-Powered Risk Document Analysis — ${activeEvent.name}`}
       />
       <main className="app-main">
         {/* Offline banner */}

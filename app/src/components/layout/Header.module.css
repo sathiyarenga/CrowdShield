@@ -10,6 +10,21 @@
   margin-top: 2px;
 }
 
+.eventBreadcrumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 4px;
+  font-size: 0.65rem;
+  color: var(--color-accent);
+  font-weight: var(--weight-medium);
+  opacity: 0.85;
+}
+
+.eventBreadcrumbIcon {
+  font-size: 0.75rem;
+}
+
 .headerRight {
   display: flex;
   align-items: center;

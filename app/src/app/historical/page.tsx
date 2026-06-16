@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Sidebar from "@/components/layout/Sidebar";
 import Header from "@/components/layout/Header";
+import { useEvent } from "@/context/EventContext";
 import EventComparisonTable from "@/components/analytics/EventComparisonTable";
 import HistoricalEventFingerprints from "@/components/analytics/EventFingerprints";
 import IngresEgressChart from "@/components/analytics/IngresEgressChart";
@@ -14,6 +15,7 @@ import {
 import styles from "./page.module.css";
 
 export default function HistoricalPage() {
+  const { activeEvent } = useEvent();
   const [eventsData, setEventsData] = useState<EventsResponse | null>(null);
   const [summaryData, setSummaryData] = useState<UllevaalSummaryResponse | null>(null);
   const [loading, setLoading] = useState(true);
@@ -104,7 +106,7 @@ export default function HistoricalPage() {
       <Sidebar />
       <Header
         title="Historical Intelligence"
-        subtitle="Cross-Event Analysis — Ullevaal Stadion Event Fingerprinting"
+        subtitle={`Cross-Event Analysis — ${activeEvent.name}`}
       />
       <main className="app-main">
         {/* Connection banner */}

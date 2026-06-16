@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Sidebar from "@/components/layout/Sidebar";
 import Header from "@/components/layout/Header";
+import { useEvent } from "@/context/EventContext";
 import {
   api,
   type Stakeholder,
@@ -80,6 +81,7 @@ function isSingleSource(
 // -- Component --------------------------------------------------------------
 
 export default function StakeholderIntelligence() {
+  const { activeEvent } = useEvent();
   const [matrixData, setMatrixData] =
     useState<StakeholderMatrixResponse | null>(null);
   const [actionsData, setActionsData] = useState<ActionsResponse | null>(null);
@@ -118,7 +120,7 @@ export default function StakeholderIntelligence() {
       <Sidebar />
       <Header
         title="Multi-Stakeholder Intelligence"
-        subtitle="Galway International Arts Festival 2026"
+        subtitle={activeEvent.name}
       />
       <main className="app-main">
         {loading ? (

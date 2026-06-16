@@ -19,6 +19,7 @@ import {
   ResponsiveContainer,
   YAxis,
 } from "recharts";
+import { useEvent } from "@/context/EventContext";
 import styles from "./page.module.css";
 
 /* -- Constants ---------------------------------------------------------- */
@@ -33,11 +34,7 @@ const AVAILABLE_DATES = [
 const DEFAULT_DATE = "2025-09-09";
 const PLAYBACK_INTERVAL_MS = 300;
 
-/* -- Venue options ------------------------------------------------------ */
-const VENUE_OPTIONS = [
-  { id: "ullevaal", label: "Ullevaal Stadion", city: "Oslo", hasTelemetry: true },
-  { id: "galway", label: "Galway Event Zone", city: "Galway", hasTelemetry: false },
-];
+/* Venue options removed — now driven by EventContext sidebar selector */
 
 /* -- Risk logic --------------------------------------------------------- */
 type RiskLevel = "nominal" | "elevated" | "high" | "critical";
@@ -72,8 +69,9 @@ function getSeverityColor(severity?: string): string {
 
 /* -- Page Component ----------------------------------------------------- */
 export default function LiveMonitoring() {
-  /* State — venue */
-  const [venueId, setVenueId] = useState("ullevaal");
+  /* State — venue (driven by EventContext) */
+  const { activeEvent } = useEvent();
+  const venueId = activeEvent.venueId ?? "ullevaal";
   const [showHeatmap, setShowHeatmap] = useState(false);
   const [show3D, setShow3D] = useState(false);
   const [showRiskOverlay, setShowRiskOverlay] = useState(false);
@@ -115,24 +113,18 @@ export default function LiveMonitoring() {
     dataLengthRef.current = summaryData.length;
   }, [summaryData.length]);
 
-  /* -- Derived: current venue config ----------------------------------- */
-  const currentVenue = VENUE_OPTIONS.find(v => v.id === venueId) ?? VENUE_OPTIONS[0];
-  const hasTelemetry = currentVenue.hasTelemetry;
+  /* -- Derived: telemetry availability --------------------------------- */
+  const hasTelemetry = activeEvent.id === "ullevaal";
 
-  /* -- Handle venue change --------------------------------------------- */
-  const handleVenueChange = useCallback((newVenueId: string) => {
-    setVenueId(newVenueId);
-    const venue = VENUE_OPTIONS.find(v => v.id === newVenueId);
-
-    if (!venue?.hasTelemetry) {
-      // Non-telemetry venue: disable playback, enable risk overlay
+  /* -- Handle venue change (now driven by EventContext) ----------------- */
+  useEffect(() => {
+    if (!hasTelemetry) {
       setIsPlaying(false);
       setShowRiskOverlay(true);
     } else {
-      // Telemetry venue: normal mode
       setShowRiskOverlay(false);
     }
-  }, []);
+  }, [hasTelemetry]);
 
   /* -- Fetch risk marker stats for planning mode ----------------------- */
   useEffect(() => {
@@ -306,8 +298,8 @@ export default function LiveMonitoring() {
 
   /* -- Header subtitle --------------------------------------------- */
   const headerSubtitle = hasTelemetry
-    ? `${currentVenue.label} — Real-time Venue Intelligence`
-    : `${currentVenue.label} — Pre-Event Planning Mode`;
+    ? `${activeEvent.name} — Real-time Venue Intelligence`
+    : `${activeEvent.name} — Pre-Event Planning Mode`;
 
   return (
     <div className="app-shell">
@@ -330,7 +322,7 @@ export default function LiveMonitoring() {
             <span className={styles.planningIcon}>📋</span>
             <div className={styles.planningText}>
               <strong>Pre-Event Planning Mode</strong>
-              <span>No live telemetry available for {currentVenue.label}. Showing risk overlay and zone data only.</span>
+              <span>No live telemetry available for {activeEvent.name}. Showing risk overlay and zone data only.</span>
             </div>
           </div>
         )}
@@ -342,17 +334,7 @@ export default function LiveMonitoring() {
             <div className={styles.mapPanel}>
               {/* Layer Controls — floating panel */}
               <div className={styles.layerControls}>
-                <select
-                  className={styles.venueSelect}
-                  value={venueId}
-                  onChange={(e) => handleVenueChange(e.target.value)}
-                >
-                  {VENUE_OPTIONS.map((v) => (
-                    <option key={v.id} value={v.id}>
-                      {v.label} — {v.city}
-                    </option>
-                  ))}
-                </select>
+                {/* Venue is now selected via the sidebar event selector */}
 
                 <div className={styles.layerToggles}>
                   <button
@@ -442,7 +424,7 @@ export default function LiveMonitoring() {
                 /* -- Pre-Event Planning Mode ------------ */
                 <PlanningPanel
                   venueId={venueId}
-                  venueName={currentVenue.label}
+                  venueName={activeEvent.name}
                   customZones={customZones}
                   riskMarkerCount={riskMarkerStats.total}
                   riskCategories={riskMarkerStats.categories}

@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useMemo, useCallback } from "react";
 import Sidebar from "@/components/layout/Sidebar";
 import Header from "@/components/layout/Header";
+import { useEvent } from "@/context/EventContext";
 import styles from "./page.module.css";
 
 // -- Types ------------------------------------------------------------------
@@ -216,6 +217,7 @@ const TABLE_COLUMNS: TableColumn[] = [
 // -- Page Component ---------------------------------------------------------
 
 export default function BenchmarksPage() {
+  const { activeEvent } = useEvent();
   const [data, setData] = useState<BenchmarkData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -306,7 +308,7 @@ export default function BenchmarksPage() {
     return (
       <div className="app-shell">
         <Sidebar />
-        <Header title="Benchmarks" subtitle="Cross-Event Benchmarking & Predictive Ranges" />
+        <Header title="Benchmarks" subtitle={`Cross-Event Benchmarking & Predictive Ranges — ${activeEvent.name}`} />
         <main className="app-main">
           <div className={styles.loadingContainer}>
             <div className={styles.spinner} />
@@ -335,7 +337,7 @@ export default function BenchmarksPage() {
   return (
     <div className="app-shell">
       <Sidebar />
-      <Header title="Benchmarks" subtitle="Cross-Event Benchmarking & Predictive Ranges — Ullevaal Stadion" />
+      <Header title="Benchmarks" subtitle={`Cross-Event Benchmarking & Predictive Ranges — ${activeEvent.name}`} />
       <main className="app-main">
         {/* Banner */}
         {error && (
