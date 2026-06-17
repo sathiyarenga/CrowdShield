@@ -112,9 +112,8 @@ export default function AnalyticsPage() {
       <main className="app-main">
         {/* Error banner */}
         {error && (
-          <div className={styles.connectionBanner}>
-            <span>⚠ {error} —</span>
-            <code>Ensure backend is running on localhost:8000</code>
+          <div className="sample-data-banner">
+            <span>⚠️ {error} — analytics data requires the backend API to be connected.</span>
           </div>
         )}
 

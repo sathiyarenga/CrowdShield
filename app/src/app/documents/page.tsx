@@ -333,9 +333,8 @@ export default function DocumentIntelligence() {
       <main className="app-main">
         {/* Offline banner */}
         {!backendOnline && (
-          <div className={styles.connectionBanner}>
-            <span>⚠ Backend offline — showing demo data.</span>
-            <code>cd backend && python3 -m uvicorn src.api.main:app --port 8000</code>
+          <div className="sample-data-banner">
+            <span>ℹ️ Showing sample data — document parsing API not connected. Risk extractions below are illustrative.</span>
           </div>
         )}
 

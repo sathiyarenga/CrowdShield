@@ -261,12 +261,8 @@ export default function RiskPage() {
       />
       <main className="app-main">
         {isDemo && (
-          <div className={styles.demoBanner}>
-            <span>ℹ Showing demo data — backend offline</span>
-            <code>
-              cd backend &amp;&amp; python3 -m uvicorn src.api.main:app --port
-              8000
-            </code>
+          <div className="sample-data-banner">
+            <span>ℹ️ Showing sample data — risk intelligence API not connected. Scores and breakdowns below are illustrative.</span>
           </div>
         )}
 

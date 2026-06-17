@@ -265,9 +265,9 @@ function GalwayView() {
         </div>
         <div className="panel">
           <div className="stat-card">
-            <span className="stat-card__label">CrowdShield Benchmark</span>
+            <span className="stat-card__label">Crowd Estimate <span className="sample-data-badge">Sample</span></span>
             <span className="stat-card__value" style={{ color: "var(--color-data-2)" }}>~3,500</span>
-            <span className="stat-card__delta">predicted baseline from comparable events</span>
+            <span className="stat-card__delta">illustrative baseline — not computed from data</span>
           </div>
         </div>
       </div>
@@ -395,29 +395,29 @@ function GalwayView() {
           <div className="panel">
             <div className="panel__header">
               <h2 className="panel__title">Comparable Event Benchmarks</h2>
-              <span className="usp-badge">★ Data Flywheel</span>
+              <span className="sample-data-badge">Sample Data</span>
             </div>
             <div className={styles.benchmarkList}>
               <div className={styles.benchmarkItem}>
                 <span className={styles.benchmarkLabel}>Expected Peak Crowd</span>
                 <span className={styles.benchmarkValue}>2,000 – 5,000</span>
-                <span className={styles.benchmarkNote}>street parade corridor, narrow streets</span>
+                <span className={styles.benchmarkNote}>illustrative estimate — not derived from real data</span>
               </div>
               <div className={styles.benchmarkItem}>
                 <span className={styles.benchmarkLabel}>Ingress Duration</span>
                 <span className={styles.benchmarkValue}>30 – 45 min</span>
-                <span className={styles.benchmarkNote}>based on comparable event baseline patterns</span>
+                <span className={styles.benchmarkNote}>illustrative range — not computed from data</span>
               </div>
               <div className={styles.benchmarkItem}>
                 <span className={styles.benchmarkLabel}>Egress Clearance</span>
                 <span className={styles.benchmarkValue}>15 – 25 min</span>
-                <span className={styles.benchmarkNote}>parade disperses organically along route</span>
+                <span className={styles.benchmarkNote}>illustrative range — not computed from data</span>
               </div>
               <div className={styles.benchmarkItem}>
                 <span className={styles.benchmarkLabel}>Critical Density Risk</span>
                 <span className={styles.benchmarkValue} style={{ color: "var(--color-elevated)" }}>Moderate</span>
                 <span className={styles.benchmarkNote}>
-                  narrow Galway streets (&lt;8m wide) vs open stadium concourse
+                  illustrative assessment — not computed from data
                 </span>
               </div>
             </div>

@@ -380,6 +380,34 @@ body {
   border: 1px solid rgba(245, 158, 11, 0.2);
 }
 
+.sample-data-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-full);
+  background: rgba(148, 163, 184, 0.12);
+  color: #94a3b8;
+  font-size: 0.6rem;
+  font-weight: var(--weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border: 1px solid rgba(148, 163, 184, 0.15);
+}
+
+.sample-data-banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-md);
+  background: rgba(148, 163, 184, 0.08);
+  border: 1px solid rgba(148, 163, 184, 0.12);
+  color: #94a3b8;
+  font-size: var(--text-xs);
+  margin-bottom: var(--space-lg);
+}
+
 /* Navigation items */
 .nav-item {
   display: flex;

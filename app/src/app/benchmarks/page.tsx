@@ -4,6 +4,7 @@ import React, { useEffect, useState, useMemo, useCallback } from "react";
 import Sidebar from "@/components/layout/Sidebar";
 import Header from "@/components/layout/Header";
 import { useEvent } from "@/context/EventContext";
+import { API_BASE } from "@/lib/api/client";
 import styles from "./page.module.css";
 
 // -- Types ------------------------------------------------------------------
@@ -230,7 +231,7 @@ export default function BenchmarksPage() {
   useEffect(() => {
     async function loadData() {
       try {
-        const res = await fetch("http://localhost:8000/api/risk/benchmark");
+        const res = await fetch(`${API_BASE}/api/risk/benchmark`);
         if (!res.ok) throw new Error(`API ${res.status}`);
         const json: BenchmarkData = await res.json();
         setData(json);
@@ -239,7 +240,7 @@ export default function BenchmarksPage() {
         // Fallback to demo data
         setData(DEMO_DATA);
         setUsingDemo(true);
-        setError("Backend offline — showing demo data");
+        setError("Showing sample data — benchmark API not available");
         setLoading(false);
       }
     }
@@ -340,10 +341,9 @@ export default function BenchmarksPage() {
       <Header title="Benchmarks" subtitle={`Cross-Event Benchmarking & Predictive Ranges — ${activeEvent.name}`} />
       <main className="app-main">
         {/* Banner */}
-        {error && (
-          <div className={styles.connectionBanner}>
-            <span>⚠ {error} —</span>
-            {usingDemo && <code>Demo mode active</code>}
+        {usingDemo && (
+          <div className="sample-data-banner">
+            <span>ℹ️ Showing sample data from Ullevål Stadion — benchmark API not connected. Values below are illustrative.</span>
           </div>
         )}
 
