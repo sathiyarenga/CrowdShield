@@ -59,6 +59,7 @@ def _ensure_extraction(doc_id: str) -> ParsedDocument:
     from src.ai.risk_extractor import extract_risks, risks_to_dicts
     from src.ai.gap_analyzer import analyze_gaps
     from src.ai.entity_resolver import resolve_entities
+    from src.ai.stakeholder_identifier import identify_stakeholder
 
     # 1) PDF extraction
     pages = extract_pages(doc.file_path)
@@ -75,6 +76,13 @@ def _ensure_extraction(doc_id: str) -> ParsedDocument:
     # 4) Entity resolution
     entity_result = resolve_entities(risks)
     doc.entities = entity_result.to_dict()
+
+    # 5) Auto-identify stakeholder from document content
+    if doc.stakeholder_id is None:
+        stakeholder_id, confidence = identify_stakeholder(doc.pages)
+        if stakeholder_id:
+            doc.stakeholder_id = stakeholder_id
+            logger.info("🏷️  Auto-identified stakeholder: %s (confidence: %.0f%%)", stakeholder_id, confidence * 100)
 
     elapsed = time.time() - t0
     doc.processing_time = round(elapsed, 2)
@@ -102,6 +110,7 @@ async def list_documents() -> dict:
             "filename": doc.filename,
             "total_risks": len(doc.risks) if doc.risks else 0,
             "processing_time_s": doc.processing_time,
+            "stakeholder_id": doc.stakeholder_id,
         })
     return {"documents": docs}
 

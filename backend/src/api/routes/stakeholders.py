@@ -11,63 +11,20 @@ GET /api/stakeholders/coverage-summary → Top-level coverage stats for dashboar
 from __future__ import annotations
 
 import logging
-from collections import Counter
 from typing import Any
 
 from fastapi import APIRouter
 
 from src.etl.data_store import store
+from src.ai.stakeholder_identifier import (
+    all_stakeholder_profiles,
+    STAKEHOLDER_PROFILES,
+)
 
 logger = logging.getLogger(__name__)
 
 router = APIRouter(prefix="/api/stakeholders", tags=["stakeholders"])
 
-# ═════════════════════════════════════════════════════════════════════════════
-# Stakeholder Registry — backend source of truth for the Galway pilot
-# ═════════════════════════════════════════════════════════════════════════════
-
-GALWAY_STAKEHOLDERS: list[dict[str, str]] = [
-    {
-        "id": "giaf",
-        "name": "GIAF",
-        "role": "Event Organiser",
-        "icon": "🎭",
-        "expected_document": "Event Management Plan",
-        "document_status": "submitted",
-    },
-    {
-        "id": "galway_council",
-        "name": "Galway City Council",
-        "role": "Municipality",
-        "icon": "🏛️",
-        "expected_document": "City Risk Register",
-        "document_status": "pending",
-    },
-    {
-        "id": "gardai",
-        "name": "An Garda Síochána",
-        "role": "Police",
-        "icon": "👮",
-        "expected_document": "Tactical Plan",
-        "document_status": "pending",
-    },
-    {
-        "id": "nas",
-        "name": "National Ambulance Service",
-        "role": "EMS",
-        "icon": "🚑",
-        "expected_document": "Medical Response Plan",
-        "document_status": "pending",
-    },
-    {
-        "id": "fire_service",
-        "name": "Galway Fire & Rescue",
-        "role": "Fire Service",
-        "icon": "🚒",
-        "expected_document": "Fire Safety Plan",
-        "document_status": "pending",
-    },
-]
 
 # Canonical hazard categories — matches the risk extractor's taxonomy.
 HAZARD_CATEGORIES: list[str] = [
@@ -95,75 +52,65 @@ CATEGORY_LABELS: dict[str, str] = {
 
 
 # ═════════════════════════════════════════════════════════════════════════════
-# Internal helpers — lazy extraction + data aggregation
+# Internal helpers — read from unified store.documents
 # ═════════════════════════════════════════════════════════════════════════════
 
 
-import json
-from pathlib import Path
+def _ensure_galway_loaded() -> None:
+    """Auto-seed the pre-bundled Galway PDF if not already loaded.
 
-CACHE_FILE = Path(__file__).resolve().parents[3] / "data" / "doc_cache.json"
-
-def _ensure_extraction() -> None:
-    """Run the full extraction pipeline if not already cached."""
-    if store.doc_risks is not None:
+    This acts as seed data — equivalent to a user uploading the document.
+    On a production PaaS, this would not exist; users upload all documents.
+    """
+    if "galway" in store.documents:
         return
 
-    if CACHE_FILE.exists():
-        logger.info("📄 Loading document extraction from cache…")
-        with open(CACHE_FILE) as f:
-            data = json.load(f)
-            store.doc_pages = data.get("doc_pages")
-            store.doc_risks = data.get("doc_risks")
-            store.doc_gaps = data.get("doc_gaps")
-            store.doc_entities = data.get("doc_entities")
-            store.doc_processing_time = data.get("doc_processing_time", 0.0)
-        return
+    from src.api.routes.documents import _ensure_extraction
+    _ensure_extraction("galway")
 
-    logger.info("📄 Running document extraction pipeline for stakeholder matrix…")
-    import time
 
-    t0 = time.time()
+def _stakeholder_profiles_with_status() -> list[dict[str, Any]]:
+    """Return stakeholder profiles with live document_status derived from store.documents."""
+    profiles = all_stakeholder_profiles()
 
-    from src.ai.pdf_extractor import extract_pages, pages_to_dict
-    from src.ai.risk_extractor import extract_risks, risks_to_dicts
-    from src.ai.gap_analyzer import analyze_gaps
-    from src.ai.entity_resolver import resolve_entities
+    # Map: stakeholder_id → list of doc_ids
+    docs_by_stakeholder: dict[str, list[str]] = {}
+    for doc in store.documents.values():
+        if doc.stakeholder_id and doc.risks is not None:
+            docs_by_stakeholder.setdefault(doc.stakeholder_id, []).append(doc.id)
 
-    pages = extract_pages()
-    store.doc_pages = pages_to_dict(pages)
+    for p in profiles:
+        doc_ids = docs_by_stakeholder.get(p["id"], [])
+        p["document_status"] = "submitted" if doc_ids else "pending"
+        p["document_ids"] = doc_ids
+        p["document_count"] = len(doc_ids)
 
-    risks = extract_risks(pages)
-    store.doc_risks = risks_to_dicts(risks)
-
-    gap_result = analyze_gaps(risks)
-    store.doc_gaps = gap_result.to_dict()
-
-    entity_result = resolve_entities(risks)
-    store.doc_entities = entity_result.to_dict()
-
-    elapsed = time.time() - t0
-    store.doc_processing_time = round(elapsed, 2)
-    logger.info(
-        "✅ Document pipeline complete in %.1fs — %d risks extracted",
-        elapsed,
-        len(risks),
-    )
-    
-    with open(CACHE_FILE, "w") as f:
-        json.dump({
-            "doc_pages": store.doc_pages,
-            "doc_risks": store.doc_risks,
-            "doc_gaps": store.doc_gaps,
-            "doc_entities": store.doc_entities,
-            "doc_processing_time": store.doc_processing_time,
-        }, f)
-
+    return profiles
 
 
 def _risks_by_category() -> dict[str, list[dict]]:
-    """Group extracted risks by hazard_category."""
-    risks = store.doc_risks or []
+    """Group ALL extracted risks (from all documents) by hazard_category."""
+    all_risks = store.all_risks()
+    grouped: dict[str, list[dict]] = {cat: [] for cat in HAZARD_CATEGORIES}
+    for r in all_risks:
+        cat = r.get("hazard_category", "")
+        if cat in grouped:
+            grouped[cat].append(r)
+    return grouped
+
+
+def _risks_for_stakeholder(stakeholder_id: str) -> list[dict]:
+    """Get risks from documents attributed to a specific stakeholder."""
+    risks: list[dict] = []
+    for doc in store.documents.values():
+        if doc.stakeholder_id == stakeholder_id and doc.risks:
+            risks.extend(doc.risks)
+    return risks
+
+
+def _risks_for_stakeholder_by_category(stakeholder_id: str) -> dict[str, list[dict]]:
+    """Group a stakeholder's risks by hazard category."""
+    risks = _risks_for_stakeholder(stakeholder_id)
     grouped: dict[str, list[dict]] = {cat: [] for cat in HAZARD_CATEGORIES}
     for r in risks:
         cat = r.get("hazard_category", "")
@@ -192,10 +139,12 @@ def _category_stats(risks: list[dict]) -> dict[str, Any]:
 
 @router.get("/")
 async def list_stakeholders() -> dict:
-    """List all stakeholders with their document submission status."""
+    """List all stakeholders with their document submission status (live)."""
+    _ensure_galway_loaded()
+
     return {
         "event": "Galway International Arts Festival 2026",
-        "stakeholders": GALWAY_STAKEHOLDERS,
+        "stakeholders": _stakeholder_profiles_with_status(),
     }
 
 
@@ -203,24 +152,24 @@ async def list_stakeholders() -> dict:
 async def stakeholder_matrix() -> dict:
     """Multi-stakeholder risk alignment matrix.
 
-    For each stakeholder × hazard_category:
-      - submitted docs → real coverage data (covered / gap)
-      - pending docs → status: no_document
+    Reads from store.documents — the SAME data that Document Intelligence
+    uploads into. Each stakeholder's column shows coverage from documents
+    auto-attributed to them.
     """
-    _ensure_extraction()
-    by_cat = _risks_by_category()
-
-    submitted_ids = {s["id"] for s in GALWAY_STAKEHOLDERS if s["document_status"] == "submitted"}
+    _ensure_galway_loaded()
+    stakeholders = _stakeholder_profiles_with_status()
+    submitted_ids = {s["id"] for s in stakeholders if s["document_status"] == "submitted"}
 
     # Build the matrix: rows = categories, cols = stakeholders
     matrix: dict[str, dict[str, dict]] = {}
     for cat in HAZARD_CATEGORIES:
-        cat_risks = by_cat[cat]
-        stats = _category_stats(cat_risks)
         row: dict[str, dict] = {}
-        for sh in GALWAY_STAKEHOLDERS:
+        for sh in stakeholders:
             if sh["id"] in submitted_ids:
-                if cat_risks:
+                # Get risks from THIS stakeholder's documents in THIS category
+                sh_cat_risks = _risks_for_stakeholder_by_category(sh["id"]).get(cat, [])
+                if sh_cat_risks:
+                    stats = _category_stats(sh_cat_risks)
                     row[sh["id"]] = {
                         "status": "covered",
                         "risk_count": stats["risk_count"],
@@ -234,10 +183,11 @@ async def stakeholder_matrix() -> dict:
                 row[sh["id"]] = {"status": "no_document"}
         matrix[cat] = row
 
-    # Coverage gaps: categories with ≤2 risks from submitted documents
+    # Coverage gaps: categories with ≤2 risks across all documents
+    by_cat = _risks_by_category()
     coverage_gaps: list[dict[str, Any]] = []
     for cat in HAZARD_CATEGORIES:
-        count = by_cat[cat].__len__()
+        count = len(by_cat[cat])
         if count <= 2:
             coverage_gaps.append({
                 "category": cat,
@@ -256,18 +206,18 @@ async def stakeholder_matrix() -> dict:
     else:
         alignment_summary = {
             "status": "insufficient_data",
-            "message": "Multi-stakeholder alignment requires ≥2 submitted documents. Currently 1 of 5 submitted.",
+            "message": f"Multi-stakeholder alignment requires ≥2 submitted documents. Currently {submitted_count} of {len(stakeholders)} submitted.",
         }
 
-    # System insights — generated from actual data
-    system_insights = _generate_insights(by_cat)
+    # System insights
+    system_insights = _generate_insights(by_cat, stakeholders)
 
     return {
         "event": "Galway International Arts Festival 2026",
         "categories": [
             {"id": cat, "label": CATEGORY_LABELS.get(cat, cat)} for cat in HAZARD_CATEGORIES
         ],
-        "stakeholders": GALWAY_STAKEHOLDERS,
+        "stakeholders": stakeholders,
         "matrix": matrix,
         "alignment_summary": alignment_summary,
         "coverage_gaps": coverage_gaps,
@@ -275,11 +225,11 @@ async def stakeholder_matrix() -> dict:
     }
 
 
-def _generate_insights(by_cat: dict[str, list[dict]]) -> list[dict[str, str]]:
+def _generate_insights(by_cat: dict[str, list[dict]], stakeholders: list[dict]) -> list[dict[str, str]]:
     """Generate platform insights based on actual extracted data."""
     insights: list[dict[str, str]] = []
-    submitted = [s for s in GALWAY_STAKEHOLDERS if s["document_status"] == "submitted"]
-    pending = [s for s in GALWAY_STAKEHOLDERS if s["document_status"] == "pending"]
+    submitted = [s for s in stakeholders if s["document_status"] == "submitted"]
+    pending = [s for s in stakeholders if s["document_status"] == "pending"]
 
     # Sort categories by risk count for insight generation
     sorted_cats = sorted(by_cat.items(), key=lambda x: len(x[1]), reverse=True)
@@ -291,8 +241,8 @@ def _generate_insights(by_cat: dict[str, list[dict]]) -> list[dict[str, str]]:
             "type": "strength",
             "priority": "info",
             "message": (
-                f"GIAF's plan has strong {CATEGORY_LABELS.get(top_cat, top_cat).lower()} "
-                f"coverage ({len(top_risks)} risks extracted)"
+                f"Strongest coverage in {CATEGORY_LABELS.get(top_cat, top_cat).lower()} "
+                f"({len(top_risks)} risks across {len(submitted)} document{'s' if len(submitted) != 1 else ''})"
             ),
         })
 
@@ -300,8 +250,7 @@ def _generate_insights(by_cat: dict[str, list[dict]]) -> list[dict[str, str]]:
     weak_cats = [(cat, risks) for cat, risks in sorted_cats if len(risks) <= 2]
     for cat, risks in weak_cats:
         label = CATEGORY_LABELS.get(cat, cat)
-        # Find the stakeholder whose expected document best matches this category
-        relevant_sh = _relevant_stakeholder_for_category(cat)
+        relevant_sh = _relevant_stakeholder_for_category(cat, stakeholders)
         if relevant_sh and relevant_sh["document_status"] == "pending":
             insights.append({
                 "type": "coverage_warning",
@@ -326,7 +275,7 @@ def _generate_insights(by_cat: dict[str, list[dict]]) -> list[dict[str, str]]:
             "type": "cross_validation",
             "priority": "medium",
             "message": (
-                f"{len(pending)} of {len(GALWAY_STAKEHOLDERS)} stakeholder documents pending "
+                f"{len(pending)} of {len(stakeholders)} stakeholder documents pending "
                 f"— multi-party conflict detection will activate when ≥2 documents are submitted"
             ),
         })
@@ -342,7 +291,7 @@ def _generate_insights(by_cat: dict[str, list[dict]]) -> list[dict[str, str]]:
     return insights
 
 
-def _relevant_stakeholder_for_category(category: str) -> dict | None:
+def _relevant_stakeholder_for_category(category: str, stakeholders: list[dict]) -> dict | None:
     """Find the most relevant pending stakeholder for a weak category."""
     mapping: dict[str, str] = {
         "fire": "fire_service",
@@ -357,13 +306,14 @@ def _relevant_stakeholder_for_category(category: str) -> dict | None:
     target_id = mapping.get(category)
     if not target_id:
         return None
-    return next((s for s in GALWAY_STAKEHOLDERS if s["id"] == target_id), None)
+    return next((s for s in stakeholders if s["id"] == target_id), None)
 
 
 @router.get("/actions")
 async def recommended_actions() -> dict:
     """Recommended actions generated from ACTUAL gap analysis data."""
-    _ensure_extraction()
+    _ensure_galway_loaded()
+    stakeholders = _stakeholder_profiles_with_status()
     by_cat = _risks_by_category()
 
     actions: list[dict[str, Any]] = []
@@ -373,14 +323,13 @@ async def recommended_actions() -> dict:
     weak_cats = [
         (cat, risks) for cat, risks in by_cat.items() if len(risks) <= 2
     ]
-    # Sort by count ascending (most urgent first)
     weak_cats.sort(key=lambda x: len(x[1]))
 
     for cat, risks in weak_cats:
         action_num += 1
         label = CATEGORY_LABELS.get(cat, cat)
         count = len(risks)
-        relevant = _relevant_stakeholder_for_category(cat)
+        relevant = _relevant_stakeholder_for_category(cat, stakeholders)
 
         if count == 0:
             desc = f"No risks identified for {label}. This is a critical gap in the event risk register."
@@ -406,7 +355,7 @@ async def recommended_actions() -> dict:
         })
 
     # Actions for missing stakeholder documents
-    pending = [s for s in GALWAY_STAKEHOLDERS if s["document_status"] == "pending"]
+    pending = [s for s in stakeholders if s["document_status"] == "pending"]
     for sh in pending:
         action_num += 1
         actions.append({
@@ -423,14 +372,14 @@ async def recommended_actions() -> dict:
         })
 
     # Cross-validation action
-    submitted_count = sum(1 for s in GALWAY_STAKEHOLDERS if s["document_status"] == "submitted")
+    submitted_count = sum(1 for s in stakeholders if s["document_status"] == "submitted")
     if submitted_count < 2:
         action_num += 1
         actions.append({
             "number": action_num,
             "title": "Enable Cross-Validation",
             "description": (
-                f"Currently {submitted_count} of {len(GALWAY_STAKEHOLDERS)} documents submitted. "
+                f"Currently {submitted_count} of {len(stakeholders)} documents submitted. "
                 "Multi-stakeholder conflict detection requires at least 2 documents. "
                 "Prioritise collection of documents from key stakeholders."
             ),
@@ -450,11 +399,12 @@ async def recommended_actions() -> dict:
 @router.get("/coverage-summary")
 async def coverage_summary() -> dict:
     """Top-level coverage stats for the dashboard summary cards."""
-    _ensure_extraction()
+    _ensure_galway_loaded()
+    stakeholders = _stakeholder_profiles_with_status()
     by_cat = _risks_by_category()
 
-    total_stakeholders = len(GALWAY_STAKEHOLDERS)
-    submitted = sum(1 for s in GALWAY_STAKEHOLDERS if s["document_status"] == "submitted")
+    total_stakeholders = len(stakeholders)
+    submitted = sum(1 for s in stakeholders if s["document_status"] == "submitted")
     pending = total_stakeholders - submitted
 
     # Category coverage stats
@@ -464,8 +414,8 @@ async def coverage_summary() -> dict:
     weak_categories = sum(1 for risks in by_cat.values() if 0 < len(risks) <= 2)
     empty_categories = sum(1 for risks in by_cat.values() if len(risks) == 0)
 
-    # Total risk stats
-    all_risks = store.doc_risks or []
+    # Total risk stats — aggregated from ALL documents
+    all_risks = store.all_risks()
     scored = [r for r in all_risks if r.get("risk_score")]
     avg_score = round(sum(r["risk_score"] for r in scored) / len(scored), 1) if scored else 0.0
 

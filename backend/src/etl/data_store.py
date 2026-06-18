@@ -7,7 +7,7 @@ can serve data without a running database.
 from __future__ import annotations
 
 import pandas as pd
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Any
 
 @dataclass
@@ -21,6 +21,7 @@ class ParsedDocument:
     gaps: dict | None = None
     entities: dict | None = None
     processing_time: float = 0.0
+    stakeholder_id: str | None = None      # auto-identified from content
 
 
 
@@ -55,19 +56,28 @@ class DataStore:
         self.ullevaal_fingerprints: pd.DataFrame = pd.DataFrame()
         self.fredrikstad_baselines: pd.DataFrame = pd.DataFrame()
 
-        # ── Document Intelligence (AI module) ──────────────────────────
+        # ── Document Intelligence (unified store) ───────────────────────
+        # All documents — uploaded or pre-seeded — live here.
+        # Stakeholder matrix reads from this same dict.
         self.documents: dict[str, ParsedDocument] = {}
-
-        # ── Document extraction cache (used by stakeholder routes) ────
-        self.doc_pages: list[dict] | None = None
-        self.doc_risks: list[dict] | None = None
-        self.doc_gaps: dict | None = None
-        self.doc_entities: dict | None = None
-        self.doc_processing_time: float = 0.0
 
         # ── Risk & Benchmarking (Phase 2 Week 4) ──────────────────────
         self.composite_risk_cache: dict[str, dict] = {}  # date → result
         self.benchmark_cache: dict | None = None
+
+    # ── Convenience helpers ─────────────────────────────────────────────
+
+    def all_risks(self) -> list[dict]:
+        """Aggregate risks from ALL uploaded/parsed documents."""
+        result: list[dict] = []
+        for doc in self.documents.values():
+            if doc.risks:
+                result.extend(doc.risks)
+        return result
+
+    def submitted_documents(self) -> list[ParsedDocument]:
+        """Return documents that have been fully processed (have risks)."""
+        return [d for d in self.documents.values() if d.risks is not None]
 
     def is_loaded(self) -> bool:
         """Return True if at least one dataset has been loaded."""
