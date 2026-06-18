@@ -58,6 +58,13 @@ class DataStore:
         # ── Document Intelligence (AI module) ──────────────────────────
         self.documents: dict[str, ParsedDocument] = {}
 
+        # ── Document extraction cache (used by stakeholder routes) ────
+        self.doc_pages: list[dict] | None = None
+        self.doc_risks: list[dict] | None = None
+        self.doc_gaps: dict | None = None
+        self.doc_entities: dict | None = None
+        self.doc_processing_time: float = 0.0
+
         # ── Risk & Benchmarking (Phase 2 Week 4) ──────────────────────
         self.composite_risk_cache: dict[str, dict] = {}  # date → result
         self.benchmark_cache: dict | None = None
