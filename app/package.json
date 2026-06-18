@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "demo": "NEXT_PUBLIC_DEMO_MODE=true next dev"
   },
   "dependencies": {
     "@deck.gl/aggregation-layers": "^9.3.4",

@@ -111,9 +111,8 @@ export default function HistoricalPage() {
       <main className="app-main">
         {/* Connection banner */}
         {error && (
-          <div className={styles.connectionBanner}>
-            <span>⚠ {error} —</span>
-            <code>cd backend &amp;&amp; python3 -m uvicorn src.api.main:app --port 8000</code>
+          <div className="sample-data-banner">
+            <span>ℹ️ Showing sample data — historical analysis API not connected.</span>
           </div>
         )}
 

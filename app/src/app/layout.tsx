@@ -3,6 +3,7 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "../components/ThemeProvider";
 import { EventProvider } from "../context/EventContext";
+import BackendProviders from "../components/Providers";
 
 const inter = Inter({
   variable: "--font-geist-sans",
@@ -31,7 +32,9 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${jetbrainsMono.variable}`} suppressHydrationWarning>
       <body>
         <ThemeProvider>
-          <EventProvider>{children}</EventProvider>
+          <EventProvider>
+            <BackendProviders>{children}</BackendProviders>
+          </EventProvider>
         </ThemeProvider>
       </body>
     </html>

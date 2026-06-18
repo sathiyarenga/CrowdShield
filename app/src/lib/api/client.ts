@@ -1,10 +1,27 @@
 /**
  * CrowdShield API client — fetches data from the FastAPI backend.
+ *
+ * When NEXT_PUBLIC_DEMO_MODE=true, all GET requests return bundled
+ * demo data instead of making network calls. This makes the entire
+ * app work offline — perfect for demos and trade shows.
  */
 
+import { resolveDemoData } from "@/lib/demo/demoData";
+
 export const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+const DEMO_MODE = process.env.NEXT_PUBLIC_DEMO_MODE === "true";
 
 async function apiFetch<T>(path: string, params?: Record<string, string>): Promise<T> {
+  // Demo mode: return bundled data, no network calls
+  if (DEMO_MODE) {
+    const demo = resolveDemoData(path, params);
+    if (demo !== undefined) {
+      // Simulate tiny async delay for natural loading states
+      await new Promise(r => setTimeout(r, 80));
+      return demo as T;
+    }
+  }
+
   const url = new URL(path, API_BASE);
   if (params) {
     Object.entries(params).forEach(([key, value]) => {
@@ -78,6 +95,8 @@ export interface EventFingerprint {
   clearance_time_minutes: number;
   total_person_hours: number;
   observation_count: number;
+  amplitude?: number;
+  amplitude_ratio?: number;
 }
 
 export interface EventsResponse {
