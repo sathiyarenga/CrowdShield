@@ -6,7 +6,7 @@ import Header from "@/components/layout/Header";
 import EventCurveChart from "@/components/charts/EventCurveChart";
 import EventFingerprints from "@/components/charts/EventFingerprints";
 import NationalityChart from "@/components/charts/NationalityChart";
-import { api, API_BASE, type HealthResponse } from "@/lib/api/client";
+import { api, API_BASE, type HealthResponse, type FredrikstadAreasResponse } from "@/lib/api/client";
 import { useEvent } from "@/context/EventContext";
 import styles from "./page.module.css";
 
@@ -429,6 +429,289 @@ function GalwayView() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
+// Fredrikstad Command Center View — City-Level Monitoring
+// ═══════════════════════════════════════════════════════════════════════════
+
+interface FredrikstadAreaItem {
+  area_name: string;
+  area_code: string;
+  admin_level_2: string;
+  daily_mean_people: number;
+  daily_max_people: number;
+  days_observed: number;
+}
+
+function ActivityBar({ value, max, color }: { value: number; max: number; color: string }) {
+  const pct = Math.min((value / max) * 100, 100);
+  return (
+    <div style={{ display: "flex", alignItems: "center", gap: "var(--space-sm)", flex: 1 }}>
+      <div style={{
+        flex: 1, height: 10, borderRadius: 5,
+        background: "var(--color-bg-tertiary)",
+        overflow: "hidden",
+      }}>
+        <div style={{
+          height: "100%", width: `${pct}%`, borderRadius: 5,
+          background: color,
+          transition: "width 0.6s ease",
+        }} />
+      </div>
+      <span style={{
+        fontSize: "var(--text-xs)", fontVariantNumeric: "tabular-nums",
+        color: "var(--color-text-secondary)", minWidth: 50, textAlign: "right",
+      }}>
+        {value.toLocaleString()}
+      </span>
+    </div>
+  );
+}
+
+function FredrikstadView() {
+  const [areas, setAreas] = useState<FredrikstadAreaItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [totalAreas, setTotalAreas] = useState(0);
+
+  useEffect(() => {
+    async function loadData() {
+      try {
+        const res = await api.fredrikstad.areas("daily_max_people", 223);
+        setAreas(res.data as unknown as FredrikstadAreaItem[]);
+        setTotalAreas(res.total_areas);
+        setLoading(false);
+      } catch {
+        setError("Could not load Fredrikstad area data");
+        setLoading(false);
+      }
+    }
+    loadData();
+  }, []);
+
+  if (loading) {
+    return <div className={styles.loadingState}>Loading city monitoring data…</div>;
+  }
+
+  if (error) {
+    return (
+      <div className={styles.connectionBanner}>
+        ⚠ {error} — backend API required for city-level analytics
+      </div>
+    );
+  }
+
+  const topAreas = areas.slice(0, 10);
+  const maxPeak = topAreas.length > 0 ? topAreas[0].daily_max_people : 1;
+  const totalDailyPeople = areas.reduce((s, a) => s + Math.round(a.daily_mean_people), 0);
+  const avgDailyPeople = areas.length > 0 ? Math.round(totalDailyPeople / areas.length) : 0;
+  const daysObserved = areas.length > 0 ? areas[0].days_observed : 0;
+
+  // Activity distribution tiers
+  const tiers = [
+    { label: "High Activity", threshold: 5000, color: "var(--color-critical)", icon: "🔴" },
+    { label: "Moderate", threshold: 2000, color: "var(--color-elevated)", icon: "🟡" },
+    { label: "Standard", threshold: 500, color: "var(--color-nominal)", icon: "🟢" },
+    { label: "Low", threshold: 0, color: "var(--color-text-tertiary)", icon: "⚪" },
+  ];
+
+  const tierCounts = tiers.map((tier, i) => {
+    const upperBound = i === 0 ? Infinity : tiers[i - 1].threshold;
+    return {
+      ...tier,
+      count: areas.filter(a => a.daily_max_people >= tier.threshold && a.daily_max_people < upperBound).length,
+    };
+  });
+
+  const stats = [
+    {
+      label: "Monitored Areas",
+      value: totalAreas.toString(),
+      detail: `${daysObserved} days observed`,
+      color: "var(--color-accent)",
+    },
+    {
+      label: "Peak Area Crowd",
+      value: maxPeak.toLocaleString(),
+      detail: topAreas[0]?.area_name ?? "—",
+      color: "var(--color-critical)",
+    },
+    {
+      label: "Avg Daily per Area",
+      value: avgDailyPeople.toLocaleString(),
+      detail: "mean daily footfall",
+      color: "var(--color-data-2)",
+    },
+    {
+      label: "High-Activity Zones",
+      value: tierCounts[0].count.toString(),
+      detail: "areas with peak > 5,000",
+      color: "var(--color-high)",
+    },
+  ];
+
+  return (
+    <>
+      {/* Stats Row */}
+      <div className={styles.statsRow}>
+        {stats.map((stat) => (
+          <div key={stat.label} className="panel">
+            <div className="stat-card">
+              <span className="stat-card__label">{stat.label}</span>
+              <span className="stat-card__value" style={{ color: stat.color }}>{stat.value}</span>
+              <span className="stat-card__delta">{stat.detail}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Main Content: Top Areas + Distribution */}
+      <div className={styles.mainGrid}>
+        {/* Top 10 Areas */}
+        <div className={`panel ${styles.heroPanel}`}>
+          <div className="panel__header">
+            <h2 className="panel__title">Top 10 Areas by Peak Daily Crowd</h2>
+            <span className={styles.alertCount}>{totalAreas} areas total</span>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-sm)", padding: "var(--space-sm) 0" }}>
+            {topAreas.map((area, i) => (
+              <div key={area.area_code} style={{
+                display: "flex", alignItems: "center", gap: "var(--space-md)",
+                padding: "var(--space-xs) var(--space-sm)",
+                borderRadius: "var(--radius-sm)",
+                background: i === 0 ? "rgba(99, 102, 241, 0.06)" : "transparent",
+              }}>
+                <span style={{
+                  fontSize: "var(--text-xs)", fontWeight: "var(--weight-bold)" as never,
+                  color: i < 3 ? "var(--color-accent)" : "var(--color-text-muted)",
+                  width: 20, textAlign: "right", fontVariantNumeric: "tabular-nums",
+                }}>
+                  {i + 1}
+                </span>
+                <span style={{
+                  fontSize: "var(--text-sm)", color: "var(--color-text-primary)",
+                  fontWeight: i === 0 ? "var(--weight-semibold)" as never : undefined,
+                  width: 180, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap",
+                }}>
+                  {area.area_name}
+                </span>
+                <ActivityBar
+                  value={area.daily_max_people}
+                  max={maxPeak}
+                  color={area.daily_max_people >= 5000 ? "var(--color-critical)" : area.daily_max_people >= 2000 ? "var(--color-elevated)" : "var(--color-nominal)"}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Activity Distribution + City Pulse */}
+        <div className={styles.alertPanel} style={{ maxHeight: "none" }}>
+          <div className="panel__header">
+            <h2 className="panel__title">Activity Distribution</h2>
+          </div>
+          <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-md)", padding: "var(--space-sm) 0" }}>
+            {tierCounts.map((tier) => (
+              <div key={tier.label} style={{
+                display: "flex", alignItems: "center", gap: "var(--space-md)",
+                padding: "var(--space-sm) var(--space-md)",
+                borderRadius: "var(--radius-md)",
+                borderLeft: `3px solid ${tier.color}`,
+                background: "var(--color-bg-secondary)",
+              }}>
+                <span style={{ fontSize: "var(--text-lg)" }}>{tier.icon}</span>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: "var(--text-sm)", fontWeight: "var(--weight-medium)" as never, color: "var(--color-text-primary)" }}>
+                    {tier.label}
+                  </div>
+                  <div style={{ fontSize: "var(--text-xs)", color: "var(--color-text-tertiary)" }}>
+                    Peak daily &ge; {tier.threshold.toLocaleString()}
+                  </div>
+                </div>
+                <span style={{
+                  fontSize: "var(--text-xl)", fontWeight: "var(--weight-bold)" as never,
+                  fontVariantNumeric: "tabular-nums", color: tier.color,
+                  minWidth: 36, textAlign: "right",
+                }}>
+                  {tier.count}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          {/* Bottom area distribution bar */}
+          <div style={{ marginTop: "auto", paddingTop: "var(--space-lg)" }}>
+            <div style={{ fontSize: "var(--text-xs)", color: "var(--color-text-muted)", marginBottom: "var(--space-xs)", textTransform: "uppercase", letterSpacing: "0.06em" }}>
+              Area Coverage
+            </div>
+            <div style={{
+              display: "flex", height: 14, borderRadius: 7, overflow: "hidden",
+              background: "var(--color-bg-tertiary)",
+            }}>
+              {tierCounts.map((tier) => (
+                <div key={tier.label} style={{
+                  width: `${(tier.count / totalAreas) * 100}%`,
+                  background: tier.color,
+                  transition: "width 0.6s ease",
+                }} />
+              ))}
+            </div>
+            <div style={{ display: "flex", justifyContent: "space-between", marginTop: "var(--space-xs)", fontSize: "var(--text-xs)", color: "var(--color-text-tertiary)" }}>
+              <span>{tierCounts[0].count} high</span>
+              <span>{totalAreas} areas</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Full Area List */}
+      <div className="panel" style={{ marginTop: "var(--panel-gap)" }}>
+        <div className="panel__header">
+          <h2 className="panel__title">All Monitored Areas — Daily Crowd Summary</h2>
+          <span className={styles.alertCount}>{totalAreas} areas · {daysObserved} days · Telia Crowd Insights</span>
+        </div>
+        <div style={{ maxHeight: 320, overflowY: "auto" }}>
+          <table className="data-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Area</th>
+                <th>Peak Daily</th>
+                <th>Avg Daily</th>
+                <th>Days</th>
+                <th>Activity</th>
+              </tr>
+            </thead>
+            <tbody>
+              {areas.map((area, i) => (
+                <tr key={area.area_code}>
+                  <td className={styles.pageRef}>{i + 1}</td>
+                  <td>
+                    <span className={styles.riskTitle}>{area.area_name}</span>
+                  </td>
+                  <td style={{ fontVariantNumeric: "tabular-nums" }}>
+                    {area.daily_max_people.toLocaleString()}
+                  </td>
+                  <td style={{ fontVariantNumeric: "tabular-nums", color: "var(--color-text-secondary)" }}>
+                    {Math.round(area.daily_mean_people).toLocaleString()}
+                  </td>
+                  <td className={styles.pageRef}>{area.days_observed}</td>
+                  <td>
+                    <ActivityBar
+                      value={area.daily_max_people}
+                      max={maxPeak}
+                      color={area.daily_max_people >= 5000 ? "var(--color-critical)" : area.daily_max_people >= 2000 ? "var(--color-elevated)" : "var(--color-nominal)"}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
 // Main Command Center (event-aware)
 // ═══════════════════════════════════════════════════════════════════════════
 export default function CommandCenter() {
@@ -444,6 +727,7 @@ export default function CommandCenter() {
       <main className="app-main">
         {activeEvent.id === "ullevaal" && <UllevaalView />}
         {activeEvent.id === "galway" && <GalwayView />}
+        {activeEvent.id === "fredrikstad" && <FredrikstadView />}
       </main>
     </div>
   );
