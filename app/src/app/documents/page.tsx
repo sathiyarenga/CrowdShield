@@ -318,7 +318,7 @@ export default function DocumentIntelligence() {
       icon: "🤖",
       label: "Extraction Mode",
       value: summary.extraction_mode,
-      detail: `${risks.length} risks with avg ${Math.round(risks.reduce((s, r) => s + r.confidence, 0) / risks.length * 100)}% confidence`,
+      detail: `${risks.length} risks with avg ${Math.min(Math.round(risks.reduce((s, r) => s + r.confidence, 0) / risks.length * 100), 100)}% confidence`,
       color: "var(--color-data-2)",
     },
   ];

@@ -242,10 +242,10 @@ export default function RiskRegister({ risks }: RiskRegisterProps) {
                                 <div className={styles.confidenceBar}>
                                   <div
                                     className={styles.confidenceFill}
-                                    style={{ width: `${Math.round(risk.confidence * 100)}%` }}
+                                    style={{ width: `${Math.min(Math.round(risk.confidence * 100), 100)}%` }}
                                   />
                                 </div>
-                                <span>{Math.round(risk.confidence * 100)}%</span>
+                                <span>{Math.min(Math.round(risk.confidence * 100), 100)}%</span>
                               </div>
                             </div>
                           </div>

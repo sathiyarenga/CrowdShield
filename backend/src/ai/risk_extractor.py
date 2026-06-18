@@ -322,7 +322,7 @@ def _extract_table_risks_from_text(text: str, page_num: int) -> list[ExtractedRi
             spatial_reference=spatial,
             source_page=page_num,
             source_text=full_text[:500],
-            confidence=round(conf + 0.2, 2),   # table rows get a bonus
+            confidence=round(min(conf + 0.2, 1.0), 2),   # table rows get a bonus, capped at 1.0
             extraction_mode="rule_based_table",
         )
         risks.append(risk)
@@ -454,7 +454,7 @@ def _extract_table_risks_from_structured(
             spatial_reference=spatial,
             source_page=page_num,
             source_text=row_text[:500],
-            confidence=round(conf + 0.15, 2),
+            confidence=round(min(conf + 0.15, 1.0), 2),
             extraction_mode="rule_based_table",
         )
         risks.append(risk)
