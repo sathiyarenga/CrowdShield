@@ -1,0 +1,1340 @@
+{
+  "4404424": {
+    "name": "Garnholmen",
+    "lat": 59.185838,
+    "lon": 10.77121,
+    "source": "nominatim"
+  },
+  "450331133": {
+    "name": "Skjæløy",
+    "lat": 59.278394,
+    "lon": 10.730567,
+    "source": "nominatim"
+  },
+  "450331134": {
+    "name": "Kråketorp",
+    "lat": 59.275687,
+    "lon": 10.764733,
+    "source": "nominatim"
+  },
+  "450331143": {
+    "name": "Holmesvingen (2)",
+    "lat": 59.30736,
+    "lon": 10.784087,
+    "source": "nominatim"
+  },
+  "450331144": {
+    "name": "Holmesvingen (4)",
+    "lat": 59.30736,
+    "lon": 10.784087,
+    "source": "nominatim"
+  },
+  "45033123": {
+    "name": "Kongsberg",
+    "lat": 59.279731,
+    "lon": 10.858225,
+    "source": "nominatim"
+  },
+  "450331241": {
+    "name": "Gunnerød (1)",
+    "lat": 59.286802,
+    "lon": 10.941345,
+    "source": "nominatim"
+  },
+  "450331242": {
+    "name": "Gunnerød (3)",
+    "lat": 59.286802,
+    "lon": 10.941345,
+    "source": "nominatim"
+  },
+  "450331243": {
+    "name": "Gunnerød (2)",
+    "lat": 59.286802,
+    "lon": 10.941345,
+    "source": "nominatim"
+  },
+  "450331244": {
+    "name": "Gunnerød (4)",
+    "lat": 59.286802,
+    "lon": 10.941345,
+    "source": "nominatim"
+  },
+  "450331311": {
+    "name": "Solviken Feriehjemmet",
+    "lat": 59.256733,
+    "lon": 10.73686,
+    "source": "nominatim"
+  },
+  "4503313121": {
+    "name": "Husløs (1)",
+    "lat": 59.269794,
+    "lon": 10.753342,
+    "source": "nominatim"
+  },
+  "4503313122": {
+    "name": "Manstad (1)",
+    "lat": 59.269067,
+    "lon": 10.768658,
+    "source": "nominatim"
+  },
+  "4503313123": {
+    "name": "Enga (1)",
+    "lat": 59.171911,
+    "lon": 10.932242,
+    "source": "nominatim"
+  },
+  "4503313124": {
+    "name": "Vestre Rød (1)",
+    "lat": 59.256983,
+    "lon": 10.772733,
+    "source": "nominatim"
+  },
+  "450331313": {
+    "name": "Flåtavika",
+    "lat": 59.244958,
+    "lon": 10.736267,
+    "source": "nominatim"
+  },
+  "450331314": {
+    "name": "Grønne Bakke",
+    "lat": 59.240472,
+    "lon": 10.752265,
+    "source": "nominatim"
+  },
+  "45033132": {
+    "name": "Star",
+    "lat": 59.255334,
+    "lon": 10.783981,
+    "source": "nominatim"
+  },
+  "45033133": {
+    "name": "Trouville bad",
+    "lat": 59.209214,
+    "lon": 10.768019,
+    "source": "nominatim"
+  },
+  "450331341": {
+    "name": "Hankø Yacht Club (1)",
+    "lat": 59.211382,
+    "lon": 10.786388,
+    "source": "nominatim"
+  },
+  "450331342": {
+    "name": "Hankø Yacht Club (5)",
+    "lat": 59.211382,
+    "lon": 10.786388,
+    "source": "nominatim"
+  },
+  "450331343": {
+    "name": "Hankø Yacht Club (2)",
+    "lat": 59.211382,
+    "lon": 10.786388,
+    "source": "nominatim"
+  },
+  "4503313442": {
+    "name": "Hankø Yacht Club (6)",
+    "lat": 59.211382,
+    "lon": 10.786388,
+    "source": "nominatim"
+  },
+  "4503313443": {
+    "name": "Hankø Yacht Club (4)",
+    "lat": 59.211382,
+    "lon": 10.786388,
+    "source": "nominatim"
+  },
+  "4503313444": {
+    "name": "Hankø Yacht Club (7)",
+    "lat": 59.211382,
+    "lon": 10.786388,
+    "source": "nominatim"
+  },
+  "450331411": {
+    "name": "Ek (1)",
+    "lat": 59.2649,
+    "lon": 10.850606,
+    "source": "nominatim"
+  },
+  "450331412": {
+    "name": "Onsøy (1)",
+    "lat": 59.269179,
+    "lon": 10.906364,
+    "source": "nominatim"
+  },
+  "450331413": {
+    "name": "Borgås (1)",
+    "lat": 59.248794,
+    "lon": 10.888822,
+    "source": "nominatim"
+  },
+  "450331414": {
+    "name": "Skårakrysset (1)",
+    "lat": 59.246346,
+    "lon": 10.898271,
+    "source": "nominatim"
+  },
+  "450331421": {
+    "name": "Lillelia Gårdsbarnehage",
+    "lat": 59.25969,
+    "lon": 10.938375,
+    "source": "nominatim"
+  },
+  "450331422": {
+    "name": "Hatten (1)",
+    "lat": 59.216292,
+    "lon": 10.738563,
+    "source": "nominatim"
+  },
+  "45033142311": {
+    "name": "Hovslagerveien (1)",
+    "lat": 59.252271,
+    "lon": 10.923813,
+    "source": "nominatim"
+  },
+  "45033142312": {
+    "name": "Hovslagerveien (3)",
+    "lat": 59.252271,
+    "lon": 10.923813,
+    "source": "nominatim"
+  },
+  "45033142313": {
+    "name": "Hovslagerveien (2)",
+    "lat": 59.252271,
+    "lon": 10.923813,
+    "source": "nominatim"
+  },
+  "45033142314": {
+    "name": "Hovslagerveien (4)",
+    "lat": 59.252271,
+    "lon": 10.923813,
+    "source": "nominatim"
+  },
+  "4503314232": {
+    "name": "Veumlia (1)",
+    "lat": 59.260231,
+    "lon": 10.940611,
+    "source": "nominatim"
+  },
+  "45033142331": {
+    "name": "Hestehagen (1)",
+    "lat": 59.247193,
+    "lon": 10.93064,
+    "source": "nominatim"
+  },
+  "450331423321": {
+    "name": "Veum (1)",
+    "lat": 59.282069,
+    "lon": 10.930794,
+    "source": "nominatim"
+  },
+  "450331423322": {
+    "name": "Veum (3)",
+    "lat": 59.282069,
+    "lon": 10.930794,
+    "source": "nominatim"
+  },
+  "450331423323": {
+    "name": "Veum (2)",
+    "lat": 59.282069,
+    "lon": 10.930794,
+    "source": "nominatim"
+  },
+  "45033142333": {
+    "name": "Brønnerødveien (1)",
+    "lat": 59.245641,
+    "lon": 10.936611,
+    "source": "nominatim"
+  },
+  "45033142334": {
+    "name": "Brønnerød (1)",
+    "lat": 59.237903,
+    "lon": 10.931819,
+    "source": "nominatim"
+  },
+  "4503314234": {
+    "name": "Kirkestien (1)",
+    "lat": 59.246256,
+    "lon": 10.949042,
+    "source": "nominatim"
+  },
+  "4503314241": {
+    "name": "no_name",
+    "lat": 59.372689,
+    "lon": 11.315342,
+    "source": "nominatim"
+  },
+  "4503314242": {
+    "name": "Grønnlien (1)",
+    "lat": 59.253796,
+    "lon": 10.990368,
+    "source": "nominatim"
+  },
+  "4503314243": {
+    "name": "Bjørningstad (1)",
+    "lat": 59.244369,
+    "lon": 10.968431,
+    "source": "nominatim"
+  },
+  "45033142441": {
+    "name": "Hauge fv. 109 (1)",
+    "lat": 59.24653,
+    "lon": 10.994805,
+    "source": "nominatim"
+  },
+  "45033142442": {
+    "name": "Hauge fv. 109 (3)",
+    "lat": 59.24653,
+    "lon": 10.994805,
+    "source": "nominatim"
+  },
+  "45033142443": {
+    "name": "Hauge fv. 109 (2)",
+    "lat": 59.24653,
+    "lon": 10.994805,
+    "source": "nominatim"
+  },
+  "45033142444": {
+    "name": "Hauge fv. 109 (4)",
+    "lat": 59.24653,
+    "lon": 10.994805,
+    "source": "nominatim"
+  },
+  "4503314321": {
+    "name": "Vanntroa (1)",
+    "lat": 59.236786,
+    "lon": 10.901122,
+    "source": "nominatim"
+  },
+  "4503314322": {
+    "name": "Ørebekk rv. 110 (1)",
+    "lat": 59.230878,
+    "lon": 10.911339,
+    "source": "nominatim"
+  },
+  "4503314323": {
+    "name": "Granliveien (1)",
+    "lat": 59.223865,
+    "lon": 10.903675,
+    "source": "nominatim"
+  },
+  "4503314324": {
+    "name": "Mølleveien (1)",
+    "lat": 59.229641,
+    "lon": 10.926557,
+    "source": "nominatim"
+  },
+  "4503314331": {
+    "name": "Kilane (1)",
+    "lat": 59.20856,
+    "lon": 10.888538,
+    "source": "nominatim"
+  },
+  "4503314332": {
+    "name": "Kilane (3)",
+    "lat": 59.20856,
+    "lon": 10.888538,
+    "source": "nominatim"
+  },
+  "4503314333": {
+    "name": "Kilane (2)",
+    "lat": 59.20856,
+    "lon": 10.888538,
+    "source": "nominatim"
+  },
+  "4503314334": {
+    "name": "Kilane (4)",
+    "lat": 59.20856,
+    "lon": 10.888538,
+    "source": "nominatim"
+  },
+  "4503314341": {
+    "name": "Hans Eriksensvei (1)",
+    "lat": 59.214465,
+    "lon": 10.905616,
+    "source": "nominatim"
+  },
+  "45033143421": {
+    "name": "Gressvikveien (1)",
+    "lat": 59.216618,
+    "lon": 10.909586,
+    "source": "nominatim"
+  },
+  "45033143422": {
+    "name": "Fjeldberg (1)",
+    "lat": 59.220373,
+    "lon": 10.922044,
+    "source": "nominatim"
+  },
+  "45033143423": {
+    "name": "Gressvik (1)",
+    "lat": 59.218247,
+    "lon": 10.906389,
+    "source": "nominatim"
+  },
+  "450331434241": {
+    "name": "N.T.P. (1)",
+    "lat": 59.21627,
+    "lon": 10.925552,
+    "source": "nominatim"
+  },
+  "450331434242": {
+    "name": "N.T.P. (3)",
+    "lat": 59.21627,
+    "lon": 10.925552,
+    "source": "nominatim"
+  },
+  "450331434243": {
+    "name": "N.T.P. (2)",
+    "lat": 59.21627,
+    "lon": 10.925552,
+    "source": "nominatim"
+  },
+  "450331434244": {
+    "name": "N.T.P. (4)",
+    "lat": 59.21627,
+    "lon": 10.925552,
+    "source": "nominatim"
+  },
+  "4503314343": {
+    "name": "Glombo Stene (1)",
+    "lat": 59.207367,
+    "lon": 10.907407,
+    "source": "nominatim"
+  },
+  "4503314344": {
+    "name": "Helsehuset Fredrikstad (1)",
+    "lat": 59.211873,
+    "lon": 10.927631,
+    "source": "nominatim"
+  },
+  "4503314411": {
+    "name": "Kvernhuset skole (1)",
+    "lat": 59.237,
+    "lon": 10.932805,
+    "source": "nominatim"
+  },
+  "4503314412": {
+    "name": "Oredalsveien (1)",
+    "lat": 59.223898,
+    "lon": 10.933778,
+    "source": "nominatim"
+  },
+  "45033144131": {
+    "name": "Jorunsvei (1)",
+    "lat": 59.23105,
+    "lon": 10.932109,
+    "source": "nominatim"
+  },
+  "45033144132": {
+    "name": "Oredalsveien (1)",
+    "lat": 59.223898,
+    "lon": 10.933778,
+    "source": "nominatim"
+  },
+  "45033144133": {
+    "name": "Fredrik 2. avd. Frydenberg (1)",
+    "lat": 59.223752,
+    "lon": 10.926206,
+    "source": "nominatim"
+  },
+  "45033144134": {
+    "name": "Oredalen Trafo (1)",
+    "lat": 59.226383,
+    "lon": 10.936509,
+    "source": "nominatim"
+  },
+  "45033144141": {
+    "name": "Leie gravlund (1)",
+    "lat": 59.227807,
+    "lon": 10.958394,
+    "source": "nominatim"
+  },
+  "45033144142": {
+    "name": "Leie gravlund (3)",
+    "lat": 59.227807,
+    "lon": 10.958394,
+    "source": "nominatim"
+  },
+  "45033144143": {
+    "name": "Leie gravlund (2)",
+    "lat": 59.227807,
+    "lon": 10.958394,
+    "source": "nominatim"
+  },
+  "45033144144": {
+    "name": "Leie gravlund (4)",
+    "lat": 59.227807,
+    "lon": 10.958394,
+    "source": "nominatim"
+  },
+  "45033144211": {
+    "name": "Høyfjellveien (1)",
+    "lat": 59.241221,
+    "lon": 10.964833,
+    "source": "nominatim"
+  },
+  "45033144212": {
+    "name": "Stabburet (1)",
+    "lat": 59.240913,
+    "lon": 10.974632,
+    "source": "nominatim"
+  },
+  "45033144213": {
+    "name": "Høiendal (1)",
+    "lat": 59.2353,
+    "lon": 10.962525,
+    "source": "nominatim"
+  },
+  "45033144214": {
+    "name": "Glemmen gamle kirke (1)",
+    "lat": 59.237514,
+    "lon": 10.970629,
+    "source": "nominatim"
+  },
+  "45033144221": {
+    "name": "Brødrene Dahl",
+    "lat": 59.239547,
+    "lon": 10.978924,
+    "source": "nominatim"
+  },
+  "45033144222": {
+    "name": "Evje (1)",
+    "lat": 59.242992,
+    "lon": 10.989322,
+    "source": "nominatim"
+  },
+  "45033144223": {
+    "name": "Lisleby (1)",
+    "lat": 59.234211,
+    "lon": 10.978398,
+    "source": "nominatim"
+  },
+  "45033144224": {
+    "name": "Nedre Glomma Turn",
+    "lat": 59.204323,
+    "lon": 10.922749,
+    "source": "fallback"
+  },
+  "450331442311": {
+    "name": "Glemmen sykehjem (1)",
+    "lat": 59.231895,
+    "lon": 10.96424,
+    "source": "nominatim"
+  },
+  "450331442312": {
+    "name": "Glemmen sykehjem (3)",
+    "lat": 59.231895,
+    "lon": 10.96424,
+    "source": "nominatim"
+  },
+  "450331442313": {
+    "name": "Glemmen sykehjem (2)",
+    "lat": 59.231895,
+    "lon": 10.96424,
+    "source": "nominatim"
+  },
+  "450331442314": {
+    "name": "Glemmen sykehjem (4)",
+    "lat": 59.231895,
+    "lon": 10.96424,
+    "source": "nominatim"
+  },
+  "45033144232": {
+    "name": "Klubbhuset",
+    "lat": 59.229587,
+    "lon": 10.973062,
+    "source": "nominatim"
+  },
+  "45033144233": {
+    "name": "Sandra",
+    "lat": 59.218568,
+    "lon": 10.911036,
+    "source": "fallback"
+  },
+  "45033144234": {
+    "name": "Liten kunstgressbane",
+    "lat": 59.210965,
+    "lon": 10.919311,
+    "source": "fallback"
+  },
+  "45033144241": {
+    "name": "Contiga ASA and Norbetong AS",
+    "lat": 59.230744,
+    "lon": 10.98441,
+    "source": "nominatim"
+  },
+  "45033144242": {
+    "name": "Lisleby (1)",
+    "lat": 59.234211,
+    "lon": 10.978398,
+    "source": "nominatim"
+  },
+  "45033144243": {
+    "name": "Linkas (1)",
+    "lat": 59.229046,
+    "lon": 10.977612,
+    "source": "nominatim"
+  },
+  "45033144244": {
+    "name": "Elvebredden",
+    "lat": 59.227858,
+    "lon": 10.9881,
+    "source": "nominatim"
+  },
+  "45033144311": {
+    "name": "Frederik II",
+    "lat": 59.221726,
+    "lon": 10.930159,
+    "source": "nominatim"
+  },
+  "45033144312": {
+    "name": "Brattlidammen",
+    "lat": 59.2214,
+    "lon": 10.942184,
+    "source": "nominatim"
+  },
+  "45033144313": {
+    "name": "Lille Dragen",
+    "lat": 59.215348,
+    "lon": 10.932657,
+    "source": "nominatim"
+  },
+  "450331443141": {
+    "name": "Hanco-bygget",
+    "lat": 59.217933,
+    "lon": 10.937859,
+    "source": "nominatim"
+  },
+  "450331443142": {
+    "name": "Røde Mølle",
+    "lat": 59.218085,
+    "lon": 10.939572,
+    "source": "nominatim"
+  },
+  "450331443143": {
+    "name": "Domkirken Menighetspleies barnehage",
+    "lat": 59.212341,
+    "lon": 10.938127,
+    "source": "fallback"
+  },
+  "450331443144": {
+    "name": "Torvbyen",
+    "lat": 59.213846,
+    "lon": 10.940644,
+    "source": "nominatim"
+  },
+  "45033144321": {
+    "name": "Traraveien 28 (1)",
+    "lat": 59.221673,
+    "lon": 10.945129,
+    "source": "nominatim"
+  },
+  "45033144322": {
+    "name": "Fagerliveien 24 (1)",
+    "lat": 59.221283,
+    "lon": 10.955778,
+    "source": "nominatim"
+  },
+  "45033144323": {
+    "name": "Glemmen vgs. (1)",
+    "lat": 59.217888,
+    "lon": 10.943976,
+    "source": "nominatim"
+  },
+  "45033144324": {
+    "name": "Utsikten (1)",
+    "lat": 59.21559,
+    "lon": 10.958338,
+    "source": "nominatim"
+  },
+  "45033144331": {
+    "name": "Fotballmuseet (1)",
+    "lat": 59.212588,
+    "lon": 10.928778,
+    "source": "nominatim"
+  },
+  "450331443321": {
+    "name": "Fredrikstad rådhus (1)",
+    "lat": 59.210448,
+    "lon": 10.939984,
+    "source": "nominatim"
+  },
+  "450331443322": {
+    "name": "Fredrikstad rådhus (3)",
+    "lat": 59.210448,
+    "lon": 10.939984,
+    "source": "nominatim"
+  },
+  "450331443323": {
+    "name": "Fredrikstad rådhus (2)",
+    "lat": 59.210448,
+    "lon": 10.939984,
+    "source": "nominatim"
+  },
+  "450331443324": {
+    "name": "Fredrikstad rådhus (4)",
+    "lat": 59.210448,
+    "lon": 10.939984,
+    "source": "nominatim"
+  },
+  "45033144333": {
+    "name": "Bjølstad (1)",
+    "lat": 59.211131,
+    "lon": 10.933986,
+    "source": "nominatim"
+  },
+  "45033144334": {
+    "name": "Domkirken (1)",
+    "lat": 59.215794,
+    "lon": 10.928725,
+    "source": "fallback"
+  },
+  "45033144341": {
+    "name": "Hassingen (1)",
+    "lat": 59.21436,
+    "lon": 10.949181,
+    "source": "nominatim"
+  },
+  "45033144342": {
+    "name": "Lahellemoen (1)",
+    "lat": 59.214744,
+    "lon": 10.957247,
+    "source": "nominatim"
+  },
+  "45033144343": {
+    "name": "Fredrikstad (1)",
+    "lat": 59.213361,
+    "lon": 10.93616,
+    "source": "nominatim"
+  },
+  "45033144344": {
+    "name": "Prestelandet (1)",
+    "lat": 59.207989,
+    "lon": 10.960714,
+    "source": "nominatim"
+  },
+  "4503314441": {
+    "name": "Utsikten Lislebyveien (1)",
+    "lat": 59.217064,
+    "lon": 10.961521,
+    "source": "nominatim"
+  },
+  "4503314442": {
+    "name": "Huseby (1)",
+    "lat": 59.267932,
+    "lon": 10.804937,
+    "source": "nominatim"
+  },
+  "4503314443": {
+    "name": "Ødemann (1)",
+    "lat": 59.21424,
+    "lon": 10.968449,
+    "source": "nominatim"
+  },
+  "4503314444": {
+    "name": "Hollung Begby (1)",
+    "lat": 59.208632,
+    "lon": 10.990542,
+    "source": "nominatim"
+  },
+  "4503323111": {
+    "name": "Tuneskipet (1)",
+    "lat": 59.275968,
+    "lon": 11.05244,
+    "source": "nominatim"
+  },
+  "45033231121": {
+    "name": "Haugetun (1)",
+    "lat": 59.274822,
+    "lon": 11.016842,
+    "source": "nominatim"
+  },
+  "45033231123": {
+    "name": "Haugetun (2)",
+    "lat": 59.274822,
+    "lon": 11.016842,
+    "source": "nominatim"
+  },
+  "45033231124": {
+    "name": "Haugetun (4)",
+    "lat": 59.274822,
+    "lon": 11.016842,
+    "source": "nominatim"
+  },
+  "45033231131": {
+    "name": "Vestre Nesskogen (1)",
+    "lat": 59.264991,
+    "lon": 10.999728,
+    "source": "nominatim"
+  },
+  "45033231132": {
+    "name": "Vestre Nesskogen (3)",
+    "lat": 59.264991,
+    "lon": 10.999728,
+    "source": "nominatim"
+  },
+  "45033231133": {
+    "name": "Vestre Nesskogen (2)",
+    "lat": 59.264991,
+    "lon": 10.999728,
+    "source": "nominatim"
+  },
+  "45033231134": {
+    "name": "Vestre Nesskogen (4)",
+    "lat": 59.264991,
+    "lon": 10.999728,
+    "source": "nominatim"
+  },
+  "45033231141": {
+    "name": "Kirkestien (1)",
+    "lat": 59.246256,
+    "lon": 10.949042,
+    "source": "nominatim"
+  },
+  "45033231142": {
+    "name": "Kirkestien (3)",
+    "lat": 59.246256,
+    "lon": 10.949042,
+    "source": "nominatim"
+  },
+  "45033231143": {
+    "name": "Kirkestien (2)",
+    "lat": 59.246256,
+    "lon": 10.949042,
+    "source": "nominatim"
+  },
+  "45033231144": {
+    "name": "Kirkestien (4)",
+    "lat": 59.246256,
+    "lon": 10.949042,
+    "source": "nominatim"
+  },
+  "4503323131": {
+    "name": "Dikeveien nord (1)",
+    "lat": 59.226769,
+    "lon": 10.929649,
+    "source": "fallback"
+  },
+  "4503323132": {
+    "name": "Glommastien (1)",
+    "lat": 59.262661,
+    "lon": 11.110248,
+    "source": "nominatim"
+  },
+  "4503323133": {
+    "name": "Solengveien (1)",
+    "lat": 59.245126,
+    "lon": 10.99463,
+    "source": "nominatim"
+  },
+  "4503323134": {
+    "name": "Torpebergveien (1)",
+    "lat": 59.246825,
+    "lon": 11.017879,
+    "source": "nominatim"
+  },
+  "450332314": {
+    "name": "Snekkerhaugen (1)",
+    "lat": 59.254903,
+    "lon": 11.043375,
+    "source": "nominatim"
+  },
+  "4503323213": {
+    "name": "Yven fv. 109 (1)",
+    "lat": 59.270027,
+    "lon": 11.065454,
+    "source": "nominatim"
+  },
+  "45033232143": {
+    "name": "Tomta (1)",
+    "lat": 59.264714,
+    "lon": 11.078892,
+    "source": "nominatim"
+  },
+  "45033232144": {
+    "name": "Sundløkka (1)",
+    "lat": 59.26562,
+    "lon": 11.092761,
+    "source": "nominatim"
+  },
+  "450332323": {
+    "name": "Borgarhytta",
+    "lat": 59.262351,
+    "lon": 11.092827,
+    "source": "nominatim"
+  },
+  "4503323241": {
+    "name": "Billett (1)",
+    "lat": 59.200232,
+    "lon": 10.94167,
+    "source": "fallback"
+  },
+  "4503323243": {
+    "name": "Søndre Årum (1)",
+    "lat": 59.248803,
+    "lon": 11.095097,
+    "source": "nominatim"
+  },
+  "4503323311": {
+    "name": "Kjølstad (1)",
+    "lat": 59.232447,
+    "lon": 11.008597,
+    "source": "nominatim"
+  },
+  "4503323312": {
+    "name": "Kjølstadløkken (1)",
+    "lat": 59.237661,
+    "lon": 11.020464,
+    "source": "nominatim"
+  },
+  "45033233131": {
+    "name": "Borgehallen (1)",
+    "lat": 59.23136,
+    "lon": 11.001369,
+    "source": "nominatim"
+  },
+  "45033233132": {
+    "name": "P.A.Gloslis vei (1)",
+    "lat": 59.229493,
+    "lon": 11.001222,
+    "source": "nominatim"
+  },
+  "45033233133": {
+    "name": "Sellebakk/Begbyveien (1)",
+    "lat": 59.227997,
+    "lon": 10.998058,
+    "source": "nominatim"
+  },
+  "45033233134": {
+    "name": "Søndre Kjølberg (1)",
+    "lat": 59.227161,
+    "lon": 11.005383,
+    "source": "nominatim"
+  },
+  "4503323314": {
+    "name": "Kjølbergskogen (1)",
+    "lat": 59.22716,
+    "lon": 11.0161,
+    "source": "nominatim"
+  },
+  "450332332": {
+    "name": "Borge kirke",
+    "lat": 59.227796,
+    "lon": 11.043564,
+    "source": "nominatim"
+  },
+  "45033233311": {
+    "name": "Elverhøy (1)",
+    "lat": 59.225082,
+    "lon": 10.9957,
+    "source": "nominatim"
+  },
+  "45033233312": {
+    "name": "Elverhøy (3)",
+    "lat": 59.225082,
+    "lon": 10.9957,
+    "source": "nominatim"
+  },
+  "45033233313": {
+    "name": "Elverhøy (2)",
+    "lat": 59.225082,
+    "lon": 10.9957,
+    "source": "nominatim"
+  },
+  "45033233314": {
+    "name": "Elverhøy (4)",
+    "lat": 59.225082,
+    "lon": 10.9957,
+    "source": "nominatim"
+  },
+  "4503323332": {
+    "name": "Ekeberg (1)",
+    "lat": 59.220925,
+    "lon": 10.837,
+    "source": "nominatim"
+  },
+  "4503323333": {
+    "name": "Moen (1)",
+    "lat": 59.211456,
+    "lon": 11.011381,
+    "source": "nominatim"
+  },
+  "4503323334": {
+    "name": "Bråten (1)",
+    "lat": 59.269478,
+    "lon": 10.913844,
+    "source": "nominatim"
+  },
+  "450332334": {
+    "name": "Borge skole",
+    "lat": 59.224678,
+    "lon": 11.045441,
+    "source": "nominatim"
+  },
+  "450332341": {
+    "name": "Fotballbane (1)",
+    "lat": 59.219018,
+    "lon": 11.085949,
+    "source": "nominatim"
+  },
+  "450332342": {
+    "name": "Fotballbane (3)",
+    "lat": 59.219018,
+    "lon": 11.085949,
+    "source": "nominatim"
+  },
+  "450333121": {
+    "name": "Mærrapanna",
+    "lat": 59.193146,
+    "lon": 10.791077,
+    "source": "nominatim"
+  },
+  "4503331221": {
+    "name": "Stensvik (1)",
+    "lat": 59.182558,
+    "lon": 10.855765,
+    "source": "nominatim"
+  },
+  "4503331222": {
+    "name": "Stensvik (3)",
+    "lat": 59.182558,
+    "lon": 10.855765,
+    "source": "nominatim"
+  },
+  "4503331223": {
+    "name": "Stensvik (2)",
+    "lat": 59.182558,
+    "lon": 10.855765,
+    "source": "nominatim"
+  },
+  "4503331224": {
+    "name": "Stensvik (4)",
+    "lat": 59.182558,
+    "lon": 10.855765,
+    "source": "nominatim"
+  },
+  "450333123": {
+    "name": "Luseskjær",
+    "lat": 59.169276,
+    "lon": 10.814058,
+    "source": "nominatim"
+  },
+  "450333124": {
+    "name": "Foten café",
+    "lat": 59.170366,
+    "lon": 10.828867,
+    "source": "nominatim"
+  },
+  "45033314": {
+    "name": "Strømholmen",
+    "lat": 59.155761,
+    "lon": 10.833694,
+    "source": "nominatim"
+  },
+  "45033321111": {
+    "name": "Dahle (1)",
+    "lat": 59.19587,
+    "lon": 10.860953,
+    "source": "nominatim"
+  },
+  "45033321112": {
+    "name": "Dahle (3)",
+    "lat": 59.19587,
+    "lon": 10.860953,
+    "source": "nominatim"
+  },
+  "45033321113": {
+    "name": "Dahle (2)",
+    "lat": 59.19587,
+    "lon": 10.860953,
+    "source": "nominatim"
+  },
+  "45033321114": {
+    "name": "Dahle (4)",
+    "lat": 59.19587,
+    "lon": 10.860953,
+    "source": "nominatim"
+  },
+  "4503332112": {
+    "name": "Oksvikveien (1)",
+    "lat": 59.20271,
+    "lon": 10.889019,
+    "source": "nominatim"
+  },
+  "4503332113": {
+    "name": "Viker (1)",
+    "lat": 59.1913,
+    "lon": 10.874808,
+    "source": "nominatim"
+  },
+  "4503332114": {
+    "name": "Fredtun Viker (1)",
+    "lat": 59.18971,
+    "lon": 10.876753,
+    "source": "nominatim"
+  },
+  "45033321211": {
+    "name": "Korvettveien (1)",
+    "lat": 59.200337,
+    "lon": 10.905363,
+    "source": "nominatim"
+  },
+  "45033321212": {
+    "name": "Korvettveien (3)",
+    "lat": 59.200337,
+    "lon": 10.905363,
+    "source": "nominatim"
+  },
+  "45033321213": {
+    "name": "Korvettveien (2)",
+    "lat": 59.200337,
+    "lon": 10.905363,
+    "source": "nominatim"
+  },
+  "45033321214": {
+    "name": "Korvettveien (4)",
+    "lat": 59.200337,
+    "lon": 10.905363,
+    "source": "nominatim"
+  },
+  "4503332122": {
+    "name": "Ekheim",
+    "lat": 59.201872,
+    "lon": 10.920692,
+    "source": "nominatim"
+  },
+  "4503332123": {
+    "name": "Langøen Båtforening",
+    "lat": 59.195101,
+    "lon": 10.897951,
+    "source": "nominatim"
+  },
+  "4503332124": {
+    "name": "Kråkerøy IL Klubbhus",
+    "lat": 59.191182,
+    "lon": 10.919389,
+    "source": "nominatim"
+  },
+  "450333213": {
+    "name": "Faratangen",
+    "lat": 59.181326,
+    "lon": 10.865799,
+    "source": "nominatim"
+  },
+  "450333214": {
+    "name": "Kariknatten",
+    "lat": 59.181976,
+    "lon": 10.919158,
+    "source": "nominatim"
+  },
+  "45033322111": {
+    "name": "Påskestien (1)",
+    "lat": 59.205032,
+    "lon": 10.944733,
+    "source": "fallback"
+  },
+  "45033322112": {
+    "name": "Smertu (1)",
+    "lat": 59.202853,
+    "lon": 10.940261,
+    "source": "nominatim"
+  },
+  "45033322113": {
+    "name": "Skiveien (1)",
+    "lat": 59.199795,
+    "lon": 10.933466,
+    "source": "nominatim"
+  },
+  "45033322114": {
+    "name": "Folkvang (1)",
+    "lat": 59.200108,
+    "lon": 10.940495,
+    "source": "nominatim"
+  },
+  "45033322121": {
+    "name": "Kommandantgården",
+    "lat": 59.202441,
+    "lon": 10.950521,
+    "source": "nominatim"
+  },
+  "45033322122": {
+    "name": "Den gamle spisesal",
+    "lat": 59.203966,
+    "lon": 10.956129,
+    "source": "nominatim"
+  },
+  "45033322123": {
+    "name": "Kruttårnet",
+    "lat": 59.201862,
+    "lon": 10.950266,
+    "source": "nominatim"
+  },
+  "45033322124": {
+    "name": "Friluftsbadet",
+    "lat": 59.199495,
+    "lon": 10.960844,
+    "source": "nominatim"
+  },
+  "4503332213": {
+    "name": "Steinhytta",
+    "lat": 59.188083,
+    "lon": 10.932131,
+    "source": "nominatim"
+  },
+  "4503332214": {
+    "name": "Denofa trafostasjon",
+    "lat": 59.224777,
+    "lon": 10.940301,
+    "source": "fallback"
+  },
+  "4503332221": {
+    "name": "Bekkevoll (1)",
+    "lat": 59.198067,
+    "lon": 10.972333,
+    "source": "nominatim"
+  },
+  "4503332222": {
+    "name": "Lilleby (1)",
+    "lat": 59.207837,
+    "lon": 10.990891,
+    "source": "nominatim"
+  },
+  "4503332223": {
+    "name": "Bøchmann (1)",
+    "lat": 59.213217,
+    "lon": 10.942222,
+    "source": "fallback"
+  },
+  "4503332224": {
+    "name": "Eriksen (1)",
+    "lat": 59.197864,
+    "lon": 10.986953,
+    "source": "nominatim"
+  },
+  "4503332231": {
+    "name": "Barkedalen (1)",
+    "lat": 59.185111,
+    "lon": 10.939797,
+    "source": "nominatim"
+  },
+  "4503332232": {
+    "name": "Øra Havnekontoret (1)",
+    "lat": 59.185295,
+    "lon": 10.957304,
+    "source": "nominatim"
+  },
+  "4503332233": {
+    "name": "Holte øst (1)",
+    "lat": 59.175896,
+    "lon": 10.932474,
+    "source": "nominatim"
+  },
+  "4503332234": {
+    "name": "H.O.Torgersens vei (1)",
+    "lat": 59.172035,
+    "lon": 10.949772,
+    "source": "nominatim"
+  },
+  "450333224": {
+    "name": "Småbåtshavn",
+    "lat": 59.143399,
+    "lon": 10.94149,
+    "source": "nominatim"
+  },
+  "450333231": {
+    "name": "Lunde (1)",
+    "lat": 59.160483,
+    "lon": 10.932991,
+    "source": "nominatim"
+  },
+  "450333232": {
+    "name": "Lunde (3)",
+    "lat": 59.160483,
+    "lon": 10.932991,
+    "source": "nominatim"
+  },
+  "450333233": {
+    "name": "Lunde (2)",
+    "lat": 59.160483,
+    "lon": 10.932991,
+    "source": "nominatim"
+  },
+  "450333234": {
+    "name": "Lunde (4)",
+    "lat": 59.160483,
+    "lon": 10.932991,
+    "source": "nominatim"
+  },
+  "450333241": {
+    "name": "Kjøkøy (1)",
+    "lat": 59.139598,
+    "lon": 10.949416,
+    "source": "nominatim"
+  },
+  "450333242": {
+    "name": "Kjøkøy (3)",
+    "lat": 59.139598,
+    "lon": 10.949416,
+    "source": "nominatim"
+  },
+  "450333243": {
+    "name": "Kjøkøy (2)",
+    "lat": 59.139598,
+    "lon": 10.949416,
+    "source": "nominatim"
+  },
+  "4503333": {
+    "name": "Knubben",
+    "lat": 59.147606,
+    "lon": 11.032718,
+    "source": "nominatim"
+  },
+  "45033342": {
+    "name": "Bukkholmen Aspholmen",
+    "lat": 59.109673,
+    "lon": 10.952332,
+    "source": "nominatim"
+  },
+  "450334111": {
+    "name": "Ulfeng nord (1)",
+    "lat": 59.196584,
+    "lon": 10.9992,
+    "source": "nominatim"
+  },
+  "450334112": {
+    "name": "Torsnes Airfield (1)",
+    "lat": 59.195557,
+    "lon": 11.063888,
+    "source": "nominatim"
+  },
+  "450334113": {
+    "name": "Kloppa (1)",
+    "lat": 59.19021,
+    "lon": 11.037611,
+    "source": "nominatim"
+  },
+  "450334114": {
+    "name": "Veel søndre (1)",
+    "lat": 59.188724,
+    "lon": 11.059668,
+    "source": "nominatim"
+  },
+  "45033413": {
+    "name": "Orsmyrveien",
+    "lat": 59.165242,
+    "lon": 11.07178,
+    "source": "nominatim"
+  },
+  "45033414": {
+    "name": "Revebukta",
+    "lat": 59.172744,
+    "lon": 11.11034,
+    "source": "nominatim"
+  },
+  "45033431": {
+    "name": "Svala",
+    "lat": 59.108933,
+    "lon": 11.052157,
+    "source": "nominatim"
+  }
+}

@@ -205,20 +205,131 @@ async def fredrikstad_areas(
     sort_by: Annotated[str, Query(description="Sort field")] = "daily_max_people",
     limit: Annotated[int, Query(ge=1, le=500)] = 50,
 ) -> dict:
-    """Return area metadata with aggregate statistics."""
+    """Return area metadata with aggregate statistics + geocoded coordinates."""
     df = store.telia_areas
     if df.empty:
         raise HTTPException(status_code=503, detail="Telia area metadata not computed")
+
+    from src.etl.geocoder import load_geocache
+    geocache = load_geocache()
 
     if sort_by in df.columns:
         df = df.sort_values(sort_by, ascending=False)
 
     result = df.head(limit)
+    records = result.to_dict(orient="records")
+
+    # Enrich with geocoded lat/lon
+    for rec in records:
+        code = str(rec.get("area_code", ""))
+        geo = geocache.get(code)
+        if geo:
+            rec["lat"] = geo["lat"]
+            rec["lon"] = geo["lon"]
+        else:
+            rec["lat"] = None
+            rec["lon"] = None
 
     return {
         "total_areas": len(store.telia_areas),
-        "returned": len(result),
-        "data": result.to_dict(orient="records"),
+        "returned": len(records),
+        "data": records,
+    }
+
+
+@router.get("/fredrikstad/areas/geojson")
+async def fredrikstad_geojson() -> dict:
+    """Return all Fredrikstad areas as a GeoJSON FeatureCollection for MapLibre."""
+    df = store.telia_areas
+    if df.empty:
+        raise HTTPException(status_code=503, detail="Telia area metadata not computed")
+
+    from src.etl.geocoder import load_geocache
+    geocache = load_geocache()
+
+    features = []
+    for _, row in df.iterrows():
+        code = str(row.get("area_code", ""))
+        geo = geocache.get(code)
+        if not geo or geo.get("lat") is None:
+            continue
+
+        feature = {
+            "type": "Feature",
+            "properties": {
+                "area_code": code,
+                "area_name": row.get("area_name", ""),
+                "daily_max_people": int(row.get("daily_max_people", 0)),
+                "daily_mean_people": round(float(row.get("daily_mean_people", 0)), 0),
+                "days_observed": int(row.get("days_observed", 0)),
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [geo["lon"], geo["lat"]],
+            },
+        }
+        features.append(feature)
+
+    return {
+        "type": "FeatureCollection",
+        "features": features,
+    }
+
+
+@router.get("/fredrikstad/hourly/profile")
+async def fredrikstad_hourly_profile(
+    area_code: Annotated[str | None, Query(description="Filter by area_code")] = None,
+    area_name: Annotated[str | None, Query(description="Filter by area_name (exact)")] = None,
+) -> dict:
+    """Average hourly crowd profile for an area (0-23h)."""
+    df = store.telia_hourly
+    if df.empty:
+        raise HTTPException(status_code=503, detail="Telia hourly data not loaded")
+
+    if area_code:
+        df = df[df["area_code"] == area_code]
+    elif area_name:
+        df = df[df["area_name"] == area_name]
+    else:
+        raise HTTPException(status_code=400, detail="Provide area_code or area_name")
+
+    if df.empty:
+        raise HTTPException(status_code=404, detail="No data for this area")
+
+    # Compute average by hour across all days
+    hourly = df.groupby("hour")["people"].agg(["mean", "max", "min", "count"]).reset_index()
+    hourly.columns = ["hour", "avg_people", "max_people", "min_people", "sample_count"]
+
+    peak_hour = int(hourly.loc[hourly["avg_people"].idxmax(), "hour"])
+    peak_avg = round(float(hourly["avg_people"].max()), 0)
+
+    # Day of week pattern (0=Mon, 6=Sun)
+    df_with_dow = df.copy()
+    df_with_dow["dow"] = df_with_dow["batch_date"].apply(lambda d: d.weekday() if hasattr(d, 'weekday') else 0)
+    daily_totals = df_with_dow.groupby("dow")["people"].mean().reset_index()
+    daily_totals.columns = ["dow", "avg_people"]
+    peak_dow = int(daily_totals.loc[daily_totals["avg_people"].idxmax(), "dow"])
+    dow_names = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+
+    return {
+        "area_name": area_name or df.iloc[0]["area_name"],
+        "area_code": area_code or str(df.iloc[0]["area_code"]),
+        "peak_hour": peak_hour,
+        "peak_avg_people": peak_avg,
+        "peak_day": dow_names[peak_dow] if peak_dow < 7 else "Unknown",
+        "hourly_profile": [
+            {
+                "hour": int(r["hour"]),
+                "avg_people": round(float(r["avg_people"]), 0),
+                "max_people": int(r["max_people"]),
+                "min_people": int(r["min_people"]),
+            }
+            for _, r in hourly.iterrows()
+        ],
+        "daily_profile": [
+            {"dow": int(r["dow"]), "day": dow_names[int(r["dow"])] if int(r["dow"]) < 7 else "?", "avg_people": round(float(r["avg_people"]), 0)}
+            for _, r in daily_totals.iterrows()
+        ],
     }
 
 

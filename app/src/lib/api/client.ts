@@ -139,9 +139,35 @@ export interface FredrikstadArea {
   admin_level_2: string;
   daily_max_people: number;
   daily_avg_people: number;
+  daily_mean_people?: number;
   hourly_max_people: number;
   hourly_avg_people: number;
   days_observed: number;
+  lat: number | null;
+  lon: number | null;
+}
+
+export interface FredrikstadHourlyPoint {
+  hour: number;
+  avg_people: number;
+  max_people: number;
+  min_people: number;
+}
+
+export interface FredrikstadDailyPoint {
+  dow: number;
+  day: string;
+  avg_people: number;
+}
+
+export interface FredrikstadHourlyProfile {
+  area_name: string;
+  area_code: string;
+  peak_hour: number;
+  peak_avg_people: number;
+  peak_day: string;
+  hourly_profile: FredrikstadHourlyPoint[];
+  daily_profile: FredrikstadDailyPoint[];
 }
 
 export interface FredrikstadAreasResponse {
@@ -451,6 +477,12 @@ export const api = {
       apiFetch<FredrikstadAreasResponse>("/api/analytics/fredrikstad/areas", {
         ...(sortBy ? { sort_by: sortBy } : {}),
         ...(limit ? { limit: String(limit) } : {}),
+      }),
+    geojson: () =>
+      apiFetch<GeoJSONResponse>("/api/analytics/fredrikstad/areas/geojson"),
+    hourlyProfile: (areaCode: string) =>
+      apiFetch<FredrikstadHourlyProfile>("/api/analytics/fredrikstad/hourly/profile", {
+        area_code: areaCode,
       }),
   },
 

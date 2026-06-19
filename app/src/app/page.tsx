@@ -1,14 +1,22 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import Sidebar from "@/components/layout/Sidebar";
 import Header from "@/components/layout/Header";
 import EventCurveChart from "@/components/charts/EventCurveChart";
 import EventFingerprints from "@/components/charts/EventFingerprints";
 import NationalityChart from "@/components/charts/NationalityChart";
 import { api, API_BASE, type HealthResponse, type FredrikstadAreasResponse } from "@/lib/api/client";
+import { AreaDetailPanel } from "@/components/maps/FredrikstadMap";
 import { useEvent } from "@/context/EventContext";
 import styles from "./page.module.css";
+
+// Dynamically import MapLibre-based component (no SSR)
+const FredrikstadMap = dynamic(() => import("@/components/maps/FredrikstadMap"), {
+  ssr: false,
+  loading: () => <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100%", color: "var(--color-text-muted)" }}>Loading map…</div>,
+});
 
 // ── Galway types ──────────────────────────────────────────────────────────
 interface RiskItem {
@@ -471,6 +479,13 @@ function FredrikstadView() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [totalAreas, setTotalAreas] = useState(0);
+  const [selectedArea, setSelectedArea] = useState<{
+    area_code: string;
+    area_name: string;
+    daily_max_people: number;
+    daily_mean_people: number;
+    days_observed: number;
+  } | null>(null);
 
   useEffect(() => {
     async function loadData() {
@@ -563,8 +578,27 @@ function FredrikstadView() {
         ))}
       </div>
 
-      {/* Main Content: Top Areas + Distribution */}
-      <div className={styles.mainGrid}>
+      {/* Map + Detail Panel */}
+      <div style={{
+        display: "grid",
+        gridTemplateColumns: "1fr 360px",
+        gap: "var(--panel-gap)",
+        marginTop: "var(--panel-gap)",
+        minHeight: 480,
+      }}>
+        {/* Map */}
+        <div className="panel" style={{ padding: 0, overflow: "hidden", minHeight: 480 }}>
+          <FredrikstadMap onAreaSelect={setSelectedArea} />
+        </div>
+
+        {/* Detail Panel */}
+        <div className="panel" style={{ padding: 0, overflow: "hidden" }}>
+          <AreaDetailPanel area={selectedArea} />
+        </div>
+      </div>
+
+      {/* Bottom row: Activity Distribution + Top Areas */}
+      <div className={styles.mainGrid} style={{ marginTop: "var(--panel-gap)" }}>
         {/* Top 10 Areas */}
         <div className={`panel ${styles.heroPanel}`}>
           <div className="panel__header">
@@ -573,12 +607,24 @@ function FredrikstadView() {
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: "var(--space-sm)", padding: "var(--space-sm) 0" }}>
             {topAreas.map((area, i) => (
-              <div key={area.area_code} style={{
-                display: "flex", alignItems: "center", gap: "var(--space-md)",
-                padding: "var(--space-xs) var(--space-sm)",
-                borderRadius: "var(--radius-sm)",
-                background: i === 0 ? "rgba(99, 102, 241, 0.06)" : "transparent",
-              }}>
+              <div
+                key={area.area_code}
+                style={{
+                  display: "flex", alignItems: "center", gap: "var(--space-md)",
+                  padding: "var(--space-xs) var(--space-sm)",
+                  borderRadius: "var(--radius-sm)",
+                  background: selectedArea?.area_code === area.area_code ? "rgba(99, 102, 241, 0.12)" : i === 0 ? "rgba(99, 102, 241, 0.06)" : "transparent",
+                  cursor: "pointer",
+                  transition: "background 0.2s",
+                }}
+                onClick={() => setSelectedArea({
+                  area_code: area.area_code,
+                  area_name: area.area_name,
+                  daily_max_people: area.daily_max_people,
+                  daily_mean_people: area.daily_mean_people,
+                  days_observed: area.days_observed,
+                })}
+              >
                 <span style={{
                   fontSize: "var(--text-xs)", fontWeight: "var(--weight-bold)" as never,
                   color: i < 3 ? "var(--color-accent)" : "var(--color-text-muted)",
@@ -603,7 +649,7 @@ function FredrikstadView() {
           </div>
         </div>
 
-        {/* Activity Distribution + City Pulse */}
+        {/* Activity Distribution */}
         <div className={styles.alertPanel} style={{ maxHeight: "none" }}>
           <div className="panel__header">
             <h2 className="panel__title">Activity Distribution</h2>
@@ -659,52 +705,6 @@ function FredrikstadView() {
               <span>{totalAreas} areas</span>
             </div>
           </div>
-        </div>
-      </div>
-
-      {/* Full Area List */}
-      <div className="panel" style={{ marginTop: "var(--panel-gap)" }}>
-        <div className="panel__header">
-          <h2 className="panel__title">All Monitored Areas — Daily Crowd Summary</h2>
-          <span className={styles.alertCount}>{totalAreas} areas · {daysObserved} days · Telia Crowd Insights</span>
-        </div>
-        <div style={{ maxHeight: 320, overflowY: "auto" }}>
-          <table className="data-table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Area</th>
-                <th>Peak Daily</th>
-                <th>Avg Daily</th>
-                <th>Days</th>
-                <th>Activity</th>
-              </tr>
-            </thead>
-            <tbody>
-              {areas.map((area, i) => (
-                <tr key={area.area_code}>
-                  <td className={styles.pageRef}>{i + 1}</td>
-                  <td>
-                    <span className={styles.riskTitle}>{area.area_name}</span>
-                  </td>
-                  <td style={{ fontVariantNumeric: "tabular-nums" }}>
-                    {area.daily_max_people.toLocaleString()}
-                  </td>
-                  <td style={{ fontVariantNumeric: "tabular-nums", color: "var(--color-text-secondary)" }}>
-                    {Math.round(area.daily_mean_people).toLocaleString()}
-                  </td>
-                  <td className={styles.pageRef}>{area.days_observed}</td>
-                  <td>
-                    <ActivityBar
-                      value={area.daily_max_people}
-                      max={maxPeak}
-                      color={area.daily_max_people >= 5000 ? "var(--color-critical)" : area.daily_max_people >= 2000 ? "var(--color-elevated)" : "var(--color-nominal)"}
-                    />
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
         </div>
       </div>
     </>
