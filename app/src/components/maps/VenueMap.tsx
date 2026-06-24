@@ -117,7 +117,7 @@ export interface CustomZone {
   zone_type: string;
   capacity: number;
   color: string;
-  geometry: GeoJSON.Polygon;
+  geometry: GeoJSON.Polygon | GeoJSON.Point;
   created_at?: string;
   updated_at?: string;
 }
@@ -134,7 +134,8 @@ interface VenueMapProps {
   showRoadCapacity?: boolean;
   showSimulation?: boolean;
   drawMode?: boolean;
-  onZoneDrawn?: (geometry: GeoJSON.Polygon) => void;
+  drawType?: "Polygon" | "Point";
+  onZoneDrawn?: (geometry: GeoJSON.Polygon | GeoJSON.Point) => void;
   customZones?: CustomZone[];
   mapRef?: React.MutableRefObject<maplibregl.Map | null>;
 }
@@ -159,6 +160,7 @@ export default function VenueMap({
   showRoadCapacity = false,
   showSimulation = false,
   drawMode = false,
+  drawType = "Polygon",
   onZoneDrawn,
   customZones = [],
   mapRef: externalMapRef,
@@ -173,9 +175,12 @@ export default function VenueMap({
   const [riskData, setRiskData] = useState<GeoJSONResponse | null>(null);
   const [densityData, setDensityData] = useState<GeoJSONResponse | null>(null);
   const [basemap, setBasemap] = useState<BasemapStyle>("dark");
+  const [styleTick, setStyleTick] = useState(0);
   const zonesInitRef = useRef(false);
+  const isDraggingRef = useRef(false);
   const zoneVenueRef = useRef(venueId);
   const animFrameRef = useRef<number | null>(null);
+  const [refetchTrigger, setRefetchTrigger] = useState(0);
 
   /* -- Fetch venue detail + risk markers + density points ----------- */
   useEffect(() => {
@@ -216,7 +221,7 @@ export default function VenueMap({
 
     fetchVenueData();
     return () => { cancelled = true; };
-  }, [venueId]);
+  }, [venueId, refetchTrigger]);
 
   /* -- Resolved zones data --------------------------------------------- */
   const zonesGeoJSON = venueDetail?.zones ?? fallbackZones;
@@ -230,15 +235,15 @@ export default function VenueMap({
     if (features.length === 0) return null;
 
     const totalArea = features.reduce((sum, f) => sum + Number(f.properties?.area_sqm ?? 0), 0);
-    if (totalArea === 0) return null;
-
+    
+    // We don't want to abort if totalArea is 0, because we might have point/line features (like Galway route)
     const riskColor = getRiskColor(currentPeople);
     const riskLevel = getRiskLevel(currentPeople);
     const baseOpacity = getRiskOpacity(currentPeople);
 
     const enriched = features.map(f => {
       const area = Number(f.properties?.area_sqm ?? 0);
-      const areaRatio = area > 0 ? area / totalArea : 0;
+      const areaRatio = totalArea > 0 && area > 0 ? area / totalArea : 0;
       const zonePeople = currentPeople * areaRatio;
       const density = area > 0 ? zonePeople / area : 0;
 
@@ -247,14 +252,14 @@ export default function VenueMap({
         properties: {
           ...f.properties,
           _color: riskColor,
-          _opacity: baseOpacity,
-          _density: density,
-          _people: Math.round(zonePeople),
-          _label: formatPeople(zonePeople),
           _risk_level: riskLevel,
+          _people: zonePeople,
+          _density: density,
         },
       };
     });
+
+
 
     return {
       geojson: { type: "FeatureCollection" as const, features: enriched },
@@ -263,7 +268,7 @@ export default function VenueMap({
       baseOpacity,
       isCritical: riskLevel === "critical" || riskLevel === "high",
     };
-  }, [zonesGeoJSON, currentPeople]);
+  }, [zonesGeoJSON, currentPeople, venueId]);
 
   /* -- Initialize MapLibre (once) ---------------------------------------- */
   const initialVenueRef = useRef(venueId);
@@ -329,9 +334,9 @@ export default function VenueMap({
     zonesInitRef.current = false;
 
     map.setStyle(BASEMAPS[basemap]);
-    // After new style loads, re-enable 3D buildings if active
+    // Wait for the new style to fully apply before re-adding layers
     map.once("styledata", () => {
-      // 3D buildings are handled by the show3D effect below
+      setStyleTick(t => t + 1);
     });
   }, [basemap, mapLoaded]);
 
@@ -372,7 +377,7 @@ export default function VenueMap({
     if (zonesInitRef.current) return;
 
     // Clean up any leftover layers
-    [ZONE_LABEL, ZONE_GLOW, ZONE_FILL_GLOW, ZONE_EXTRUDE, ZONE_FILL, ZONE_LINE].forEach(id => {
+    [ZONE_LABEL, ZONE_GLOW, ZONE_FILL_GLOW, ZONE_EXTRUDE, ZONE_FILL, ZONE_LINE, "route-line", "route-highlight", "camera-markers", "bottleneck-markers"].forEach(id => {
       if (map.getLayer(id)) map.removeLayer(id);
     });
     if (map.getSource(ZONE_SOURCE)) map.removeSource(ZONE_SOURCE);
@@ -388,6 +393,7 @@ export default function VenueMap({
       id: ZONE_FILL_GLOW,
       type: "fill",
       source: ZONE_SOURCE,
+      filter: ["==", "$type", "Polygon"],
       paint: {
         "fill-color": enrichedZoneData.riskColor,
         "fill-opacity": enrichedZoneData.baseOpacity * 0.3,
@@ -399,17 +405,19 @@ export default function VenueMap({
       id: ZONE_FILL,
       type: "fill",
       source: ZONE_SOURCE,
+      filter: ["==", "$type", "Polygon"],
       paint: {
         "fill-color": enrichedZoneData.riskColor,
         "fill-opacity": showHeatmap ? 0.08 : enrichedZoneData.baseOpacity,
       },
     });
 
-    // Border
+    // Border (Polygons)
     map.addLayer({
       id: ZONE_LINE,
       type: "line",
       source: ZONE_SOURCE,
+      filter: ["==", "$type", "Polygon"],
       paint: {
         "line-color": enrichedZoneData.riskColor,
         "line-width": enrichedZoneData.isCritical ? 3 : 2,
@@ -422,6 +430,7 @@ export default function VenueMap({
       id: ZONE_GLOW,
       type: "line",
       source: ZONE_SOURCE,
+      filter: ["==", "$type", "Polygon"],
       paint: {
         "line-color": enrichedZoneData.riskColor,
         "line-width": enrichedZoneData.isCritical ? 12 : 0,
@@ -430,11 +439,79 @@ export default function VenueMap({
       },
     });
 
-    // Zone labels
+    // Parade Route (LineString)
+    map.addLayer({
+      id: "route-line",
+      type: "line",
+      source: ZONE_SOURCE,
+      filter: ["==", "zone_type", "route"],
+      paint: {
+        "line-color": "#a855f7",
+        "line-width": 6,
+        "line-opacity": 0.8,
+        "line-dasharray": [2, 1],
+      },
+    });
+
+    // Parade Route Highlight
+    map.addLayer({
+      id: "route-highlight",
+      type: "line",
+      source: ZONE_SOURCE,
+      filter: ["==", "zone_type", "route"],
+      paint: {
+        "line-color": "#d8b4fe",
+        "line-width": 2,
+        "line-opacity": 0.9,
+      },
+    });
+
+    // Route edit handles
+    map.addLayer({
+      id: "route-handles",
+      type: "circle",
+      source: ZONE_SOURCE,
+      filter: ["==", "zone_type", "route-handle"],
+      paint: {
+        "circle-radius": 6,
+        "circle-color": "#ffffff",
+        "circle-stroke-color": "#a855f7",
+        "circle-stroke-width": 2,
+      },
+    });
+
+    // Camera markers
+    map.addLayer({
+      id: "camera-markers",
+      type: "symbol",
+      source: ZONE_SOURCE,
+      filter: ["==", "zone_type", "camera"],
+      layout: {
+        "text-field": "📷",
+        "text-size": 24,
+        "text-allow-overlap": true,
+      },
+    });
+
+    // Bottleneck markers
+    map.addLayer({
+      id: "bottleneck-markers",
+      type: "symbol",
+      source: ZONE_SOURCE,
+      filter: ["==", "zone_type", "bottleneck"],
+      layout: {
+        "text-field": "⚠️",
+        "text-size": 20,
+        "text-allow-overlap": true,
+      },
+    });
+
+    // Zone labels (only for polygons)
     map.addLayer({
       id: ZONE_LABEL,
       type: "symbol",
       source: ZONE_SOURCE,
+      filter: ["==", "$type", "Polygon"],
       layout: {
         "text-field": [
           "concat",
@@ -496,8 +573,226 @@ export default function VenueMap({
         .addTo(map);
     });
 
+    // Camera click handlers
+    map.on("mouseenter", "camera-markers", () => {
+      map.getCanvas().style.cursor = "pointer";
+    });
+    map.on("mouseleave", "camera-markers", () => {
+      map.getCanvas().style.cursor = "";
+    });
+    map.on("click", "camera-markers", (e) => {
+      if (!e.features || e.features.length === 0 || drawMode) return;
+      const feature = e.features[0];
+      const props = feature.properties;
+      const coords = (e.lngLat as any);
+      
+      if (popupRef.current) popupRef.current.remove();
+      const zoneName = props.zone_name || props.area_name || "Camera Position";
+      
+      popupRef.current = new maplibregl.Popup({
+        closeButton: true,
+        closeOnClick: true,
+        maxWidth: "300px",
+      })
+        .setLngLat(coords)
+        .setHTML(`
+          <div class="${styles.popupTitle}">📷 ${zoneName}</div>
+          <div class="${styles.popupMeta}">
+            <span>Feed: <strong style="color:var(--color-nominal)">Active / Shared</strong></span>
+            <span>Source: GIAF Event Security</span>
+          </div>
+          <button style="margin-top:8px; width:100%; padding:4px; background:var(--color-critical); color:white; border:none; border-radius:4px; cursor:pointer" onclick="window.deleteVenueElement('${venueId}', '${props.zone_id}')">Delete Camera</button>
+        `)
+        .addTo(map);
+    });
+
+    // Bottleneck click handlers
+    map.on("mouseenter", "bottleneck-markers", () => {
+      map.getCanvas().style.cursor = "pointer";
+    });
+    map.on("mouseleave", "bottleneck-markers", () => {
+      map.getCanvas().style.cursor = "";
+    });
+    map.on("click", "bottleneck-markers", (e) => {
+      if (!e.features || e.features.length === 0 || drawMode) return;
+      const feature = e.features[0];
+      const props = feature.properties;
+      const coords = (e.lngLat as any);
+      
+      if (popupRef.current) popupRef.current.remove();
+      const zoneName = props.zone_name || props.area_name || "Bottleneck";
+      
+      popupRef.current = new maplibregl.Popup({
+        closeButton: true,
+        closeOnClick: true,
+        maxWidth: "300px",
+      })
+        .setLngLat(coords)
+        .setHTML(`
+          <div class="${styles.popupTitle}">⚠️ ${zoneName}</div>
+          <div class="${styles.popupMeta}">
+            <span>Risk Level: <strong style="color:var(--color-elevated)">Elevated</strong></span>
+            <span>Est. Clearance Time: 15-20 mins</span>
+          </div>
+          <button style="margin-top:8px; width:100%; padding:4px; background:var(--color-critical); color:white; border:none; border-radius:4px; cursor:pointer" onclick="window.deleteVenueElement('${venueId}', '${props.zone_id}')">Delete Bottleneck</button>
+        `)
+        .addTo(map);
+    });
+
+    // Global delete function for popups
+    (window as any).deleteVenueElement = async (vId: string, zId: string) => {
+      if (popupRef.current) popupRef.current.remove();
+      try {
+        await api.venues.updateElements(vId, { [zId]: null as any });
+        setRefetchTrigger(t => t + 1);
+      } catch (err) {
+        console.error("Failed to delete element", err);
+      }
+    };
+
+    // Drag and Drop Logic
+    let isDraggingNode = false;
+    isDraggingRef.current = false;
+    let draggedFeatureId: string | null = null;
+    let draggedFeatureType: string | null = null;
+    let draggedFeatureIndex: number | null = null;
+    let draggedFeatureRouteId: string | null = null;
+
+    const onMouseDownDrag = (e: any) => {
+      if (drawMode) return;
+      const features = map.queryRenderedFeatures(e.point, {
+        layers: ["route-handles", "camera-markers", "bottleneck-markers"]
+      });
+      if (features.length > 0) {
+        e.preventDefault();
+        map.getCanvas().style.cursor = "grabbing";
+        isDraggingNode = true;
+        isDraggingRef.current = true;
+        map.dragPan.disable();
+        const f = features[0];
+        draggedFeatureType = f.properties.zone_type;
+        draggedFeatureId = f.properties.zone_id;
+        draggedFeatureIndex = f.properties.handle_index;
+        draggedFeatureRouteId = f.properties.route_id;
+      }
+    };
+
+    const onMouseMoveDrag = (e: any) => {
+      if (!isDraggingNode) {
+        const features = map.queryRenderedFeatures(e.point, {
+          layers: ["route-handles", "camera-markers", "bottleneck-markers"]
+        });
+        if (features.length > 0) {
+          map.getCanvas().style.cursor = "grab";
+        }
+        return;
+      }
+      map.getCanvas().style.cursor = "grabbing";
+      
+      const src = map.getSource(ZONE_SOURCE) as maplibregl.GeoJSONSource | undefined;
+      if (!src) return;
+
+      const coords = [e.lngLat.lng, e.lngLat.lat];
+      // Read directly from the map source's current internal data instead of the memoized closure
+      // This prevents previously dropped elements from snapping back while waiting for the API refetch.
+      const currentData = (src as any)?._data || enrichedZoneData?.geojson;
+      if (!currentData || !currentData.features) return;
+
+      // Create a shallow copy to update
+      const newFeatures = [...currentData.features];
+
+      if (draggedFeatureType === "route-handle") {
+        const routeIdx = newFeatures.findIndex(f => f.properties?.zone_id === draggedFeatureRouteId);
+        if (routeIdx >= 0) {
+          const route = { ...newFeatures[routeIdx] };
+          if (route.geometry.type === "LineString") {
+             const newCoords = [...route.geometry.coordinates];
+             if (draggedFeatureIndex === null) return;
+             newCoords[draggedFeatureIndex!] = coords;
+             route.geometry = { ...route.geometry, coordinates: newCoords };
+             newFeatures[routeIdx] = route;
+          }
+        }
+        const ptIdx = newFeatures.findIndex(f => f.properties?.zone_id === draggedFeatureId);
+        if (ptIdx >= 0) {
+          const pt = { ...newFeatures[ptIdx] };
+          pt.geometry = { type: "Point", coordinates: coords };
+          newFeatures[ptIdx] = pt;
+        }
+      } else {
+        const ptIdx = newFeatures.findIndex(f => f.properties?.zone_id === draggedFeatureId);
+        if (ptIdx >= 0) {
+          const pt = { ...newFeatures[ptIdx] };
+          pt.geometry = { type: "Point", coordinates: coords };
+          newFeatures[ptIdx] = pt;
+        }
+      }
+
+      src.setData({ type: "FeatureCollection", features: newFeatures } as any);
+    };
+
+    const onMouseUpDrag = async (e: any) => {
+      const wasDragging = isDraggingNode;
+      isDraggingNode = false;
+      isDraggingRef.current = false;
+      map.getCanvas().style.cursor = "";
+      map.dragPan.enable();
+      if (!wasDragging) return;
+
+      const coords = [e.lngLat.lng, e.lngLat.lat];
+      const src = map.getSource(ZONE_SOURCE) as maplibregl.GeoJSONSource | undefined;
+      const currentData = (src as any)?._data ?? enrichedZoneData?.geojson;
+      if (!currentData || !currentData.features) {
+        draggedFeatureId = null;
+        draggedFeatureType = null;
+        draggedFeatureIndex = null;
+        draggedFeatureRouteId = null;
+        return;
+      }
+
+      if (draggedFeatureType === "route-handle") {
+        const route = currentData.features.find((f: any) => f.properties?.zone_id === draggedFeatureRouteId);
+        if (route && route.geometry.type === "LineString") {
+          const newCoords = [...route.geometry.coordinates];
+          if (draggedFeatureIndex === null) return;
+          newCoords[draggedFeatureIndex!] = coords;
+          try {
+            await api.venues.updateRoute(venueId, newCoords);
+            setRefetchTrigger(t => t + 1);
+          } catch (err) {
+            console.error("Failed to update route", err);
+          }
+        }
+      } else {
+        const pt = currentData.features.find((f: any) => f.properties?.zone_id === draggedFeatureId);
+        if (pt) {
+           try {
+             await api.venues.updateElements(venueId, { [draggedFeatureId!]: coords });
+             setRefetchTrigger(t => t + 1);
+           } catch (err) {
+             console.error("Failed to update element", err);
+           }
+        }
+      }
+      
+      draggedFeatureId = null;
+      draggedFeatureType = null;
+      draggedFeatureIndex = null;
+      draggedFeatureRouteId = null;
+    };
+
+    map.on("mousedown", onMouseDownDrag);
+    map.on("mousemove", onMouseMoveDrag);
+    map.on("mouseup", onMouseUpDrag);
+
     zonesInitRef.current = true;
-  }, [mapLoaded, enrichedZoneData, showHeatmap, drawMode]);
+
+    return () => {
+      map.off("mousedown", onMouseDownDrag);
+      map.off("mousemove", onMouseMoveDrag);
+      map.off("mouseup", onMouseUpDrag);
+    };
+  }, [mapLoaded, enrichedZoneData, showHeatmap, drawMode, styleTick, venueId]);
 
   /* Layer 1 UPDATE: Smooth in-place updates when currentPeople changes */
   useEffect(() => {
@@ -506,6 +801,9 @@ export default function VenueMap({
 
     const src = map.getSource(ZONE_SOURCE) as maplibregl.GeoJSONSource | undefined;
     if (!src) return;
+
+    // Skip if user is actively dragging a handle — don't clobber their edits
+    if (isDraggingRef.current) return;
 
     // Update the data — MapLibre smoothly re-renders
     src.setData(enrichedZoneData.geojson as any);
@@ -788,12 +1086,25 @@ export default function VenueMap({
 
     function handleClick(e: maplibregl.MapMouseEvent) {
       if (!drawMode) return;
+      
+      if (drawType === "Point") {
+        const point: GeoJSON.Point = {
+          type: "Point",
+          coordinates: [e.lngLat.lng, e.lngLat.lat],
+        };
+        onZoneDrawn?.(point);
+        // Clean up
+        const src = map!.getSource(drawSourceId) as maplibregl.GeoJSONSource | undefined;
+        if (src) src.setData({ type: "FeatureCollection", features: [] });
+        return;
+      }
+
       drawPointsRef.current.push([e.lngLat.lng, e.lngLat.lat]);
       updateDrawPreview();
     }
 
     function handleDblClick(e: maplibregl.MapMouseEvent) {
-      if (!drawMode) return;
+      if (!drawMode || drawType === "Point") return;
       e.preventDefault();
 
       const pts = drawPointsRef.current;
@@ -823,7 +1134,7 @@ export default function VenueMap({
       map.doubleClickZoom.enable();
       map.getCanvas().style.cursor = "";
     };
-  }, [drawMode, mapLoaded, onZoneDrawn]);
+  }, [drawMode, drawType, mapLoaded, onZoneDrawn]);
 
   /* -- Heatmap layer --------------------------------------------------- */
   useEffect(() => {

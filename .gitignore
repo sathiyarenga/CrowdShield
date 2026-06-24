@@ -37,3 +37,16 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+
+# Next.js build output
+app/.next/
+
+# Backend caches (regenerated at runtime)
+backend/data/sim_cache/
+backend/data/spatial_cache/
+backend/data/zones/*_overrides.json
+
+# Confidential GIAF data files (not for public repo)
+Data/Galway/*.pdf
+Data/Galway/*.pptx
+Data/Galway/*.xlsx

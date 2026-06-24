@@ -36,6 +36,9 @@ router = APIRouter(prefix="/api/venues", tags=["venues"])
 ZoneType = Literal[
     "gate", "stage", "crowd_corridor", "medical",
     "vip", "parking", "buffer", "custom",
+    "security", "info",
+    "ambulance", "fire", "welfare", "steward",
+    "command", "barrier", "toilet",
 ]
 
 
@@ -44,12 +47,21 @@ class GeoJSONPolygonGeometry(BaseModel):
     coordinates: list[list[list[float]]]
 
 
+class GeoJSONPointGeometry(BaseModel):
+    type: Literal["Point"] = "Point"
+    coordinates: list[float]
+
+
+# Accept either Polygon or Point geometry for custom zones
+GeoJSONGeometry = GeoJSONPolygonGeometry | GeoJSONPointGeometry
+
+
 class CustomZoneCreate(BaseModel):
     name: str
     zone_type: ZoneType
     capacity: int = Field(ge=0)
     color: str = Field(pattern=r"^#[0-9a-fA-F]{6}$")
-    geometry: GeoJSONPolygonGeometry
+    geometry: GeoJSONGeometry
 
 
 class CustomZoneUpdate(BaseModel):
@@ -57,7 +69,7 @@ class CustomZoneUpdate(BaseModel):
     zone_type: ZoneType | None = None
     capacity: int | None = Field(default=None, ge=0)
     color: str | None = Field(default=None, pattern=r"^#[0-9a-fA-F]{6}$")
-    geometry: GeoJSONPolygonGeometry | None = None
+    geometry: GeoJSONGeometry | None = None
 
 
 ZONES_DIR = Path(__file__).resolve().parents[3] / "data" / "zones"
@@ -81,6 +93,26 @@ def _write_zones(venue_id: str, collection: dict) -> None:
     ZONES_DIR.mkdir(parents=True, exist_ok=True)
     path = _zones_path(venue_id)
     path.write_text(json.dumps(collection, indent=2, default=str), encoding="utf-8")
+
+
+def _overrides_path(venue_id: str) -> Path:
+    """Return the JSON file path for a venue's static data overrides."""
+    return ZONES_DIR / f"{venue_id}_overrides.json"
+
+
+def _read_overrides(venue_id: str) -> dict:
+    """Load overrides from disk (route coordinates, cameras, etc.)."""
+    path = _overrides_path(venue_id)
+    if path.exists():
+        return json.loads(path.read_text(encoding="utf-8"))
+    return {}
+
+
+def _write_overrides(venue_id: str, overrides: dict) -> None:
+    """Save overrides to disk."""
+    ZONES_DIR.mkdir(parents=True, exist_ok=True)
+    path = _overrides_path(venue_id)
+    path.write_text(json.dumps(overrides, indent=2, default=str), encoding="utf-8")
 
 
 # ═════════════════════════════════════════════════════════════════════════════
@@ -108,30 +140,63 @@ VENUES: dict[str, dict] = {
     },
     "galway": {
         "id": "galway",
-        "name": "The Whale Street Spectacle",
+        "name": "Galway International Arts Festival",
         "city": "Galway",
         "country": "Ireland",
-        "center": [-9.0545, 53.2707],
-        "zoom": 17,
+        "center": [-9.0535, 53.2715],
+        "zoom": 16,
         "pitch": 45,
-        "bearing": 0,
+        "bearing": -20,
         "has_telemetry": False,
         "event_dates": ["2026-07-17", "2026-07-18"],
     },
 }
 
 
-# ── Galway venue polygon ────────────────────────────────────────────────────
+# ── Galway parade route (The Whale Street Spectacle 2026) ───────────────
+# Route: Eyre Square → Shop Street → Mainguard St → High St → Cross St → 
+#        Bridge St → Dominick St → Wolfe Tone Bridge → Spanish Arch → Long Walk
+# Source: GIAF Planète Vapeur route maps (2024/2025)
 
-_GALWAY_POLYGON_COORDS = [
-    [-9.0530, 53.2695],
-    [-9.0522, 53.2712],
-    [-9.0548, 53.2720],
-    [-9.0565, 53.2715],
-    [-9.0558, 53.2698],
+_GALWAY_ROUTE_COORDS: list[list[float]] = [
+    [-9.0490, 53.2745],   # Eyre Square (start/assembly)
+    [-9.0502, 53.2741],   # Eglinton St / Williamsgate junction
+    [-9.0513, 53.2739],   # Williamsgate Street (mid)
+    [-9.0527, 53.2727],   # Shop Street (centre)
+    [-9.0539, 53.2719],   # Mainguard Street
+    [-9.0545, 53.2718],   # Cross Street / High Street junction ⚠️ bottleneck
+    [-9.0558, 53.2717],   # Bridge Street (crossing River Corrib)
+    [-9.0568, 53.2715],   # Dominick Street Lower (turning left/south)
+    [-9.0572, 53.2708],   # Dominick Street Lower (mid)
+    [-9.0576, 53.2701],   # Raven Terrace / Performance Finish
 ]
 
-_GALWAY_AREA_SQM = 8_000.0
+_GALWAY_ROUTE_LENGTH_M = 950.0  # approx 950m
+
+# Camera positions along parade route (GIAF event security supplier)
+_GALWAY_CAMERA_POSITIONS: list[dict] = [
+    {"id": "CAM-1", "position": [-9.0490, 53.2745], "name": "Eyre Square (Start)", "type": "overview", "description": "Staging area & assembly monitoring"},
+    {"id": "CAM-2", "position": [-9.0513, 53.2739], "name": "Williamsgate / Shop St Entrance", "type": "ingress", "description": "Transition from square to pedestrian corridor"},
+    {"id": "CAM-3", "position": [-9.0527, 53.2727], "name": "Shop Street Centre", "type": "density", "description": "Monitor density on main pedestrian street (~12m wide)"},
+    {"id": "CAM-4", "position": [-9.0539, 53.2719], "name": "High St / Mainguard Junction", "type": "bottleneck", "description": "Critical bottleneck — multiple streets converge"},
+    {"id": "CAM-5", "position": [-9.0545, 53.2718], "name": "Cross Street Junction", "type": "bottleneck", "description": "Narrowest point along route (~4.8-6m effective width)"},
+    {"id": "CAM-6", "position": [-9.0568, 53.2715], "name": "Dominick Street Lower", "type": "turning_point", "description": "West bank approach; parade turning south"},
+    {"id": "CAM-7", "position": [-9.0576, 53.2701], "name": "Raven Terrace (Finish)", "type": "dispersal", "description": "Performance finish & crowd dispersal monitoring"},
+]
+
+# Bottleneck points along the route
+_GALWAY_BOTTLENECKS: list[dict] = [
+    {"id": "BN-1", "position": [-9.0539, 53.2719], "name": "High St / Mainguard Junction", "width_m": 7.0, "risk": "high", "description": "Multiple streets converge — major congestion point"},
+    {"id": "BN-2", "position": [-9.0545, 53.2718], "name": "Cross Street Junction", "width_m": 5.0, "risk": "high", "description": "Narrowest effective width along route"},
+]
+
+# Keep a bounding box for the route area (for density calculations etc.)
+_GALWAY_ROUTE_BBOX = (
+    min(c[0] for c in _GALWAY_ROUTE_COORDS),
+    min(c[1] for c in _GALWAY_ROUTE_COORDS),
+    max(c[0] for c in _GALWAY_ROUTE_COORDS),
+    max(c[1] for c in _GALWAY_ROUTE_COORDS),
+)
 
 
 # ═════════════════════════════════════════════════════════════════════════════
@@ -241,25 +306,89 @@ def _build_ullevaal_zone_features() -> list[dict]:
     return features
 
 
-def _build_galway_zone_feature() -> dict:
-    """Build a single GeoJSON feature for the Galway event route."""
-    ring = _GALWAY_POLYGON_COORDS + [_GALWAY_POLYGON_COORDS[0]]  # close the ring
-    return {
+def _build_galway_route_features() -> list[dict]:
+    """Build GeoJSON features for the Galway parade route, cameras, and bottlenecks."""
+    features: list[dict] = []
+    overrides = _read_overrides("galway")
+
+    # Merge overrides
+    route_coords = overrides.get("route", _GALWAY_ROUTE_COORDS)
+    
+    # 1. Parade route as a LineString
+    features.append({
         "type": "Feature",
         "properties": {
-            "zone_id": "galway-event-route",
-            "zone_name": "Event Route",
-            "area_sqm": _GALWAY_AREA_SQM,
-            "capacity_estimate": {
-                "comfortable": int(_GALWAY_AREA_SQM * 2),
-                "dense": int(_GALWAY_AREA_SQM * 4),
-            },
+            "zone_id": "galway-parade-route",
+            "zone_name": "The Whale Street Spectacle — Parade Route",
+            "zone_type": "route",
+            "route_length_m": _GALWAY_ROUTE_LENGTH_M,
+            "description": "Eyre Square → Shop Street → Dominick St",
         },
         "geometry": {
-            "type": "Polygon",
-            "coordinates": [ring],
+            "type": "LineString",
+            "coordinates": route_coords,
         },
-    }
+    })
+
+    # 1b. Route edit handles — one Point per coordinate for drag-and-drop
+    for i, coord in enumerate(route_coords):
+        features.append({
+            "type": "Feature",
+            "properties": {
+                "zone_id": f"route-handle-{i}",
+                "zone_name": f"Route Point {i + 1}",
+                "zone_type": "route-handle",
+                "handle_index": i,
+                "route_id": "galway-parade-route",
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": coord,
+            },
+        })
+
+    # 2. Camera positions as Points
+    for cam in _GALWAY_CAMERA_POSITIONS:
+        pos = overrides.get("elements", {}).get(cam["id"], cam["position"])
+        if pos is None:
+            continue
+        features.append({
+            "type": "Feature",
+            "properties": {
+                "zone_id": cam["id"],
+                "zone_name": cam["name"],
+                "zone_type": "camera",
+                "camera_type": cam["type"],
+                "description": cam["description"],
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": pos,
+            },
+        })
+
+    # 3. Bottleneck points
+    for bn in _GALWAY_BOTTLENECKS:
+        pos = overrides.get("elements", {}).get(bn["id"], bn["position"])
+        if pos is None:
+            continue
+        features.append({
+            "type": "Feature",
+            "properties": {
+                "zone_id": bn["id"],
+                "zone_name": bn["name"],
+                "zone_type": "bottleneck",
+                "width_m": bn["width_m"],
+                "risk_level": bn["risk"],
+                "description": bn["description"],
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": pos,
+            },
+        })
+
+    return features
 
 
 # ── Lazy extraction reuse from documents.py ─────────────────────────────────
@@ -267,13 +396,13 @@ def _build_galway_zone_feature() -> dict:
 
 def _ensure_extraction() -> None:
     """Delegate to the document pipeline's lazy extraction."""
-    if store.doc_risks is not None:
+    if store.all_risks():
         return
 
     logger.info("📄 Venues: triggering document extraction for risk markers…")
     from src.api.routes.documents import _ensure_extraction as _docs_extract
 
-    _docs_extract()
+    _docs_extract("galway")
 
 
 # ── Location keyword mapping for Galway risks ──────────────────────────────
@@ -343,9 +472,9 @@ async def venue_detail(venue_id: str) -> dict:
 
     if venue_id == "ullevaal":
         features = _build_ullevaal_zone_features()
+    elif venue_id == "galway":
+        features = _build_galway_route_features()
     else:
-        # Non-telemetry venues start with an empty canvas
-        # Users draw their own zones via the Zone Drawing tool
         features = []
 
     return {
@@ -372,7 +501,7 @@ async def venue_risk_markers(venue_id: str) -> dict:
     # Trigger lazy extraction
     _ensure_extraction()
 
-    risks = store.doc_risks
+    risks = store.all_risks()
     if not risks:
         return {"type": "FeatureCollection", "features": []}
 
@@ -495,9 +624,9 @@ def _ullevaal_density(
 
 def _galway_density(points_per_zone: int) -> list[dict]:
     """Generate uniform density points for the Galway event route."""
-    # Estimated comfortable capacity for the route
-    comfortable_capacity = int(_GALWAY_AREA_SQM * 2)
-    pts = _spread_points_in_polygon(_GALWAY_POLYGON_COORDS, points_per_zone)
+    # Estimated comfortable capacity for the route corridor
+    comfortable_capacity = int(_GALWAY_ROUTE_LENGTH_M * 10 * 2)  # ~10m avg width × 2 ppl/m²
+    pts = _spread_points_in_polygon(_GALWAY_ROUTE_COORDS, points_per_zone)
     weight = comfortable_capacity / max(len(pts), 1)
 
     features: list[dict] = []
@@ -584,6 +713,21 @@ async def update_custom_zone(
     raise HTTPException(status_code=404, detail=f"Zone not found: {zone_id}")
 
 
+@router.put("/{venue_id}/elements")
+async def update_elements(venue_id: str, body: dict[str, list[float] | None]) -> dict:
+    """Update static elements overrides (cameras/bottlenecks)."""
+    _venue_or_404(venue_id)
+    overrides = _read_overrides(venue_id)
+    if "elements" not in overrides:
+        overrides["elements"] = {}
+    
+    for k, v in body.items():
+        overrides["elements"][k] = v
+        
+    _write_overrides(venue_id, overrides)
+    return {"detail": "updated"}
+
+
 @router.delete("/{venue_id}/zones/custom/{zone_id}")
 async def delete_custom_zone(venue_id: str, zone_id: str) -> dict:
     """Delete a custom zone by zone_id."""
@@ -622,3 +766,13 @@ async def list_zone_templates(venue_id: str) -> dict:
         })
 
     return {"total": len(templates), "templates": templates}
+
+
+@router.put("/{venue_id}/route")
+async def update_route(venue_id: str, body: list[list[float]]) -> dict:
+    """Update static route overrides."""
+    _venue_or_404(venue_id)
+    overrides = _read_overrides(venue_id)
+    overrides["route"] = body
+    _write_overrides(venue_id, overrides)
+    return {"detail": "updated"}

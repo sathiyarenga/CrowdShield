@@ -74,7 +74,7 @@ function speedToColor(speed: number): [number, number, number, number] {
 
 export default function CrowdFlowLayer({ venueId, map, mapLoaded, visible }: Props) {
   const [scenario, setScenario] = useState<Scenario>("ingress");
-  const [numAgents, setNumAgents] = useState(2000);
+  const [numAgents, setNumAgents] = useState(10000);
   const [totalTime, setTotalTime] = useState(600);
   const [trips, setTrips] = useState<Trip[]>([]);
   const [stats, setStats] = useState<SimStats | null>(null);
@@ -128,9 +128,9 @@ export default function CrowdFlowLayer({ venueId, map, mapLoaded, visible }: Pro
         total_time: totalTime,
       });
 
-      // Cap trips at 3000 for WebGL performance
+      // No cap — running locally with full GPU/CPU resources
       const allTrips: Trip[] = result.trips ?? [];
-      const cappedTrips = allTrips.length > 3000 ? allTrips.slice(0, 3000) : allTrips;
+      const cappedTrips = allTrips;
 
       setTrips(cappedTrips);
       setStats(result.stats ?? null);
@@ -343,10 +343,10 @@ export default function CrowdFlowLayer({ venueId, map, mapLoaded, visible }: Pro
 
     // Clean up previous
     for (const l of [ORIGIN_ICON, ORIGIN_CIRCLE, VENUE_LABEL, VENUE_PULSE, VENUE_CIRCLE]) {
-      try { map.removeLayer(l); } catch { /* */ }
+      if (map.getLayer(l)) map.removeLayer(l);
     }
     for (const s of [ORIGIN_SRC, VENUE_SRC]) {
-      try { map.removeSource(s); } catch { /* */ }
+      if (map.getSource(s)) map.removeSource(s);
     }
 
     if (!visible || originsUsed.length === 0) return;
@@ -523,10 +523,10 @@ export default function CrowdFlowLayer({ venueId, map, mapLoaded, visible }: Pro
       map.off("mousemove", onHover);
       popup.remove();
       for (const l of [ORIGIN_ICON, ORIGIN_CIRCLE, VENUE_LABEL, VENUE_PULSE, VENUE_CIRCLE]) {
-        try { map.removeLayer(l); } catch { /* */ }
+        if (map.getLayer(l)) map.removeLayer(l);
       }
       for (const s of [ORIGIN_SRC, VENUE_SRC]) {
-        try { map.removeSource(s); } catch { /* */ }
+        if (map.getSource(s)) map.removeSource(s);
       }
     };
   }, [map, mapLoaded, visible, originsUsed, venueId]);
@@ -572,11 +572,13 @@ export default function CrowdFlowLayer({ venueId, map, mapLoaded, visible }: Pro
             onChange={(e) => setNumAgents(Number(e.target.value))}
             disabled={loading}
           >
-            <option value={500}>500</option>
             <option value={1000}>1,000</option>
             <option value={2000}>2,000</option>
             <option value={5000}>5,000</option>
             <option value={10000}>10,000</option>
+            <option value={15000}>15,000</option>
+            <option value={25000}>25,000</option>
+            <option value={50000}>50,000</option>
           </select>
         </label>
         <label className={styles.inputRow}>

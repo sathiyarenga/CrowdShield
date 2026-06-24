@@ -7,29 +7,42 @@ import styles from "./ZoneDrawer.module.css";
 
 /* -- Zone type metadata ------------------------------------------------ */
 const ZONE_TYPES = [
-  { value: "gate", label: "Gate / Entrance", icon: "🚪", color: "#3b82f6" },
-  { value: "stage", label: "Stage / Performance", icon: "🎤", color: "#a855f7" },
-  { value: "crowd_corridor", label: "Crowd Corridor", icon: "🚶", color: "#f97316" },
-  { value: "medical", label: "Medical Point", icon: "🏥", color: "#22c55e" },
-  { value: "vip", label: "VIP Area", icon: "⭐", color: "#eab308" },
-  { value: "parking", label: "Parking", icon: "🅿️", color: "#6b7280" },
-  { value: "buffer", label: "Buffer Zone", icon: "🔲", color: "#64748b" },
-  { value: "custom", label: "Custom", icon: "📍", color: "#06b6d4" },
+  // Polygon zones
+  { value: "gate", label: "Gate / Entrance", icon: "🚪", color: "#3b82f6", geometryType: "Polygon" as const },
+  { value: "stage", label: "Stage / Performance", icon: "🎤", color: "#a855f7", geometryType: "Polygon" as const },
+  { value: "crowd_corridor", label: "Crowd Corridor", icon: "🚶", color: "#f97316", geometryType: "Polygon" as const },
+  { value: "vip", label: "VIP Area", icon: "⭐", color: "#eab308", geometryType: "Polygon" as const },
+  { value: "parking", label: "Parking", icon: "🅿️", color: "#6b7280", geometryType: "Polygon" as const },
+  { value: "buffer", label: "Buffer Zone", icon: "🔲", color: "#64748b", geometryType: "Polygon" as const },
+  { value: "custom", label: "Custom", icon: "📍", color: "#06b6d4", geometryType: "Polygon" as const },
+  // Point markers — Emergency & Event Infrastructure
+  { value: "medical", label: "Medical / First Aid", icon: "🏥", color: "#22c55e", geometryType: "Point" as const },
+  { value: "security", label: "Police / Security", icon: "👮", color: "#ef4444", geometryType: "Point" as const },
+  { value: "info", label: "Info Point", icon: "ℹ️", color: "#0ea5e9", geometryType: "Point" as const },
+  { value: "ambulance", label: "Ambulance Staging", icon: "🚑", color: "#16a34a", geometryType: "Point" as const },
+  { value: "fire", label: "Fire Access / Tender", icon: "🚒", color: "#dc2626", geometryType: "Point" as const },
+  { value: "welfare", label: "Welfare / Lost Child", icon: "🤝", color: "#8b5cf6", geometryType: "Point" as const },
+  { value: "steward", label: "Steward Position", icon: "🦺", color: "#f59e0b", geometryType: "Point" as const },
+  { value: "command", label: "Command Post", icon: "📡", color: "#1e40af", geometryType: "Point" as const },
+  { value: "barrier", label: "Road Barrier", icon: "🚧", color: "#d97706", geometryType: "Point" as const },
+  { value: "toilet", label: "Portable Toilet", icon: "🚻", color: "#475569", geometryType: "Point" as const },
 ];
 
 interface ZoneDrawerProps {
   venueId: string;
   drawMode: boolean;
-  onToggleDrawMode: () => void;
+  drawType?: "Polygon" | "Point";
+  onToggleDrawMode: (type?: "Polygon" | "Point") => void;
   customZones: CustomZone[];
   onZonesUpdated: (zones: CustomZone[]) => void;
-  drawnGeometry: GeoJSON.Polygon | null;
+  drawnGeometry: GeoJSON.Polygon | GeoJSON.Point | null;
   onGeometryConsumed: () => void;
 }
 
 export default function ZoneDrawer({
   venueId,
   drawMode,
+  drawType,
   onToggleDrawMode,
   customZones,
   onZonesUpdated,
@@ -180,19 +193,44 @@ export default function ZoneDrawer({
       {/* Draw toolbar */}
       <div className={styles.toolbar}>
         <button
-          className={`${styles.toolBtn} ${drawMode ? styles.active : ""}`}
-          onClick={onToggleDrawMode}
-          title={drawMode ? "Cancel drawing" : "Draw a zone"}
+          className={`${styles.toolBtn} ${drawMode && drawType === "Polygon" ? styles.active : ""}`}
+          onClick={() => onToggleDrawMode("Polygon")}
+          title="Draw a zone polygon"
         >
           <span className={styles.toolIcon}>✏️</span>
-          {drawMode ? "Cancel" : "Draw Zone"}
+          Zone
         </button>
+        <button
+          className={`${styles.toolBtn} ${drawMode && drawType === "Point" ? styles.active : ""}`}
+          onClick={() => onToggleDrawMode("Point")}
+          title="Place temporary infrastructure (medical, police, ambulance, etc.)"
+        >
+          <span className={styles.toolIcon}>🚑</span>
+          Place
+        </button>
+        {drawMode && (
+          <button className={styles.toolBtn} onClick={() => onToggleDrawMode()} style={{ color: "var(--color-critical)" }}>
+            Cancel
+          </button>
+        )}
         {customZones.length > 0 && (
           <div className={styles.zoneCount}>
             {customZones.length} zone{customZones.length !== 1 ? "s" : ""}
           </div>
         )}
       </div>
+
+      {/* Draw Instruction Banner */}
+      {drawMode && (
+        <div className={styles.drawInstructionBanner}>
+          <span className={styles.toolIcon}>ℹ️</span>
+          {drawType === "Polygon" ? (
+            <span><strong>Click</strong> to outline area • <strong>Double-click</strong> to finish</span>
+          ) : (
+            <span><strong>Click</strong> on map to place infrastructure marker (ambulance, police, medical, etc.)</span>
+          )}
+        </div>
+      )}
 
       {/* Zone list */}
       {customZones.length > 0 && (
@@ -260,7 +298,10 @@ export default function ZoneDrawer({
             <label className={styles.fieldLabel}>
               Zone Type
               <div className={styles.typeGrid}>
-                {ZONE_TYPES.map(t => (
+                {ZONE_TYPES.filter(t => {
+                  const geomType = drawnGeometry ? drawnGeometry.type : (editingZone ? editingZone.geometry.type : null);
+                  return !geomType || t.geometryType === geomType;
+                }).map(t => (
                   <button
                     key={t.value}
                     className={`${styles.typeOption} ${formData.zone_type === t.value ? styles.selected : ""}`}

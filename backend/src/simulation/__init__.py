@@ -38,6 +38,18 @@ ORS_API_KEY = "eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6IjU2NTRiMGFlY
 OVERPASS_API = "https://overpass-api.de/api/interpreter"
 CACHE_DIR = Path(__file__).resolve().parents[2] / "data" / "sim_cache"
 
+# Galway parade route spectator viewpoints — agents walk TO these spots to watch the parade
+GALWAY_SPECTATOR_VIEWPOINTS = [
+    {"lat": 53.2745, "lon": -9.0490, "name": "Eyre Square Viewing", "share": 0.20},
+    {"lat": 53.2739, "lon": -9.0513, "name": "Williamsgate St Viewing", "share": 0.12},
+    {"lat": 53.2727, "lon": -9.0527, "name": "Shop Street Viewing", "share": 0.18},
+    {"lat": 53.2719, "lon": -9.0539, "name": "Mainguard St Viewing", "share": 0.12},
+    {"lat": 53.2718, "lon": -9.0545, "name": "Cross St Junction Viewing", "share": 0.10},
+    {"lat": 53.2717, "lon": -9.0558, "name": "Bridge Street Viewing", "share": 0.08},
+    {"lat": 53.2715, "lon": -9.0568, "name": "Dominick St Viewing", "share": 0.10},
+    {"lat": 53.2701, "lon": -9.0576, "name": "Raven Terrace Viewing", "share": 0.10},
+]
+
 
 @dataclass
 class Origin:
@@ -484,68 +496,157 @@ def run_simulation(config: SimConfig, center_latlon: tuple[float, float]) -> Sim
         )
 
     # 3. Distribute agents across routes based on crowd_share
-    max_viz = min(n, 3000)  # WebGL cap (communicated to frontend)
-    sample_interval = 1.5 if max_viz <= 1500 else 2.0 if max_viz <= 3000 else 3.0
+    # Render free tier has 512MB RAM — cap at 3000 agents in deployed mode
+    import os
+    deploy_cap = int(os.environ.get("SIM_AGENT_CAP", "3000"))
+    max_viz = min(n, deploy_cap) if os.environ.get("RENDER") else n
+    sample_interval = 1.0 if max_viz <= 5000 else 1.5 if max_viz <= 15000 else 2.0
 
     trips = []
     route_lengths = []
 
-    for origin, coords in route_pairs:
-        route_len = 0
-        for i in range(1, len(coords)):
-            dlat = math.radians(coords[i][1] - coords[i-1][1])
-            dlon = math.radians(coords[i][0] - coords[i-1][0])
-            a = (math.sin(dlat/2)**2 +
-                 math.cos(math.radians(coords[i-1][1])) *
-                 math.cos(math.radians(coords[i][1])) *
-                 math.sin(dlon/2)**2)
-            route_len += 6371000 * 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
-        route_lengths.append(route_len)
+    # For parade events (Galway), distribute agents to spectator viewpoints along the route
+    is_parade = (venue_id == "galway") if hasattr(config, '_venue_id') else (abs(lat_center - 53.2707) < 0.01)
 
-        # How many agents from this origin?
-        n_agents = max(1, int(max_viz * origin.crowd_share))
+    if is_parade and GALWAY_SPECTATOR_VIEWPOINTS:
+        # Compute routes from each origin to each viewpoint
+        parade_route_pairs: list[tuple[Origin, list[list[float]], dict]] = []
+        for origin, route_to_center in route_pairs:
+            for vp in GALWAY_SPECTATOR_VIEWPOINTS:
+                # Try to get a route from origin to this viewpoint
+                cache_key_vp = hashlib.md5(
+                    f"vp_{origin.lat}_{origin.lon}_{vp['lat']}_{vp['lon']}_{config.scenario}".encode()
+                ).hexdigest()
+                cache_file_vp = CACHE_DIR / f"vproute_{cache_key_vp}.json"
 
-        for j in range(n_agents):
+                coords = None
+                if cache_file_vp.exists():
+                    try:
+                        with open(cache_file_vp) as f:
+                            coords = json.load(f)
+                    except Exception:
+                        pass
+
+                if coords is None:
+                    if config.scenario == "egress":
+                        coords = _compute_ors_route(vp["lat"], vp["lon"], origin.lat, origin.lon, config.avoid_polygons)
+                    else:
+                        coords = _compute_ors_route(origin.lat, origin.lon, vp["lat"], vp["lon"], config.avoid_polygons)
+
+                    if coords and len(coords) >= 2:
+                        CACHE_DIR.mkdir(parents=True, exist_ok=True)
+                        with open(cache_file_vp, "w") as f:
+                            json.dump(coords, f)
+                        time.sleep(0.35)  # ORS rate limit
+
+                if coords and len(coords) >= 2:
+                    parade_route_pairs.append((origin, coords, vp))
+
+        logger.info(f"🎭 Parade mode: {len(parade_route_pairs)} origin→viewpoint routes")
+
+        # Distribute agents: each viewpoint gets its share of agents
+        for origin, coords, vp in parade_route_pairs:
+            route_len = 0
+            for i in range(1, len(coords)):
+                dlat = math.radians(coords[i][1] - coords[i-1][1])
+                dlon = math.radians(coords[i][0] - coords[i-1][0])
+                a = (math.sin(dlat/2)**2 +
+                     math.cos(math.radians(coords[i-1][1])) *
+                     math.cos(math.radians(coords[i][1])) *
+                     math.sin(dlon/2)**2)
+                route_len += 6371000 * 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+            route_lengths.append(route_len)
+
+            # How many agents: origin's share × viewpoint's share × total agents
+            n_agents = max(1, int(max_viz * origin.crowd_share * vp["share"]))
+
+            for j in range(n_agents):
+                if len(trips) >= max_viz:
+                    break
+
+                arrival_start = max(0, config.total_time * 0.03)
+                arrival_window = min(origin.arrival_spread_min * 60, config.total_time * 0.6)
+                start_time = rng.uniform(arrival_start, arrival_start + arrival_window)
+                speed = max(0.5, min(2.0, rng.gauss(config.desired_speed, config.speed_std)))
+
+                path = _interpolate_along_route(
+                    coords, speed, start_time, sample_interval, config.total_time
+                )
+
+                if len(path) < 3:
+                    continue
+
+                # Accumulation: after arriving, agent stays at viewpoint
+                if path:
+                    last_point = path[-1]
+                    arrival_time = last_point[2]
+                    dwell_interval = sample_interval * 2
+                    dwell_t = arrival_time + dwell_interval
+                    while dwell_t <= config.total_time:
+                        path.append([last_point[0], last_point[1], round(dwell_t, 0)])
+                        dwell_t += dwell_interval
+
+                trips.append({
+                    "path": path,
+                    "speed": round(speed, 2),
+                    "agent_id": len(trips),
+                    "origin": origin.name,
+                    "hub_type": origin.hub_type,
+                })
+
             if len(trips) >= max_viz:
                 break
+    else:
+        # Standard single-destination simulation (stadiums, etc.)
+        for origin, coords in route_pairs:
+            route_len = 0
+            for i in range(1, len(coords)):
+                dlat = math.radians(coords[i][1] - coords[i-1][1])
+                dlon = math.radians(coords[i][0] - coords[i-1][0])
+                a = (math.sin(dlat/2)**2 +
+                     math.cos(math.radians(coords[i-1][1])) *
+                     math.cos(math.radians(coords[i][1])) *
+                     math.sin(dlon/2)**2)
+                route_len += 6371000 * 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
+            route_lengths.append(route_len)
 
-            # Time-phased arrival: spread departures over the arrival window
-            arrival_start = max(0, config.total_time * 0.03)
-            arrival_window = min(origin.arrival_spread_min * 60, config.total_time * 0.6)
-            start_time = rng.uniform(arrival_start, arrival_start + arrival_window)
+            n_agents = max(1, int(max_viz * origin.crowd_share))
 
-            # Speed variation
-            speed = max(0.5, min(2.0, rng.gauss(config.desired_speed, config.speed_std)))
+            for j in range(n_agents):
+                if len(trips) >= max_viz:
+                    break
 
-            path = _interpolate_along_route(
-                coords, speed, start_time, sample_interval, config.total_time
-            )
+                arrival_start = max(0, config.total_time * 0.03)
+                arrival_window = min(origin.arrival_spread_min * 60, config.total_time * 0.6)
+                start_time = rng.uniform(arrival_start, arrival_start + arrival_window)
+                speed = max(0.5, min(2.0, rng.gauss(config.desired_speed, config.speed_std)))
 
-            if len(path) < 3:
-                continue
+                path = _interpolate_along_route(
+                    coords, speed, start_time, sample_interval, config.total_time
+                )
 
-            # ── Accumulation: after arriving at destination, agent STAYS there ──
-            # This creates a visible crowd buildup at the venue/exits
-            if path:
-                last_point = path[-1]
-                arrival_time = last_point[2]
-                # Add dwell points at the destination until end of simulation
-                dwell_interval = sample_interval * 2  # Less frequent when stationary
-                dwell_t = arrival_time + dwell_interval
-                while dwell_t <= config.total_time:
-                    path.append([last_point[0], last_point[1], round(dwell_t, 0)])
-                    dwell_t += dwell_interval
+                if len(path) < 3:
+                    continue
 
-            trips.append({
-                "path": path,
-                "speed": round(speed, 2),
-                "agent_id": len(trips),
-                "origin": origin.name,
-                "hub_type": origin.hub_type,
-            })
+                if path:
+                    last_point = path[-1]
+                    arrival_time = last_point[2]
+                    dwell_interval = sample_interval * 2
+                    dwell_t = arrival_time + dwell_interval
+                    while dwell_t <= config.total_time:
+                        path.append([last_point[0], last_point[1], round(dwell_t, 0)])
+                        dwell_t += dwell_interval
 
-        if len(trips) >= max_viz:
-            break
+                trips.append({
+                    "path": path,
+                    "speed": round(speed, 2),
+                    "agent_id": len(trips),
+                    "origin": origin.name,
+                    "hub_type": origin.hub_type,
+                })
+
+            if len(trips) >= max_viz:
+                break
 
     t_elapsed = time.time() - t_start
     avg_len = sum(route_lengths) / len(route_lengths) if route_lengths else 0

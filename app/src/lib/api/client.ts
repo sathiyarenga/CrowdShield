@@ -407,20 +407,26 @@ export type CustomZoneType =
   | "stage"
   | "crowd_corridor"
   | "medical"
+  | "security"
+  | "info"
   | "vip"
   | "parking"
   | "buffer"
-  | "custom";
+  | "custom"
+  | "ambulance"
+  | "fire"
+  | "welfare"
+  | "steward"
+  | "command"
+  | "barrier"
+  | "toilet";
 
 export interface CustomZoneCreate {
   name: string;
   zone_type: CustomZoneType;
   capacity: number;
   color: string;
-  geometry: {
-    type: "Polygon";
-    coordinates: number[][][];
-  };
+  geometry: GeoJSON.Polygon | GeoJSON.Point;
 }
 
 export interface CustomZoneUpdate {
@@ -514,6 +520,10 @@ export const api = {
       apiMutate<{ detail: string; zone_id: string }>(`/api/venues/${id}/zones/custom/${zoneId}`, "DELETE"),
     zoneTemplates: (id: string) =>
       apiFetch<ZoneTemplatesResponse>(`/api/venues/${id}/zones/templates`),
+    updateRoute: (id: string, coordinates: number[][]) =>
+      apiMutate<{ detail: string }>(`/api/venues/${id}/route`, "PUT", coordinates),
+    updateElements: (id: string, elements: Record<string, number[]>) =>
+      apiMutate<{ detail: string }>(`/api/venues/${id}/elements`, "PUT", elements),
   },
 
   risk: {

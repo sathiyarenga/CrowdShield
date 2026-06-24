@@ -80,8 +80,9 @@ export default function LiveMonitoring() {
   const [showRoadCapacity, setShowRoadCapacity] = useState(false);
   const [showSimulation, setShowSimulation] = useState(false);
   const [drawMode, setDrawMode] = useState(false);
+  const [drawType, setDrawType] = useState<"Polygon" | "Point">("Polygon");
   const [customZones, setCustomZones] = useState<CustomZone[]>([]);
-  const [drawnGeometry, setDrawnGeometry] = useState<GeoJSON.Polygon | null>(null);
+  const [drawnGeometry, setDrawnGeometry] = useState<GeoJSON.Polygon | GeoJSON.Point | null>(null);
   const [riskMarkerStats, setRiskMarkerStats] = useState<{ total: number; categories: { category: string; count: number; highRisk: number }[] }>({ total: 0, categories: [] });
 
   /* State — data */
@@ -398,7 +399,15 @@ export default function LiveMonitoring() {
                 <ZoneDrawer
                   venueId={venueId}
                   drawMode={drawMode}
-                  onToggleDrawMode={() => setDrawMode(d => !d)}
+                  drawType={drawType}
+                  onToggleDrawMode={(type) => {
+                    if (!type) {
+                      setDrawMode(false);
+                    } else {
+                      setDrawType(type);
+                      setDrawMode(true);
+                    }
+                  }}
                   customZones={customZones}
                   onZonesUpdated={setCustomZones}
                   drawnGeometry={drawnGeometry}
@@ -419,6 +428,7 @@ export default function LiveMonitoring() {
                 showRoadCapacity={showRoadCapacity}
                 showSimulation={showSimulation}
                 drawMode={drawMode}
+                drawType={drawType}
                 onZoneDrawn={(geometry) => setDrawnGeometry(geometry)}
                 customZones={customZones}
               />

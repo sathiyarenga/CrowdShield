@@ -147,7 +147,7 @@ def compute_document_risk_score() -> tuple[float, dict[str, float]]:
     tuple[float, dict[str, float]]
         (overall_score, {category: score})
     """
-    risks = store.doc_risks
+    risks = store.all_risks()
     if not risks:
         logger.info("No doc_risks available — document risk score = 0.0")
         return 0.0, {}
@@ -377,7 +377,7 @@ def compute_composite_risk(
         risk_by_category=risk_by_category,
         weights_used=w,
         metadata={
-            "total_doc_risks": len(store.doc_risks) if store.doc_risks else 0,
+            "total_doc_risks": len(store.all_risks()),
             "anomaly_observations": len(anomaly_timeline),
             "timeline_points": len(risk_timeline),
         },
